@@ -1,6 +1,9 @@
 import 'package:drb/filter_page.dart';
 import 'package:drb/productDetails_page.dart';
+import 'package:drb/signup.page.dart';
 import 'package:flutter/material.dart';
+import 'package:drb/signin_page.dart';
+
 
 void main() {
   //To initilaized the localization for the hole app.
@@ -50,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // supportedLocales: context.supportedLocales,
       // localizationsDelegates: context.localizationDelegates,
       // locale: context.locale,
-      home: productDetails_page(),
+      home: signup_page(),
     );
   }
 }
