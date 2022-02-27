@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
+import 'package:http/http.dart' as http;
 
 class signin_page extends StatelessWidget {
   @override
@@ -20,9 +21,26 @@ class signin extends StatefulWidget {
 }
 
 class _signinState extends State<signin> {
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
+  TextEditingController UserName = TextEditingController();
+  TextEditingController Password = TextEditingController();
   final _formkey = GlobalKey<FormState>();
+
+  Future<void> _loginApi() async {
+    if(UserName.text.isNotEmpty && Password.text.isNotEmpty){
+      var response = await http.post(Uri.parse("http://10.0.2.2:8000/account/sign"), body: {
+        'username': UserName.text,
+        'password': Password.text,
+      });
+      if(response.statusCode==200){
+        print("Welcome");
+      } else {
+        print("Wrong Data");
+      }
+    } else {
+      print("wrong");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,14 +50,14 @@ class _signinState extends State<signin> {
         body: Form(
           key: _formkey,
           child: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('assets/background.png'), fit: BoxFit.fill),
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(
                     top: 50.0,
                     right: 200.0,
@@ -54,7 +72,7 @@ class _signinState extends State<signin> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     top: 25.0,
                     right: 30.0,
                     left: 30.0,
@@ -65,16 +83,16 @@ class _signinState extends State<signin> {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         top: 5.0,
                         right: 30.0,
                         left: 30.0,
                       ),
                       child: TextFormField(
-                        controller: email,
-                        decoration: InputDecoration(
+                        controller: UserName,
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
-                          labelText: 'Email Address',
+                          labelText: 'User Name',
                         ),
                         validator: Validators.compose([
                           Validators.required('Email address is required'),
@@ -84,7 +102,7 @@ class _signinState extends State<signin> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     top: 25.0,
                     right: 30.0,
                     left: 30.0,
@@ -95,15 +113,15 @@ class _signinState extends State<signin> {
                       borderRadius: BorderRadius.circular(15.0),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         top: 5.0,
                         right: 30.0,
                         left: 30.0,
                       ),
                       child: TextFormField(
-                        controller: password,
+                        controller: Password,
                         obscureText: true,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           labelText: 'Password',
                         ),
@@ -121,7 +139,7 @@ class _signinState extends State<signin> {
                           vertical: 16, horizontal: 24),
                       child: InkWell(
                         onTap: () {},
-                        child: Text(
+                        child: const Text(
                           "Forgot Password?",
                           style: TextStyle(
                             color: Colors.white,
@@ -132,7 +150,7 @@ class _signinState extends State<signin> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
+                  padding: const EdgeInsets.only(
                     top: 40.0,
                     right: 30.0,
                     left: 30.0,
@@ -141,22 +159,18 @@ class _signinState extends State<signin> {
                     height: 60.0,
                     width: 300.0,
                     child: RaisedButton(
-                      color: Color.fromRGBO(110, 114, 253, 0.9),
+                      color: const Color.fromRGBO(110, 114, 253, 0.9),
                       onPressed: () {
                         // returns true if the form is valid or false.
-                        if (_formkey.currentState.validate()) {
-                          // if the form is valid display a snackbar.
-                          Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text('Processing Data!')));
-                        }
+                        _loginApi();
                       },
-                      child: Text(
+                      child: const Text(
                         'Sign in',
                         style: TextStyle(color: Colors.white),
                       ),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
-                        side: BorderSide(
+                        side: const BorderSide(
                           color: Color.fromRGBO(110, 114, 253, 0.9),
                         ),
                       ),

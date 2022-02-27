@@ -1,5 +1,6 @@
 import 'package:drb/filter_page.dart';
 import 'package:drb/productDetails_page.dart';
+import 'package:drb/profile_page.dart';
 import 'package:drb/signup.page.dart';
 import 'package:flutter/material.dart';
 import 'package:drb/signin_page.dart';
@@ -53,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // supportedLocales: context.supportedLocales,
       // localizationsDelegates: context.localizationDelegates,
       // locale: context.locale,
-      home: signup_page(),
+      home: profile_page(),
     );
   }
 }
