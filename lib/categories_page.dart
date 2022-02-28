@@ -56,7 +56,7 @@ class _categoriesState extends State<categories> {
     }
   }
 
-  Future<List<Album>> users;
+  Future<List<Album>>? users;
   var _selectedIndex;
 
   @override

@@ -18,7 +18,7 @@ class filter extends StatefulWidget {
 }
 
 class _filterState extends State<filter> {
-  String ValueChoose;
+  String? ValueChoose;
   List listItem = ['Dresses', 'Tops', 'Jeans'];
   RangeValues _priceRange = const RangeValues(1, 100);
 

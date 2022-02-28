@@ -1,10 +1,10 @@
 class Address {
-  int id;
-  String usrDist;
-  String usrCity;
-  String usrBuilding;
+  int? id;
+  String? usrDist;
+  String? usrCity;
+  String? usrBuilding;
 
-  Address({this.id, this.usrDist, this.usrCity, this.usrBuilding});
+  Address({required this.id, required this.usrDist, required this.usrCity, required this.usrBuilding});
 
   Address.fromJson(Map<String, dynamic> json) {
     id = json['id'];

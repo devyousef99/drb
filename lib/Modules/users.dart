@@ -1,48 +1,53 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'users.g.dart';
+
+@JsonSerializable()
 class Users {
-  int _id;
-  String _username;
-  String _firstName;
-  String _lastName;
-  String _email;
-  String _usrImg;
-  String _usrAddress;
-  String _usrStore;
-  int _usrType;
+  late int _id;
+  late String _username;
+  late String _firstName;
+  late String _lastName;
+  late String _email;
+  late String _usrImg;
+  late String _usrAddress;
+  late String _usrStore;
+  late int _usrType;
 
   Users(
-      {int id,
-        String username,
-        String firstName,
-        String lastName,
-        String email,
-        String usrImg,
-        int usrAddress,
-        int usrStore,
-        int usrType,})
+      {int? id,
+        String? username,
+        String? firstName,
+        String? lastName,
+        String? email,
+        String? usrImg,
+        int? usrAddress,
+        int? usrStore,
+        int? usrType,})
   {
     if (id != null) {
-      _id = id;
+      _id = this.id;
     }
     if (username != null) {
-      _username = username;
+      _username = this.username;
     }
     if (firstName != null) {
-      _firstName = firstName;
+      _firstName = this.firstName;
     }
     if (lastName != null) {
-      _lastName = lastName;
+      _lastName = this.lastName;
     }
     if (email != null) {
-      _email = email;
+      _email = this.email;
     }
     if (usrImg != null) {
-      _usrImg = usrImg;
+      _usrImg = this.usrImg;
     }
     if (usrStore != null) {
-      _usrStore = usrStore as String;
+      _usrStore = this.usrStore as String;
     }
     if (usrType != null) {
-      _usrType = usrType;
+      _usrType = this.usrType;
     }
   }
 

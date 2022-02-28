@@ -6,7 +6,7 @@ import 'package:group_button/group_button.dart';
 
 class Category {
   String name, image;
-  Category({ this.name,  this.image});
+  Category({ required this.name,  required this.image});
 }
 
 // Custom list to show the data.
@@ -38,7 +38,7 @@ class productDetails extends StatefulWidget {
 }
 
 class _productDetailsState extends State<productDetails> {
-   String ValueChoose;
+   String? ValueChoose;
   int _counter = 1;
   List listItem = ['XS', 'S', 'M', 'L', 'XL'];
   void initState() {

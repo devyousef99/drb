@@ -8,7 +8,7 @@ import 'package:favorite_button/favorite_button.dart';
 // Custom class to show the data.
 class Category {
   String name, image;
-  Category({ this.name,  this.image});
+  Category({ required this.name,  required this.image});
 }
 
 // Custom list to show the data.
