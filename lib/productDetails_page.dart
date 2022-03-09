@@ -1,12 +1,17 @@
+// ignore_for_file: file_names
+import 'dart:ui';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:group_button/group_button.dart';
+import 'package:get/get.dart';
+
+import 'cart_page.dart';
 
 class Category {
   String name, image;
-  Category({ required this.name,  required this.image});
+  Category({required this.name, required this.image});
 }
 
 // Custom list to show the data.
@@ -38,9 +43,8 @@ class productDetails extends StatefulWidget {
 }
 
 class _productDetailsState extends State<productDetails> {
-   String? ValueChoose;
+  String? ValueChoose;
   int _counter = 1;
-  List listItem = ['XS', 'S', 'M', 'L', 'XL'];
   void initState() {
     super.initState();
   }
@@ -51,34 +55,41 @@ class _productDetailsState extends State<productDetails> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        extendBodyBehindAppBar: true,
+        extendBodyBehindAppBar: false,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           leading: GestureDetector(
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(5.0),
               child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_rounded,
+                icon: const Icon(
+                  Icons.arrow_back_ios_outlined,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Get.back();
+                },
               ),
             ),
+          ),
+          centerTitle: true,
+          title: const Text(
+            'Shop',
+            style: TextStyle(
+                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
           ),
         ),
         body: SingleChildScrollView(
           child: Container(
-            height: 840,
-            color: Colors.grey.shade100,
+            // height: 900,
             child: Column(
               children: [
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 30.0),
-                  height: 300.0,
+                  height: 350.0,
                   child: ListView.builder(
-                    physics: ClampingScrollPhysics(),
+                    physics: const ClampingScrollPhysics(),
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
@@ -87,7 +98,7 @@ class _productDetailsState extends State<productDetails> {
                         columnCount: 2,
                         child: ScaleAnimation(
                           child: FadeInAnimation(
-                            delay: Duration(milliseconds: 100),
+                            delay: const Duration(milliseconds: 100),
                             child: productImages(_itemsData[index]),
                           ),
                         ),
@@ -98,12 +109,28 @@ class _productDetailsState extends State<productDetails> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
+                  children: const [
                     Padding(
                       padding: EdgeInsets.only(
-                          left: 20.0, bottom: 5.0, right: 5.0, top: 5.0),
+                        left: 20.0,
+                        bottom: 5.0,
+                      ),
                       child: Text(
-                        'info..',
+                        'product name',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    Padding(
+                      padding:
+                          EdgeInsets.only(left: 20.0, bottom: 5.0, top: 5.0),
+                      child: Text(
+                        'product info',
                         style: TextStyle(
                           fontSize: 16.0,
                         ),
@@ -113,7 +140,24 @@ class _productDetailsState extends State<productDetails> {
                       padding: EdgeInsets.only(
                           left: 185.0, bottom: 5.0, right: 5.0, top: 5.0),
                       child: Text(
-                        'Qty',
+                        'price',
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: 20.0,
+                        bottom: 5.0,
+                        top: 10.0,
+                      ),
+                      child: Text(
+                        'Quantity',
                         style: TextStyle(
                             fontSize: 16.0, fontWeight: FontWeight.bold),
                       ),
@@ -124,56 +168,17 @@ class _productDetailsState extends State<productDetails> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(
-                          left: 30.0, right: 10.0, top: 5.0, bottom: 5.0),
-                      child: DropdownButton(
-                        elevation: 20,
-                        borderRadius: BorderRadius.circular(20.0),
-                        value: ValueChoose,
-                        icon: Icon(Icons.keyboard_arrow_down),
-                        hint: Text(
-                          'XS',
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                          ),
-                        ),
-                        onChanged: (newValue) {
-                          setState(() {
-                            // ValueChoose = newValue;
-                          });
-                          switch (newValue) {
-                            case "XS":
-                              break;
-                            case "S":
-                              break;
-                            case "M":
-                              break;
-                            case "L":
-                              break;
-                            case "XL":
-                              break;
-                          }
-                        },
-                        items: listItem.map((valueItem) {
-                          return DropdownMenuItem(
-                            value: valueItem,
-                            child: Text(
-                              valueItem,
-                              style: const TextStyle(color: Colors.black),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 220.0, right: 10.0, top: 5.0, bottom: 5.0),
+                      padding: const EdgeInsets.only(
+                          left: 30.0, top: 10.0, bottom: 10.0),
                       child: Container(
-                        padding: EdgeInsets.all(3),
+                        padding: const EdgeInsets.only(
+                          left: 5,
+                          right: 5,
+                        ),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.black54),
+                          borderRadius: BorderRadius.circular(5),
+                          color: const Color.fromRGBO(110, 114, 253, 0.9),
+                        ),
                         child: Row(
                           children: [
                             InkWell(
@@ -182,25 +187,24 @@ class _productDetailsState extends State<productDetails> {
                                     if (_counter >= 2) {
                                       _counter--;
                                     } else {
-                                      return null;
+                                      return;
                                     }
                                   });
                                 },
-                                child: Icon(
+                                child: const Icon(
                                   Icons.remove,
                                   color: Colors.white,
                                   size: 16,
                                 )),
                             Container(
-                              margin: EdgeInsets.symmetric(horizontal: 3),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 3, vertical: 2),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(3),
-                                  color: Colors.white),
+                              margin: const EdgeInsets.symmetric(horizontal: 5),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration:
+                                  const BoxDecoration(color: Colors.white),
                               child: Text(
                                 '$_counter',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.black, fontSize: 16),
                               ),
                             ),
@@ -209,8 +213,8 @@ class _productDetailsState extends State<productDetails> {
                                   setState(() {
                                     _counter++;
                                   });
-                                  },
-                                child: Icon(
+                                },
+                                child: const Icon(
                                   Icons.add,
                                   color: Colors.white,
                                   size: 16,
@@ -223,12 +227,50 @@ class _productDetailsState extends State<productDetails> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
+                  children: const [
                     Padding(
                       padding: EdgeInsets.only(
                         left: 20.0,
                         bottom: 5.0,
-                        right: 5.0,
+                        top: 10.0,
+                      ),
+                      child: Text(
+                        'Size',
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20.0,
+                        bottom: 5.0,
+                        top: 10.0,
+                      ),
+                      child: GroupButton(
+                        buttonWidth: 45,
+                        borderRadius: BorderRadius.circular(5),
+                        selectedColor: const Color.fromRGBO(110, 114, 253, 0.9),
+                        isRadio: true,
+                        elevation: 3,
+                        buttons: const ['S', 'M', 'L', 'XL'],
+                        onSelected: (int index, bool isSelected) =>
+                            print('$index button is selected'),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: 20.0,
+                        bottom: 5.0,
                         top: 10.0,
                       ),
                       child: Text(
@@ -242,112 +284,48 @@ class _productDetailsState extends State<productDetails> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 20.0, bottom: 5.0, right: 20.0, top: 0.0),
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10.0),
-                          height: 100.0,
-                          child: ListView.builder(
-                            physics: ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return AnimationConfiguration.staggeredGrid(
-                                position: index,
-                                columnCount: 2,
-                                child: ScaleAnimation(
-                                  child: FadeInAnimation(
-                                    delay: Duration(milliseconds: 100),
-                                    child: productColors(_itemsData[index]),
-                                  ),
-                                ),
-                              );
-                            },
-                            itemCount: _itemsData.length,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
                     Padding(
-                      padding: EdgeInsets.only(
-                          left: 20.0, bottom: 5.0, right: 20.0, top: 5.0),
-                      child: Text(
-                        'Products related to this item',
-                        style: TextStyle(
-                            fontSize: 16.0, fontWeight: FontWeight.bold),
+                      padding: const EdgeInsets.only(
+                        left: 20.0,
+                        bottom: 5.0,
+                        top: 10.0,
+                      ),
+                      child: GroupButton(
+                        buttonWidth: 45,
+                        borderRadius: BorderRadius.circular(5),
+                        selectedColor: const Color.fromRGBO(110, 114, 253, 0.9),
+                        isRadio: true,
+                        elevation: 3,
+                        buttons: const ['S', 'M', 'L', 'XL'],
+                        onSelected: (int index, bool isSelected) =>
+                            print('$index button is selected'),
                       ),
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 10.0, bottom: 10.0, right: 10.0, top: 0.0),
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10.0),
-                          height: 100.0,
-                          child: ListView.builder(
-                            physics: ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return AnimationConfiguration.staggeredGrid(
-                                position: index,
-                                columnCount: 2,
-                                child: ScaleAnimation(
-                                  child: FadeInAnimation(
-                                    delay: Duration(milliseconds: 100),
-                                    child: productColors(_itemsData[index]),
-                                  ),
-                                ),
-                              );
-                            },
-                            itemCount: _itemsData.length,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                const SizedBox(
+                  height: 20.0,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 15.0, right: 5.0, top: 5.0, bottom: 0.0),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10.0)),
-                            color: Colors.black),
-                        child: MaterialButton(
-                          highlightColor: Colors.transparent,
-                          onPressed: () {},
-                          child: const Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 50.0),
-                            child: Text(
-                              'ADD TO CART',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20.0,
-                                  letterSpacing: 2),
-                            ),
-                          ),
+                SizedBox(
+                  width: 350.0,
+                  height: 50,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color.fromRGBO(110, 114, 253, 0.9),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
                         ),
                       ),
                     ),
-                  ],
+                    onPressed: () {
+                      Get.to(cart());
+                    },
+                    child: const Text(
+                      'Add To Cart',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -370,7 +348,7 @@ Widget productImages(Category category) => Card(
             width: 280,
             height: 270,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               image: DecorationImage(
                 image: AssetImage(category.image),
                 fit: BoxFit.contain,

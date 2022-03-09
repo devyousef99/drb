@@ -1,12 +1,15 @@
+// ignore_for_file: file_names
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:drb/checkout_page.dart';
+
 
 class shippingAddress_page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'test',
       home: shipping_address(),
     );
   }
@@ -18,8 +21,10 @@ class shipping_address extends StatefulWidget {
 }
 
 class _shipping_addressState extends State<shipping_address> {
+  bool SaveAddress = false;
   @override
   Widget build(BuildContext context) {
+    var wid = MediaQuery.of(context).size.width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -29,268 +34,252 @@ class _shipping_addressState extends State<shipping_address> {
           elevation: 0.0,
           leading: GestureDetector(
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_rounded,
-                  color: Colors.black,
+                icon: const Icon(
+                  Icons.arrow_back_ios_outlined,
+                  color: Colors.white,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Get.back();
+                },
               ),
             ),
           ),
-          title: Padding(
-            padding: EdgeInsets.only(left: 49.0),
-            child: Text(
-              'Shipping Address',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 20),
-            ),
+          centerTitle: true,
+          title: const Text(
+            'Shipping Address',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20),
           ),
         ),
         body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width - 60,
-                    child: Material(
-                      elevation: 10,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/background.png'), fit: BoxFit.fill),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 600,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 150),
+                  decoration: const BoxDecoration(
                       color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 40.0, right: 20.0, top: 5.0, bottom: 5.0),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            label: Text('Address'),
-                            hintStyle: TextStyle(
-                                color: Color(0xFFE1E1E1), fontSize: 14),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width - 60,
-                    child: Material(
-                      elevation: 10,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 40.0, right: 20.0, top: 5.0, bottom: 5.0),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            label: Text('Address'),
-                            hintStyle: TextStyle(
-                                color: Color(0xFFE1E1E1), fontSize: 14),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width - 60,
-                    child: Material(
-                      elevation: 10,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 40.0, right: 20.0, top: 5.0, bottom: 5.0),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            label: Text('Address'),
-                            hintStyle: TextStyle(
-                                color: Color(0xFFE1E1E1), fontSize: 14),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width - 60,
-                    child: Material(
-                      elevation: 10,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 40.0, right: 20.0, top: 5.0, bottom: 5.0),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            label: Text('Address'),
-                            hintStyle: TextStyle(
-                                color: Color(0xFFE1E1E1), fontSize: 14),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width - 60,
-                    child: Material(
-                      elevation: 10,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 40.0, right: 20.0, top: 5.0, bottom: 5.0),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            label: Text('Address'),
-                            hintStyle: TextStyle(
-                                color: Color(0xFFE1E1E1), fontSize: 14),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width - 60,
-                    child: Material(
-                      elevation: 10,
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            left: 40.0, right: 20.0, top: 5.0, bottom: 5.0),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            label: Text('Address'),
-                            hintStyle: TextStyle(
-                                color: Color(0xFFE1E1E1), fontSize: 14),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     ElevatedButton(
-              //       onPressed: () {},
-              //       style: ElevatedButton.styleFrom(
-              //           elevation: 10,
-              //           padding: EdgeInsets.zero,
-              //           shape: RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(40),),),
-              //     )
-              //   ],
-              // ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 30, right: 30),
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            elevation: 20,
-                            padding: EdgeInsets.zero,
-                            primary: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40))),
-                        child: Container(
-                          height: 55.0,
-                          alignment: Alignment.center,
-                          child: const Text(
-                            'SAVE',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              letterSpacing: 2,
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  label: Text("Country/Region",
+                                      style: TextStyle(color: Colors.grey)),
+                                  border: InputBorder.none,
+                                ),
+                              ),
                             ),
                           ),
+                        ],
+                      ),
+                      const Divider(
+                        height: 8,
+                        thickness: 3,
+                        endIndent: 3,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  label: Text("Full Name",
+                                      style: TextStyle(color: Colors.grey)),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(
+                        height: 8,
+                        thickness: 3,
+                        endIndent: 3,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  label: Text(
+                                    "Building No, Street Name, Apartment",
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(
+                        height: 8,
+                        thickness: 3,
+                        endIndent: 3,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  label: Text("City",
+                                      style: TextStyle(color: Colors.grey)),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(
+                        height: 8,
+                        thickness: 3,
+                        endIndent: 3,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  label: Text("Street No",
+                                      style: TextStyle(color: Colors.grey)),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(
+                        height: 8,
+                        thickness: 3,
+                        endIndent: 3,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  label: Text("Unit No",
+                                      style: TextStyle(color: Colors.grey)),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(
+                        height: 8,
+                        thickness: 3,
+                        endIndent: 3,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(left: 20),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  label: Text("Mobile Number",
+                                      style: TextStyle(color: Colors.grey)),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Divider(
+                        height: 8,
+                        thickness: 3,
+                        endIndent: 3,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                        ),
+                        child: Row(
+                          children: [
+                            const Text('Save this shipping address'),
+                            const SizedBox(
+                              width: 65,
+                            ),
+                            Checkbox(
+                              checkColor: Colors.greenAccent,
+                              activeColor: Colors.white,
+                              value: SaveAddress,
+                              onChanged: (value) {
+                                setState(() {
+                                  SaveAddress = value!;
+                                });
+                              },
+                            ),
+                          ],
                         ),
                       ),
-                    ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Expanded(
+                        flex:1,
+                        child:SizedBox(
+                          height: 300.0,
+                          width: 300.0,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary:
+                              const Color.fromRGBO(110, 114, 253, 0.9),
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              Get.to(checkout_page());
+                            },
+                            child: const Text(
+                              'Ok',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        )
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

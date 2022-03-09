@@ -1,9 +1,20 @@
+import 'package:drb/cart_page.dart';
+import 'package:drb/checkout_page.dart';
+import 'package:drb/landing_page.dart';
+import 'package:drb/paymentMethod_page.dart';
+import 'package:drb/products_page.dart';
+import 'package:drb/shippingAddress_page.dart';
+import 'package:drb/shipping_page.dart';
+import 'package:drb/store_page.dart';
 import 'package:drb/filter_page.dart';
 import 'package:drb/productDetails_page.dart';
 import 'package:drb/profile_page.dart';
 import 'package:drb/signup.page.dart';
 import 'package:flutter/material.dart';
 import 'package:drb/signin_page.dart';
+import 'package:get/get.dart';
+
+import 'favorite_page.dart';
 
 
 void main() {
@@ -23,7 +34,7 @@ void main() {
     //To load the translation language file.!
     // assetLoader: CodegenLoader(),
     //   child:
-    MyApp(),
+    const GetMaterialApp(home: MyApp()),
   );
 }
 
@@ -51,10 +62,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // supportedLocales: context.supportedLocales,
+      // supportedLocaleshryatvvaontext.supportedLocales,
       // localizationsDelegates: context.localizationDelegates,
       // locale: context.locale,
-      home: profile_page(),
+      home: cart_page(),
     );
   }
 }
