@@ -73,6 +73,15 @@ class _productDetailsState extends State<productDetails> {
               ),
             ),
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Get.to(cart());
+              },
+              color: Colors.black,
+              icon: const Icon(Icons.shopping_bag),
+            ),
+          ],
           centerTitle: true,
           title: const Text(
             'Shop',
@@ -81,42 +90,46 @@ class _productDetailsState extends State<productDetails> {
           ),
         ),
         body: SingleChildScrollView(
-          child: Container(
-            // height: 900,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 30.0),
-                  height: 350.0,
-                  child: ListView.builder(
-                    physics: const ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return AnimationConfiguration.staggeredGrid(
-                        position: index,
-                        columnCount: 2,
-                        child: ScaleAnimation(
-                          child: FadeInAnimation(
-                            delay: const Duration(milliseconds: 100),
-                            child: productImages(_itemsData[index]),
+                MediaQuery.removePadding(
+                  context: context,
+                  removeBottom: true,
+                  child: SizedBox(
+                    height: 300.0,
+                    child: ListView.builder(
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return AnimationConfiguration.staggeredGrid(
+                          position: index,
+                          columnCount: 2,
+                          child: ScaleAnimation(
+                            child: FadeInAnimation(
+                              delay: const Duration(milliseconds: 100),
+                              child: productImages(_itemsData[index]),
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    itemCount: _itemsData.length,
+                        );
+                      },
+                      itemCount: _itemsData.length,
+                    ),
                   ),
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: const [
                     Padding(
                       padding: EdgeInsets.only(
+                        top: 10,
                         left: 20.0,
-                        bottom: 5.0,
+                        bottom: 10.0,
                       ),
                       child: Text(
-                        'product name',
+                        'store name',
                         style: TextStyle(
                             fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
@@ -124,7 +137,30 @@ class _productDetailsState extends State<productDetails> {
                   ],
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: 5,
+                        left: 20.0,
+                        bottom: 10.0,
+                      ),
+                      child: Text(
+                        'product name',
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 180,
+                    ),
+                    Text(
+                      'price',
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Row(
                   children: const [
                     Padding(
                       padding:
@@ -136,19 +172,12 @@ class _productDetailsState extends State<productDetails> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                          left: 185.0, bottom: 5.0, right: 5.0, top: 5.0),
-                      child: Text(
-                        'price',
-                        style: TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.bold),
-                      ),
-                    ),
                   ],
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: const [
                     Padding(
                       padding: EdgeInsets.only(
@@ -165,11 +194,13 @@ class _productDetailsState extends State<productDetails> {
                   ],
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(
-                          left: 30.0, top: 10.0, bottom: 10.0),
+                        left: 20.0,
+                        bottom: 5.0,
+                        top: 10.0,
+                      ),
                       child: Container(
                         padding: const EdgeInsets.only(
                           left: 5,
@@ -209,16 +240,17 @@ class _productDetailsState extends State<productDetails> {
                               ),
                             ),
                             InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _counter++;
-                                  });
-                                },
-                                child: const Icon(
-                                  Icons.add,
-                                  color: Colors.white,
-                                  size: 16,
-                                )),
+                              onTap: () {
+                                setState(() {
+                                  _counter++;
+                                });
+                              },
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: 16,
+                              ),
+                            ),
                           ],
                         ),
                       ),

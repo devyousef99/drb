@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
+import 'cart_page.dart';
+import 'productDetails_page.dart';
+
 // Custom class to show the data.
 class Category {
   String name, image;
@@ -52,95 +55,63 @@ class _storeState extends State<store> {
       home: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            title: const Text(
-              'Community Of Creators',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          title: const Text(
+            'Community Of Creators',
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+          ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                Get.to(cart());
+              },
+              color: Colors.white,
+              icon: const Icon(Icons.shopping_bag),
             ),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    showSearch(
-                      context: context,
-                      delegate: CustomSearchDelegate(),
-                    );
-                  },
-                  icon: const Icon(Icons.search),
-                  color: Colors.white),
-            ]),
+          ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(60),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: EdgeInsets.zero,
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
         body: SingleChildScrollView(
           child: Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage('assets/background.png'), fit: BoxFit.fill),
             ),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Container(
-                height: 200.0,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
-                  child: ListView.builder(
-                    physics: const ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return AnimationConfiguration.staggeredGrid(
-                        position: index,
-                        columnCount: 2,
-                        child: ScaleAnimation(
-                          child: FadeInAnimation(
-                            delay: const Duration(milliseconds: 100),
-                            child: AdSpace(_itemsData[index]),
-                          ),
-                        ),
-                      );
-                    },
-                    itemCount: _itemsData.length,
-                  ),
-                ),
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 110,
+                left: 8,
+                right: 8,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Text(
-                    'Categories',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 150,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Get.to(products());
-                    },
-                    child: const Text(
-                      'View All',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              MediaQuery.removePadding(
-                removeTop: true,
-                context: context,
-                child: Row(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 70,
+                    SizedBox(
+                      height: 200.0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 40.0),
                         child: ListView.builder(
-                          physics: ClampingScrollPhysics(),
+                          physics: const ClampingScrollPhysics(),
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
@@ -149,8 +120,8 @@ class _storeState extends State<store> {
                               columnCount: 2,
                               child: ScaleAnimation(
                                 child: FadeInAnimation(
-                                  delay: Duration(milliseconds: 100),
-                                  child: Categories(_itemsData[index]),
+                                  delay: const Duration(milliseconds: 100),
+                                  child: AdSpace(_itemsData[index]),
                                 ),
                               ),
                             );
@@ -159,114 +130,171 @@ class _storeState extends State<store> {
                         ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Text(
-                    'Newest',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 150,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Get.to(products());
-                    },
-                    child: const Text(
-                      'View All',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                height: 200.0,
-                child: MediaQuery.removePadding(
-                  removeTop: true,
-                  context: context,
-                  child: ListView.builder(
-                    physics: const ClampingScrollPhysics(),
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return AnimationConfiguration.staggeredGrid(
-                        position: index,
-                        columnCount: 2,
-                        child: ScaleAnimation(
-                          child: FadeInAnimation(
-                            delay: const Duration(milliseconds: 100),
-                            child: card2(_itemsData[index]),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text(
+                          'Categories',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          width: 150,
+                        ),
+                        MaterialButton(
+                          onPressed: () {
+                            Get.to(products());
+                          },
+                          child: const Text(
+                            'View All',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                            ),
                           ),
                         ),
-                      );
-                    },
-                    itemCount: _itemsData.length,
-                  ),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Text(
-                    'Popular',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 150,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Get.to(products());
-                    },
-                    child: const Text(
-                      'View All',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
+                      ],
+                    ),
+                    MediaQuery.removePadding(
+                      removeTop: true,
+                      context: context,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              height: 70,
+                              child: ListView.builder(
+                                physics: ClampingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return AnimationConfiguration.staggeredGrid(
+                                    position: index,
+                                    columnCount: 2,
+                                    child: ScaleAnimation(
+                                      child: FadeInAnimation(
+                                        delay: Duration(milliseconds: 100),
+                                        child: Categories(_itemsData[index]),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                itemCount: _itemsData.length,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
-              ),
-              MediaQuery.removePadding(
-                removeTop: true,
-                context: context,
-                child: GridView.builder(
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.85,
-                  ),
-                  itemCount: _itemsData.length,
-                  itemBuilder: (BuildContext context, index) {
-                    return AnimationConfiguration.staggeredGrid(
-                      position: index,
-                      columnCount: 2,
-                      child: ScaleAnimation(
-                        child: FadeInAnimation(
-                          delay: const Duration(milliseconds: 100),
-                          child: ProductImages(_itemsData[index]),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text(
+                          'Newest',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          width: 150,
+                        ),
+                        MaterialButton(
+                          onPressed: () {
+                            Get.to(products());
+                          },
+                          child: const Text(
+                            'View All',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      height: 200.0,
+                      child: MediaQuery.removePadding(
+                        removeTop: true,
+                        context: context,
+                        child: ListView.builder(
+                          physics: const ClampingScrollPhysics(),
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return AnimationConfiguration.staggeredGrid(
+                              position: index,
+                              columnCount: 2,
+                              child: ScaleAnimation(
+                                child: FadeInAnimation(
+                                  delay: const Duration(milliseconds: 100),
+                                  child: card2(_itemsData[index]),
+                                ),
+                              ),
+                            );
+                          },
+                          itemCount: _itemsData.length,
                         ),
                       ),
-                    );
-                  },
-                ),
-              ),
-            ]),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const Text(
+                          'Popular',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(
+                          width: 150,
+                        ),
+                        MaterialButton(
+                          onPressed: () {
+                            Get.to(products());
+                          },
+                          child: const Text(
+                            'View All',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    MediaQuery.removePadding(
+                      removeTop: true,
+                      context: context,
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.85,
+                        ),
+                        itemCount: _itemsData.length,
+                        itemBuilder: (BuildContext context, index) {
+                          return AnimationConfiguration.staggeredGrid(
+                            position: index,
+                            columnCount: 2,
+                            child: ScaleAnimation(
+                              child: FadeInAnimation(
+                                delay: const Duration(milliseconds: 100),
+                                child: ProductImages(_itemsData[index]),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ]),
+            ),
           ),
         ),
       ),
@@ -402,14 +430,19 @@ Widget ProductImages(Category category) => Card(
         children: [
           Container(
             width: 183,
-            height: 169,
-            margin: const EdgeInsets.all(10),
+            height: 156,
+            margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               image: DecorationImage(
                 image: AssetImage(category.image),
                 fit: BoxFit.fill,
               ),
+            ),
+            child: InkWell(
+              onTap: () {
+                Get.to(productDetails_page());
+              },
             ),
           ),
           Row(

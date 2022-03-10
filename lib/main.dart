@@ -5,6 +5,7 @@ import 'package:drb/paymentMethod_page.dart';
 import 'package:drb/products_page.dart';
 import 'package:drb/shippingAddress_page.dart';
 import 'package:drb/shipping_page.dart';
+import 'package:drb/sideMenu_page.dart';
 import 'package:drb/store_page.dart';
 import 'package:drb/filter_page.dart';
 import 'package:drb/productDetails_page.dart';
@@ -65,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // supportedLocaleshryatvvaontext.supportedLocales,
       // localizationsDelegates: context.localizationDelegates,
       // locale: context.locale,
-      home: cart_page(),
+      home: landing_page(),
     );
   }
 }

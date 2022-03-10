@@ -1,3 +1,4 @@
+import 'package:drb/productDetails_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -76,12 +77,6 @@ class _cartState extends State<cart> {
               ),
             ),
           ),
-          actions: [
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.shopping_basket),
-            ),
-          ],
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -89,135 +84,166 @@ class _cartState extends State<cart> {
               image: DecorationImage(
                   image: AssetImage('assets/background.png'), fit: BoxFit.fill),
             ),
-            child:
-              Column(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 80),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                     Stack(
+                  Stack(
                     children: <Widget>[
-                    Container(
-                    margin: EdgeInsets.only(left: 16, right: 16, top: 16),
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16))),
-            child: Row(
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(right: 8, left: 8, top: 8, bottom: 8),
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(14)),
-                      color: Colors.blue.shade200,
-                      image: DecorationImage(image: AssetImage("images/shoes_1.png"))),
-                ),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.only(right: 8, top: 4),
-                          child: Text(
-                            "NIKE XTM Basketball Shoeas",
-                            maxLines: 2,
-                            softWrap: true,
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                    const SizedBox(height: 6),
-                       const  Text(
-                          "Green M",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              const Text(
-                                "\$299.00",
-                                // style: CustomTextStyle.textFormFieldBlack.copyWith(color: Colors.green),
-                              ),
-                              Padding(
+                      Container(
+                        margin:
+                            const EdgeInsets.only(left: 16, right: 16, top: 16),
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                                margin: const EdgeInsets.only(
+                                    right: 8, left: 8, top: 8, bottom: 8),
+                                width: 80,
+                                height: 80,
+                                decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5)),
+                                    color: Colors.blue.shade200,
+                                    image: const DecorationImage(
+                                        image:
+                                            AssetImage("images/shoes_1.png"))),
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.to(productDetails_page());
+                                  },
+                                )),
+                            Expanded(
+                              child: Container(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Icon(
-                                      Icons.remove,
-                                      size: 24,
-                                      color: Colors.grey.shade700,
-                                    ),
                                     Container(
-                                      color: Colors.grey.shade200,
-                                      padding: const EdgeInsets.only(bottom: 2, right: 12, left: 12),
-                                      child: Text(
-                                        "1",
-                                        // style: CustomTextStyle.textFormFieldSemiBold,
+                                      padding: const EdgeInsets.only(
+                                          right: 8, top: 4),
+                                      child: const Text(
+                                        "NIKE XTM Basketball Shoeas",
+                                        maxLines: 2,
+                                        softWrap: true,
+                                        style: TextStyle(fontSize: 14),
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.add,
-                                      size: 24,
-                                      color: Colors.grey.shade700,
-                                    )
+                                    const SizedBox(height: 8),
+                                    Row(children: const [
+                                      Text(
+                                        "Green",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                      SizedBox(width: 30),
+                                      Text(
+                                        "M",
+                                        style: TextStyle(fontSize: 14),
+                                      ),
+                                    ]),
+                                    const SizedBox(height: 5),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        const Text(
+                                          "\$299.00",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 5),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: <Widget>[
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    if (_counter >= 2) {
+                                                      _counter--;
+                                                    } else {
+                                                      return;
+                                                    }
+                                                  });
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  color: Colors.black,
+                                                  size: 16,
+                                                ),
+                                              ),
+                                              Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 5),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 10,
+                                                ),
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.white),
+                                                child: Text(
+                                                  '$_counter',
+                                                  style: const TextStyle(
+                                                      // color: Colors.red,
+                                                      fontSize: 16),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () {
+                                                  setState(() {
+                                                    _counter++;
+                                                  });
+                                                },
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: Colors.black,
+                                                  size: 16,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              )
-                            ],
+                              ),
+                              flex: 100,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          width: 24,
+                          height: 24,
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.only(right: 25, top: 15),
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.close,
+                              color: Colors.grey,
+                              size: 20,
+                            ),
+                            onPressed: () {},
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  flex: 100,
-                )
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Container(
-              width: 24,
-              height: 24,
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(right: 10, top: 8),
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
-                size: 20,
-              ),
-              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(4)), color: Colors.green),
-            ),
-          )
-          ],
-        ),
-        // Padding(padding: EdgeInsets.only(top: 80, left: 18, right: 18),
-                  // child: Container(
-                  //   height: 200.0,
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.only(top: 30.0),
-                  //     child: ListView.builder(
-                  //       physics: const ClampingScrollPhysics(),
-                  //       shrinkWrap: true,
-                  //       scrollDirection: Axis.horizontal,
-                  //       itemBuilder: (context, index) {
-                  //         return AnimationConfiguration.staggeredGrid(
-                  //           position: index,
-                  //           columnCount: 2,
-                  //           child: ScaleAnimation(
-                  //             child: FadeInAnimation(
-                  //               delay: const Duration(milliseconds: 100),
-                  //               child: MyCart(_itemsData[index]),
-                  //             ),
-                  //           ),
-                  //         );
-                  //       },
-                  //       itemCount: _itemsData.length,
-                  //     ),
-                  //   ),
-                  // ),),
+                  const SizedBox(height: 50),
                   SizedBox(
                     width: 300.0,
                     height: 50,
@@ -234,14 +260,14 @@ class _cartState extends State<cart> {
                         Get.to(checkout_page());
                       },
                       child: const Text(
-                        'Add To Cart',
+                        'Ckeckout',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
                 ],
               ),
-
+            ),
           ),
         ),
       ),

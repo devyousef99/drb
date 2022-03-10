@@ -1,7 +1,9 @@
 import 'dart:ui';
+import 'package:drb/cart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'productDetails_page.dart';
 import 'store_page.dart';
 
 // Custom class to show the data.
@@ -79,14 +81,31 @@ class _productsState extends State<products> {
           actions: [
             IconButton(
               onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: CustomSearchDelegate(),
-                );
+                Get.to(cart());
               },
-              icon: const Icon(Icons.search),
+              color: Colors.white,
+              icon: const Icon(Icons.shopping_bag),
             ),
           ],
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(60),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: EdgeInsets.zero,
+                  filled: true,
+                  fillColor: Colors.white,
+                ),
+              ),
+            ),
+          ),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -94,58 +113,67 @@ class _productsState extends State<products> {
               image: DecorationImage(
                   image: AssetImage('assets/background.png'), fit: BoxFit.fill),
             ),
-            child: Column(
-              children: [
-                const SizedBox(height: 80,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    const Text(
-                      'Popular',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      width: 180,
-                    ),
-                    MaterialButton(
-                      onPressed: () {},
-                      child: const Icon(
-                        Icons.filter_list_rounded,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-                MediaQuery.removePadding(
-                  removeTop: true,
-                  context: context,
-                  child: GridView.builder(
-                    shrinkWrap: true,
-                    physics: const ScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.85,
-                    ),
-                    itemCount: _itemsData.length,
-                    itemBuilder: (BuildContext context, index) {
-                      return AnimationConfiguration.staggeredGrid(
-                        position: index,
-                        columnCount: 2,
-                        child: ScaleAnimation(
-                          child: FadeInAnimation(
-                            delay: const Duration(milliseconds: 100),
-                            child: ProductImages(_itemsData[index]),
-                          ),
-                        ),
-                      );
-                    },
+            child: Padding(
+              padding: const EdgeInsets.only(
+                top: 60,
+                left: 8,
+                right: 8,
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 80,
                   ),
-                ),
-              ],
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Text(
+                        'Popular',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        width: 180,
+                      ),
+                      MaterialButton(
+                        onPressed: () {},
+                        child: const Icon(
+                          Icons.filter_list_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  MediaQuery.removePadding(
+                    removeTop: true,
+                    context: context,
+                    child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.85,
+                      ),
+                      itemCount: _itemsData.length,
+                      itemBuilder: (BuildContext context, index) {
+                        return AnimationConfiguration.staggeredGrid(
+                          position: index,
+                          columnCount: 2,
+                          child: ScaleAnimation(
+                            child: FadeInAnimation(
+                              delay: const Duration(milliseconds: 100),
+                              child: ProductImages(_itemsData[index]),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -163,16 +191,19 @@ class _productsState extends State<products> {
           children: [
             Container(
               width: 183,
-              height: 189,
-              padding: const EdgeInsets.all(5),
+              height: 156,
+              margin: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                    topRight: Radius.circular(20.0),
-                    topLeft: Radius.circular(20.0)),
+                borderRadius: BorderRadius.circular(20.0),
                 image: DecorationImage(
                   image: AssetImage(category.image),
                   fit: BoxFit.fill,
                 ),
+              ),
+              child: InkWell(
+                onTap: () {
+                  Get.to(productDetails_page());
+                },
               ),
             ),
             Row(
