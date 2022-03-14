@@ -225,8 +225,8 @@ class _productDetailsState extends State<productDetails> {
                             InkWell(
                                 onTap: () {
                                   setState(() {
-                                    if (_counter >= 2) {
-                                      _counter--;
+                                    if (passed_data.itemQunatity! >= 2) {
+                                      passed_data.itemQunatity!;
                                     } else {
                                       return;
                                     }
@@ -244,7 +244,7 @@ class _productDetailsState extends State<productDetails> {
                               decoration:
                                   const BoxDecoration(color: Colors.white),
                               child: Text(
-                                '$_counter',
+                                passed_data.itemQunatity.toString(),
                                 style: const TextStyle(
                                     color: Colors.black, fontSize: 16),
                               ),
