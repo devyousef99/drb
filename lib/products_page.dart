@@ -174,7 +174,7 @@ class _productsState extends State<products> {
                                       onTap: (){
                                         Navigator.of(context).push(MaterialPageRoute(
                                             builder: (context)=>
-                                                productDetails_page(),
+                                                productDetails(),
                                         settings: RouteSettings(
                                           arguments: item[index]
                                         )));

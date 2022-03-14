@@ -348,7 +348,7 @@ class _storeState extends State<store> {
                                     onTap: (){
                                       Navigator.push(context,
                                           MaterialPageRoute(
-                                              builder: (context) => products_page(),
+                                              builder: (context) => productDetails(),
                                           settings: RouteSettings(
                                             arguments: item[index]
                                           )));

@@ -13,10 +13,7 @@ import 'Modules/category.dart';
 import 'Modules/products.dart';
 import 'cart_page.dart';
 
-
 class productDetails_page extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,7 +53,8 @@ class _productDetailsState extends State<productDetails> {
 
   @override
   Widget build(BuildContext context) {
-    final String? passed_data = ModalRoute.of(context)!.settings.arguments as String?;
+    final Products? passed_data =
+        ModalRoute.of(context)!.settings.arguments as Products?;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -88,16 +86,15 @@ class _productDetailsState extends State<productDetails> {
             ),
           ],
           centerTitle: true,
-          title: passed_data != null?
-          Text(
-            passed_data.toString(),
-            style: const TextStyle(
-                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-          )
-          : Center(
-          )
-          ,
-
+          title: passed_data != null
+              ? Text(
+                  passed_data.itemName.toString(),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                )
+              : Center(),
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -105,33 +102,33 @@ class _productDetailsState extends State<productDetails> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // MediaQuery.removePadding(
-                //   context: context,
-                //   removeBottom: true,
-                //   child: SizedBox(
-                //     height: 300.0,
-                //     child: ListView.builder(
-                //       physics: const ClampingScrollPhysics(),
-                //       shrinkWrap: true,
-                //       scrollDirection: Axis.horizontal,
-                //       itemBuilder: (context, index) {
-                //         return AnimationConfiguration.staggeredGrid(
-                //           position: index,
-                //           columnCount: 2,
-                //           child: ScaleAnimation(
-                //             child: FadeInAnimation(
-                //               delay: const Duration(milliseconds: 100),
-                //               child: productImages(_itemsData[index]),
-                //             ),
-                //           ),
-                //         );
-                //       },
-                //       itemCount: _itemsData.length,
-                //     ),
-                //   ),
-                // ),
+                MediaQuery.removePadding(
+                  context: context,
+                  removeBottom: true,
+                  child: SizedBox(
+                    height: 300.0,
+                    child: ListView.builder(
+                      physics: const ClampingScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return AnimationConfiguration.staggeredGrid(
+                          position: index,
+                          columnCount: 2,
+                          child: ScaleAnimation(
+                            child: FadeInAnimation(
+                              delay: const Duration(milliseconds: 100),
+                              child: productImages(passed_data!.itemImg.toString()),
+                            ),
+                          ),
+                        );
+                      },
+                      //itemCount: passed_data.length,
+                    ),
+                  ),
+                ),
                 Row(
-                  children:[
+                  children: [
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 10,
@@ -139,7 +136,7 @@ class _productDetailsState extends State<productDetails> {
                         bottom: 10.0,
                       ),
                       child: Text(
-                        passed_data.toString(),
+                        passed_data!.createdBy.toString(),
                         style: const TextStyle(
                             fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
@@ -148,6 +145,29 @@ class _productDetailsState extends State<productDetails> {
                 ),
                 Row(
                   children: [
+                     Padding(
+                      padding: const EdgeInsets.only(
+                        top:5,
+                        left: 20.0,
+                        bottom: 10.0
+                      ),
+                       child: Text(
+                         passed_data.itemName.toString(),
+                         style: const TextStyle(
+                           fontSize: 18.0,
+                           fontWeight: FontWeight.bold
+                         ),
+                       ),
+                    ),
+                    const SizedBox(
+                      width: 150,
+                    ),
+                    Text(
+                      passed_data.itemPrice.toString(),
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    )
                   ],
                 ),
                 Row(
@@ -156,7 +176,7 @@ class _productDetailsState extends State<productDetails> {
                       padding:
                           EdgeInsets.only(left: 20.0, bottom: 5.0, top: 5.0),
                       child: Text(
-                        passed_data.toString(),
+                        passed_data.itemDesc.toString(),
                         style: TextStyle(
                           fontSize: 16.0,
                         ),
@@ -165,7 +185,7 @@ class _productDetailsState extends State<productDetails> {
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  width: 10,
                 ),
                 Row(
                   children: const [
@@ -358,7 +378,7 @@ class _productDetailsState extends State<productDetails> {
   }
 }
 
-Widget productImages(Category category) => Card(
+Widget productImages(String? image) => Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5.0),
       ),
@@ -372,7 +392,7 @@ Widget productImages(Category category) => Card(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               image: DecorationImage(
-                image: AssetImage(category.toString()),
+                image: NetworkImage(image!),
                 fit: BoxFit.contain,
               ),
             ),
