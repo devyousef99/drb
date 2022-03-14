@@ -6,25 +6,7 @@ import 'dart:ui';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
-import 'checkout_page.dart';
 
-// Custom class to show the data.
-class Category {
-  String name, image;
-  Category({required this.name, required this.image});
-}
-
-// Custom list to show the data.
-class itemsData {
-  final List<Category> _items = <Category>[
-    Category(name: 'item1', image: ''),
-    Category(name: 'item2', image: ''),
-    Category(name: 'item3', image: ''),
-    Category(name: 'item2', image: ''),
-    Category(name: 'item3', image: ''),
-  ];
-// List <Category> get items => _items;
-}
 
 class cart_page extends StatelessWidget {
   @override
@@ -49,7 +31,7 @@ class _cartState extends State<cart> {
   int _counter = 1;
   @override
   Widget build(BuildContext context) {
-    List<Category> _itemsData = itemsData()._items;
+   // List<Category> _itemsData = itemsData()._items;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -257,7 +239,7 @@ class _cartState extends State<cart> {
                         ),
                       ),
                       onPressed: () {
-                        Get.to(checkout_page());
+                        //Get.to(checkout_page());
                       },
                       child: const Text(
                         'Ckeckout',

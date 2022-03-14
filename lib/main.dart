@@ -1,21 +1,13 @@
 import 'package:drb/cart_page.dart';
 import 'package:drb/checkout_page.dart';
 import 'package:drb/landing_page.dart';
-import 'package:drb/paymentMethod_page.dart';
-import 'package:drb/products_page.dart';
-import 'package:drb/shippingAddress_page.dart';
-import 'package:drb/shipping_page.dart';
-import 'package:drb/sideMenu_page.dart';
 import 'package:drb/store_page.dart';
-import 'package:drb/filter_page.dart';
-import 'package:drb/productDetails_page.dart';
-import 'package:drb/profile_page.dart';
-import 'package:drb/signup.page.dart';
 import 'package:flutter/material.dart';
 import 'package:drb/signin_page.dart';
 import 'package:get/get.dart';
 
 import 'favorite_page.dart';
+import 'productDetails_page.dart';
 
 
 void main() {
@@ -66,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // supportedLocaleshryatvvaontext.supportedLocales,
       // localizationsDelegates: context.localizationDelegates,
       // locale: context.locale,
-      home: landing_page(),
+      home: store_page(),
     );
   }
 }

@@ -1,4 +1,5 @@
 // ignore_for_file: file_names
+import 'dart:convert';
 import 'dart:ui';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,27 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:group_button/group_button.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
+import 'Modules/category.dart';
+import 'Modules/products.dart';
 import 'cart_page.dart';
 
-class Category {
-  String name, image;
-  Category({required this.name, required this.image});
-}
-
-// Custom list to show the data.
-class itemsData {
-  final List<Category> _items = <Category>[
-    Category(name: 'item1', image: 'assets/signin.jpeg'),
-    Category(name: 'item2', image: 'assets/signin.jpeg'),
-    Category(name: 'item3', image: 'assets/signin.jpeg'),
-    Category(name: 'item4', image: 'assets/signin.jpeg'),
-    Category(name: 'item5', image: 'assets/signin.jpeg'),
-  ];
-// List <Category> get items => _items;
-}
 
 class productDetails_page extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,13 +35,28 @@ class productDetails extends StatefulWidget {
 class _productDetailsState extends State<productDetails> {
   String? ValueChoose;
   int _counter = 1;
+  Products? item;
+  // List<Products>? all_products;
+  //
+  // Future<List<Products>> _Products() async {
+  //   final response =
+  //   await http.get(Uri.parse("http://10.0.2.2:8000/product/get_products"));
+  //   if (response.statusCode == 200) {
+  //     List jsonResponse = json.decode(response.body);
+  //     return jsonResponse.map((data) => Products.fromJson(data)).toList();
+  //   } else {
+  //     throw Exception('Failed to load album');
+  //   }
+  // }
   void initState() {
     super.initState();
+    // _Products();
+    // all_products;
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Category> _itemsData = itemsData()._items;
+    final String? passed_data = ModalRoute.of(context)!.settings.arguments as String?;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -83,11 +88,16 @@ class _productDetailsState extends State<productDetails> {
             ),
           ],
           centerTitle: true,
-          title: const Text(
-            'Shop',
-            style: TextStyle(
+          title: passed_data != null?
+          Text(
+            passed_data.toString(),
+            style: const TextStyle(
                 color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
-          ),
+          )
+          : Center(
+          )
+          ,
+
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -95,78 +105,58 @@ class _productDetailsState extends State<productDetails> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                MediaQuery.removePadding(
-                  context: context,
-                  removeBottom: true,
-                  child: SizedBox(
-                    height: 300.0,
-                    child: ListView.builder(
-                      physics: const ClampingScrollPhysics(),
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return AnimationConfiguration.staggeredGrid(
-                          position: index,
-                          columnCount: 2,
-                          child: ScaleAnimation(
-                            child: FadeInAnimation(
-                              delay: const Duration(milliseconds: 100),
-                              child: productImages(_itemsData[index]),
-                            ),
-                          ),
-                        );
-                      },
-                      itemCount: _itemsData.length,
-                    ),
-                  ),
-                ),
+                // MediaQuery.removePadding(
+                //   context: context,
+                //   removeBottom: true,
+                //   child: SizedBox(
+                //     height: 300.0,
+                //     child: ListView.builder(
+                //       physics: const ClampingScrollPhysics(),
+                //       shrinkWrap: true,
+                //       scrollDirection: Axis.horizontal,
+                //       itemBuilder: (context, index) {
+                //         return AnimationConfiguration.staggeredGrid(
+                //           position: index,
+                //           columnCount: 2,
+                //           child: ScaleAnimation(
+                //             child: FadeInAnimation(
+                //               delay: const Duration(milliseconds: 100),
+                //               child: productImages(_itemsData[index]),
+                //             ),
+                //           ),
+                //         );
+                //       },
+                //       itemCount: _itemsData.length,
+                //     ),
+                //   ),
+                // ),
                 Row(
-                  children: const [
+                  children:[
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                         top: 10,
                         left: 20.0,
                         bottom: 10.0,
                       ),
                       child: Text(
-                        'store name',
-                        style: TextStyle(
+                        passed_data.toString(),
+                        style: const TextStyle(
                             fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 ),
                 Row(
-                  children: const [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                        left: 20.0,
-                        bottom: 10.0,
-                      ),
-                      child: Text(
-                        'product name',
-                        style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 180,
-                    ),
-                    Text(
-                      'price',
-                      style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.bold),
-                    ),
+                  children: [
                   ],
                 ),
                 Row(
-                  children: const [
+                  children: [
                     Padding(
                       padding:
                           EdgeInsets.only(left: 20.0, bottom: 5.0, top: 5.0),
                       child: Text(
-                        'product info',
+                        passed_data.toString(),
                         style: TextStyle(
                           fontSize: 16.0,
                         ),
@@ -382,7 +372,7 @@ Widget productImages(Category category) => Card(
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(5.0)),
               image: DecorationImage(
-                image: AssetImage(category.image),
+                image: AssetImage(category.toString()),
                 fit: BoxFit.contain,
               ),
             ),
@@ -391,25 +381,25 @@ Widget productImages(Category category) => Card(
       ),
     );
 
-Widget productColors(Category category) => Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5.0),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 100,
-            height: 85,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(5.0)),
-              image: DecorationImage(
-                image: AssetImage(category.image),
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+// Widget productColors(Category category) => Card(
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(5.0),
+//       ),
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Container(
+//             width: 100,
+//             height: 85,
+//             decoration: BoxDecoration(
+//               borderRadius: BorderRadius.all(Radius.circular(5.0)),
+//               image: DecorationImage(
+//                 image: AssetImage(category.image),
+//                 fit: BoxFit.contain,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );

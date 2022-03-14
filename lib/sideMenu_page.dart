@@ -1,10 +1,8 @@
 // ignore_for_file: file_names
-
 import 'package:flutter/material.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class sideMenu_page extends StatefulWidget {
-
   @override
   _sideMenu_pageState createState() => _sideMenu_pageState();
 }

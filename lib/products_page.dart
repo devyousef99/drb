@@ -1,30 +1,14 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:drb/cart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'Modules/products.dart';
 import 'productDetails_page.dart';
 import 'store_page.dart';
+import 'package:http/http.dart' as http;
 
-// Custom class to show the data.
-class Category {
-  String name, image;
-  Category({required this.name, required this.image});
-}
-
-// Custom list to show the data.
-class itemsData {
-  final List<Category> _items = <Category>[
-    Category(name: 'item1', image: ''),
-    Category(name: 'item2', image: ''),
-    Category(name: 'item3', image: ''),
-    Category(name: 'item4', image: ''),
-    Category(name: 'item5', image: ''),
-    Category(name: 'item6', image: ''),
-    Category(name: 'item7', image: ''),
-  ];
-  // List <Category> get items => _items;
-}
 
 // Products page.
 class products_page extends StatelessWidget {
@@ -43,14 +27,30 @@ class products extends StatefulWidget {
 }
 
 class _productsState extends State<products> {
+
+  List<Products>? all_products;
+  Future<List<Products>> _Products() async {
+    final response =
+    await http.get(Uri.parse("http://10.0.2.2:8000/product/get_products"));
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      return jsonResponse.map((data) => Products.fromJson(data)).toList();
+    } else {
+      throw Exception('Failed to load album');
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _Products();
+    all_products;
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Category> _itemsData = itemsData()._items;
+    //List<Category> _itemsData = itemsData()._items;
+    //final String? passed_data = ModalRoute.of(context)!.settings.arguments as String;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -73,8 +73,8 @@ class _productsState extends State<products> {
             ),
           ),
           centerTitle: true,
-          title: const Text(
-            'Shop',
+          title: Text(
+            'passed_data!',
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
           ),
@@ -149,27 +149,52 @@ class _productsState extends State<products> {
                   MediaQuery.removePadding(
                     removeTop: true,
                     context: context,
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.85,
-                      ),
-                      itemCount: _itemsData.length,
-                      itemBuilder: (BuildContext context, index) {
-                        return AnimationConfiguration.staggeredGrid(
-                          position: index,
-                          columnCount: 2,
-                          child: ScaleAnimation(
-                            child: FadeInAnimation(
-                              delay: const Duration(milliseconds: 100),
-                              child: ProductImages(_itemsData[index]),
+                    child: FutureBuilder(
+                      future: _Products(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot){
+                        if (snapshot.hasData) {
+                          return GridView.builder(
+                            shrinkWrap: true,
+                            physics: const ScrollPhysics(),
+                            gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.85,
                             ),
-                          ),
-                        );
-                      },
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, index) {
+                              List<Products> item = snapshot.data;
+                              return AnimationConfiguration.staggeredGrid(
+                                position: index,
+                                columnCount: 2,
+                                child: ScaleAnimation(
+                                  child: FadeInAnimation(
+                                    delay: const Duration(milliseconds: 100),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                        Navigator.of(context).push(MaterialPageRoute(
+                                            builder: (context)=>
+                                                productDetails_page(),
+                                        settings: RouteSettings(
+                                          arguments: item[index]
+                                        )));
+                                      },
+                                      child: ProductImages(
+                                          item[index].itemImg,
+                                          item[index].itemName,
+                                          item[index].itemPrice.toString()),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        // By default, show a loading spinner.
+                        return const CircularProgressIndicator();
+                      }
                     ),
                   ),
                 ],
@@ -180,56 +205,46 @@ class _productsState extends State<products> {
       ),
     );
   }
-
-  //this is the design created to show a list of data.!
-  Widget ProductImages(Category category) => Card(
-        elevation: 5.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+  Widget ProductImages(String? image, String? name, String? price) => Card(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 183,
+          height: 169,
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+            image: DecorationImage(
+              image: NetworkImage(image!),
+              fit: BoxFit.fill,
+            ),
+          ),
+        ),
+        Row(
           children: [
-            Container(
-              width: 183,
-              height: 156,
-              margin: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                image: DecorationImage(
-                  image: AssetImage(category.image),
-                  fit: BoxFit.fill,
+            Padding(
+              padding: const EdgeInsets.only(left: 10.0),
+              child: Text(
+                name!,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
                 ),
-              ),
-              child: InkWell(
-                onTap: () {
-                  Get.to(productDetails_page());
-                },
               ),
             ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(
-                    category.name,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 65.0),
-                  child: GestureDetector(
-                    child: Text(
-                      category.name,
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                  ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(left: 65.0),
+              child: Text(
+                price!,
+                style: const TextStyle(color: Colors.black),
+              ),
             ),
           ],
         ),
-      );
+      ],
+    ),
+  );
 }
