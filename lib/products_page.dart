@@ -150,51 +150,51 @@ class _productsState extends State<products> {
                     removeTop: true,
                     context: context,
                     child: FutureBuilder(
-                      future: _Products(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot){
-                        if (snapshot.hasData) {
-                          return GridView.builder(
-                            shrinkWrap: true,
-                            physics: const ScrollPhysics(),
-                            gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.85,
-                            ),
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext context, index) {
-                              List<Products> item = snapshot.data;
-                              return AnimationConfiguration.staggeredGrid(
-                                position: index,
-                                columnCount: 2,
-                                child: ScaleAnimation(
-                                  child: FadeInAnimation(
-                                    delay: const Duration(milliseconds: 100),
-                                    child: GestureDetector(
-                                      onTap: (){
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (context)=>
-                                                productDetails(),
-                                        settings: RouteSettings(
-                                          arguments: item[index]
-                                        )));
-                                      },
-                                      child: ProductImages(
-                                          item[index].itemImg,
-                                          item[index].itemName,
-                                          item[index].itemPrice.toString()),
+                        future: _Products(),
+                        builder: (BuildContext context, AsyncSnapshot snapshot){
+                          if (snapshot.hasData) {
+                            return GridView.builder(
+                              shrinkWrap: true,
+                              physics: const ScrollPhysics(),
+                              gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.85,
+                              ),
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, index) {
+                                List<Products> item = snapshot.data;
+                                return AnimationConfiguration.staggeredGrid(
+                                  position: index,
+                                  columnCount: 2,
+                                  child: ScaleAnimation(
+                                    child: FadeInAnimation(
+                                      delay: const Duration(milliseconds: 100),
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          Navigator.of(context).push(MaterialPageRoute(
+                                              builder: (context)=>
+                                                  productDetails(),
+                                              settings: RouteSettings(
+                                                  arguments: item[index]
+                                              )));
+                                        },
+                                        child: ProductImages(
+                                            item[index].itemImg,
+                                            item[index].itemName,
+                                            item[index].itemPrice.toString()),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
+                                );
+                              },
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          // By default, show a loading spinner.
+                          return const CircularProgressIndicator();
                         }
-                        // By default, show a loading spinner.
-                        return const CircularProgressIndicator();
-                      }
                     ),
                   ),
                 ],

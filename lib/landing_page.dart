@@ -1,7 +1,11 @@
+import 'package:drb/news_page.dart';
+import 'package:drb/events_page.dart';
+import 'package:drb/home_page.dart';
 import 'package:drb/shipping_page.dart';
 import 'package:drb/store_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 class landing_page extends StatefulWidget {
   const landing_page({Key? key}) : super(key: key);
 
@@ -12,11 +16,13 @@ class landing_page extends StatefulWidget {
 class _landing_pageState extends State<landing_page> {
   int currentTab = 0;
   final List<Widget> screens = [
+    const home_page(),
     store(),
-    shipping_page()
+    const events_page(),
+    const news_page()
   ];
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = store();
+  Widget currentScreen = const home_page();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,14 +31,22 @@ class _landing_pageState extends State<landing_page> {
         child: currentScreen,
       ),
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.home),
-        onPressed: () {},
+        backgroundColor: const Color.fromRGBO(249, 194, 75, 0.9),
+        child: const Icon(
+          Icons.home,
+        ),
+        onPressed: () {
+          setState(() {
+            currentScreen = const home_page();
+            currentTab = 0;
+          });
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 10,
-        child: Container(
+        child: SizedBox(
           height: 60,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,18 +56,27 @@ class _landing_pageState extends State<landing_page> {
                 children: [
                   MaterialButton(
                     minWidth: 40,
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        currentScreen = const news_page();
+                        currentTab = 1;
+                      });
+                    },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.event,
-                          color: currentTab == 3 ? Colors.blue : Colors.grey,
+                          Icons.library_books_rounded,
+                          color: currentTab == 1
+                              ? const Color.fromRGBO(110, 114, 253, 0.9)
+                              : Colors.grey,
                         ),
                         Text(
-                          'Events',
+                          'News',
                           style: TextStyle(
-                            color: currentTab == 3 ? Colors.blue : Colors.grey,
+                            color: currentTab == 1
+                                ? const Color.fromRGBO(110, 114, 253, 0.9)
+                                : Colors.grey,
                           ),
                         ),
                       ],
@@ -61,18 +84,26 @@ class _landing_pageState extends State<landing_page> {
                   ),
                   MaterialButton(
                     minWidth: 40,
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        currentTab = 2;
+                      });
+                    },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.add,
-                          color: currentTab == 1 ? Colors.blue : Colors.grey,
+                          Icons.menu_book_rounded,
+                          color: currentTab == 2
+                              ? const Color.fromRGBO(110, 114, 253, 0.9)
+                              : Colors.grey,
                         ),
                         Text(
-                          'Magazine',
+                          'Resources',
                           style: TextStyle(
-                            color: currentTab == 1 ? Colors.blue : Colors.grey,
+                            color: currentTab == 2
+                                ? const Color.fromRGBO(110, 114, 253, 0.9)
+                                : Colors.grey,
                           ),
                         ),
                       ],
@@ -86,19 +117,26 @@ class _landing_pageState extends State<landing_page> {
                   MaterialButton(
                     minWidth: 40,
                     onPressed: () {
-                      Get.to(shipping_page());
+                      setState(() {
+                        currentScreen = const events_page();
+                        currentTab = 3;
+                      });
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.add,
-                          color: currentTab == 2 ? Colors.blue : Colors.grey,
+                          Icons.event,
+                          color: currentTab == 3
+                              ? const Color.fromRGBO(110, 114, 253, 0.9)
+                              : Colors.grey,
                         ),
                         Text(
-                          'News',
+                          'Events',
                           style: TextStyle(
-                            color: currentTab == 2 ? Colors.blue : Colors.grey,
+                            color: currentTab == 3
+                                ? const Color.fromRGBO(110, 114, 253, 0.9)
+                                : Colors.grey,
                           ),
                         ),
                       ],
@@ -106,18 +144,27 @@ class _landing_pageState extends State<landing_page> {
                   ),
                   MaterialButton(
                     minWidth: 40,
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        currentScreen = store_page();
+                        currentTab = 4;
+                      });
+                    },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.store,
-                          color: currentTab == 0 ? Colors.blue : Colors.grey,
+                          color: currentTab == 4
+                              ? const Color.fromRGBO(110, 114, 253, 0.9)
+                              : Colors.grey,
                         ),
                         Text(
                           'Shop',
                           style: TextStyle(
-                            color: currentTab == 0 ? Colors.blue : Colors.grey,
+                            color: currentTab == 4
+                                ? const Color.fromRGBO(110, 114, 253, 0.9)
+                                : Colors.grey,
                           ),
                         ),
                       ],

@@ -93,7 +93,7 @@ class _shipping_pageState extends State<shipping_page> {
                     CupertinoButton(
                       onPressed: () {
                         Get.to(shippingAddress_page());
-                        },
+                      },
                       child: const Icon(
                         CupertinoIcons.add_circled_solid,
                         color: Colors.white,

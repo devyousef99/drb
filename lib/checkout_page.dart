@@ -58,6 +58,9 @@ class _checkout_pageState extends State<checkout_page> {
               children: [
                 Row(
                   children: const [
+                    SizedBox(
+                      width: 12,
+                    ),
                     Text(
                       'Shipping Address',
                       style: TextStyle(
@@ -85,19 +88,56 @@ class _checkout_pageState extends State<checkout_page> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15.0),
                           ),
-                          child: const Padding(
-                            padding: EdgeInsets.only(
-                              right: 220,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              right: 130,
                             ),
-                            child: Icon(
-                              Icons.home,
-                              size: 50,
-                              color: Color.fromRGBO(
-                                76,
-                                81,
-                                228,
-                                0.9,
-                              ),
+                            child: Row(
+                              children: <Widget>[
+                                const Expanded(
+                                  child: Icon(
+                                    Icons.home,
+                                    size: 50,
+                                    color: Color.fromRGBO(
+                                      76,
+                                      81,
+                                      228,
+                                      0.9,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        const Text(
+                                          "Green",
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        const Text(
+                                          "Green",
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        Row(children: const [
+                                          Text(
+                                            "Green",
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                          SizedBox(width: 30),
+                                          Text(
+                                            "M",
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                        ]),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -110,6 +150,9 @@ class _checkout_pageState extends State<checkout_page> {
                 ),
                 Row(
                   children: const [
+                    SizedBox(
+                      width: 12,
+                    ),
                     Text(
                       'Payment Method',
                       style: TextStyle(
@@ -130,40 +173,61 @@ class _checkout_pageState extends State<checkout_page> {
                         child: Container(
                           width: 600,
                           height: 80,
-                          // margin: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(15.0),
                           ),
-                          child: const Padding(
-                            padding: EdgeInsets.only(
-                              right: 220,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              right: 130,
                             ),
-                            child: Icon(
-                              Icons.credit_card_rounded,
-                              size: 50,
-                              color: Color.fromRGBO(
-                                76,
-                                81,
-                                228,
-                                0.9,
-                              ),
-                              // child: Padding(
-                              //   padding: const EdgeInsets.only(
-                              //     right: 270,
-                              //   ),
-                              // child: MaterialButton(
-                              //   child: const Icon(
-                              //     Icons.credit_card_rounded,
-                              //     size: 50,
-                              //     color: Color.fromRGBO(
-                              //       76,
-                              //       81,
-                              //       228,
-                              //       0.9,
-                              //     ),
+                            child: Row(
+                              children: <Widget>[
+                                const Expanded(
+                                  child: Icon(
+                                    Icons.credit_card_rounded,
+                                    size: 50,
+                                    color: Color.fromRGBO(
+                                      76,
+                                      81,
+                                      228,
+                                      0.9,
+                                    ),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: 16),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        const Text(
+                                          "Green",
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        const Text(
+                                          "Green",
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        Row(children: const [
+                                          Text(
+                                            "Green",
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                          SizedBox(width: 30),
+                                          Text(
+                                            "M",
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                        ]),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                            //   onPressed: () {},
                           ),
                         ),
                       ),
@@ -175,6 +239,9 @@ class _checkout_pageState extends State<checkout_page> {
                 ),
                 Row(
                   children: const [
+                    SizedBox(
+                      width: 12,
+                    ),
                     Text(
                       'Promo Code',
                       style: TextStyle(
@@ -200,12 +267,14 @@ class _checkout_pageState extends State<checkout_page> {
                         ),
                         child: const Padding(
                           padding: EdgeInsets.only(
-                            left: 15,
+                            left: 14,
                           ),
                           child: TextField(
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Apply promo code',
+                              hintStyle:
+                              TextStyle(fontSize: 14, color: Colors.grey),
                             ),
                           ),
                         ),
@@ -221,6 +290,12 @@ class _checkout_pageState extends State<checkout_page> {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         child: MaterialButton(
+                          splashColor: const Color.fromRGBO(
+                            76,
+                            81,
+                            228,
+                            0.9,
+                          ),
                           child: const Text(
                             'Apply',
                             style: TextStyle(color: Colors.black),
@@ -236,6 +311,9 @@ class _checkout_pageState extends State<checkout_page> {
                 ),
                 Row(
                   children: const [
+                    SizedBox(
+                      width: 12,
+                    ),
                     Text(
                       'Order Summary',
                       style: TextStyle(
@@ -253,61 +331,179 @@ class _checkout_pageState extends State<checkout_page> {
                     Expanded(
                       child: Container(
                         width: 200,
-                        height: 300,
+                        height: 220,
                         margin: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15.0),
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 350.0,
-                  height: 50,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: const Color.fromRGBO(110, 114, 253, 0.9),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      Get.defaultDialog(
-                          title: 'Thank You!',
-                          titleStyle: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                          middleText:
-                              'Your order is completed. \n Please check delivery status at order tracking page.',
-                          actions: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary:
-                                    const Color.fromRGBO(110, 114, 253, 0.9),
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(10),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              top: 15, left: 18, right: 18),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: const [
+                                  Text(
+                                    'Sub Total',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(width: 60),
+                                  Text(':'),
+                                  SizedBox(width: 100),
+                                  Text('555'),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: const [
+                                  Text(
+                                    'Shipping',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(width: 63),
+                                  Text(':'),
+                                  SizedBox(width: 100),
+                                  Text('555'),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: const [
+                                  Text(
+                                    'Estimating Tax',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(width: 20),
+                                  Text(':'),
+                                  SizedBox(width: 100),
+                                  Text('555'),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: const [
+                                  Text(
+                                    'Discounts',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  SizedBox(width: 54),
+                                  Text(':'),
+                                  SizedBox(width: 100),
+                                  Text('555'),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Divider(
+                                height: 8,
+                                thickness: 3,
+                                endIndent: 3,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                                children: const [
+                                  Text(
+                                    'Total',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  SizedBox(width: 90),
+                                  Text(':'),
+                                  SizedBox(width: 100),
+                                  Text('555'),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: SizedBox(
+                                  width: 300.0,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: const Color.fromRGBO(
+                                          110, 114, 253, 0.9),
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      Get.defaultDialog(
+                                          title: 'Thank You!',
+                                          titleStyle: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                          middleText:
+                                          'Your order is completed. \n Please check delivery status at order tracking page.',
+                                          actions: [
+                                            ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                primary: const Color.fromRGBO(
+                                                    110, 114, 253, 0.9),
+                                                shape:
+                                                const RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.all(
+                                                    Radius.circular(10),
+                                                  ),
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                Get.back();
+                                              },
+                                              child: const Text(
+                                                'Ok',
+                                                style: TextStyle(
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          ]);
+                                    },
+                                    child: const Text(
+                                      'Place Order',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: const Text(
-                                'Ok',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ]);
-                    },
-                    child: const Text(
-                      'Place Order',
-                      style: TextStyle(color: Colors.white),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),

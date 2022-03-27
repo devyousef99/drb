@@ -34,7 +34,7 @@ class _storeState extends State<store> {
 
   Future<List<Products>> _Products() async {
     final response =
-        await http.get(Uri.parse("http://10.0.2.2:8000/product/get_products"));
+    await http.get(Uri.parse("http://10.0.2.2:8000/product/get_products"));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Products.fromJson(data)).toList();
@@ -45,7 +45,7 @@ class _storeState extends State<store> {
 
   Future<List<Category>> _Category() async {
     final response =
-        await http.get(Uri.parse("http://10.0.2.2:8000/product/get_cat"));
+    await http.get(Uri.parse("http://10.0.2.2:8000/product/get_cat"));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Category.fromJson(data)).toList();
@@ -113,7 +113,7 @@ class _storeState extends State<store> {
                   image: AssetImage('assets/background.png'), fit: BoxFit.fill),
             ),
             child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Container(
                 height: 200.0,
                 child: Padding(
@@ -257,7 +257,7 @@ class _storeState extends State<store> {
                   ),
                 ],
               ),
-              Container(
+              SizedBox(
                 height: 200.0,
                 child: MediaQuery.removePadding(
                   removeTop: true,
@@ -331,7 +331,7 @@ class _storeState extends State<store> {
                           shrinkWrap: true,
                           physics: const ScrollPhysics(),
                           gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
                             childAspectRatio: 0.85,
                           ),
@@ -349,9 +349,9 @@ class _storeState extends State<store> {
                                       Navigator.push(context,
                                           MaterialPageRoute(
                                               builder: (context) => productDetails(),
-                                          settings: RouteSettings(
-                                            arguments: item[index]
-                                          )));
+                                              settings: RouteSettings(
+                                                  arguments: item[index]
+                                              )));
                                     },
                                     child: ProductImages(
                                         item[index].itemImg,
@@ -378,183 +378,127 @@ class _storeState extends State<store> {
   }
 }
 
-class CustomSearchDelegate extends SearchDelegate {
-  List<String> searchTerms = ['A', 'd', 'd'];
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, null);
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var x in searchTerms) {
-      if (x.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(x);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var x in searchTerms) {
-      if (x.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(x);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
-  }
-}
-
 //this is the design created to show a list of data.
 Widget AdSpace(String? image) => Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Container(
-              width: 300,
-              height: 200,
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                image: DecorationImage(
-                  image: NetworkImage(image!),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              child: MaterialButton(
-                onPressed: () {},
-              ),
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Expanded(
+        child: Container(
+          width: 300,
+          height: 200,
+          margin: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+            image: DecorationImage(
+              image: NetworkImage(image!),
+              fit: BoxFit.fill,
             ),
           ),
-        ],
+          child: MaterialButton(
+            onPressed: () {},
+          ),
+        ),
       ),
-    );
+    ],
+  ),
+);
 
 //this is the design created to show a list of data.
 Widget card2(String? img) => Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.zero,
-              width: 250,
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20.0),
-                image: DecorationImage(
-                  image: NetworkImage(img!),
-                  fit: BoxFit.fill,
-                ),
-              ),
-              child: MaterialButton(
-                onPressed: () {},
-              ),
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Expanded(
+        child: Container(
+          padding: EdgeInsets.zero,
+          width: 250,
+          height: 200,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.0),
+            image: DecorationImage(
+              image: NetworkImage(img!),
+              fit: BoxFit.fill,
             ),
           ),
-        ],
+          child: MaterialButton(
+            onPressed: () {},
+          ),
+        ),
       ),
-    );
+    ],
+  ),
+);
 
 //this is the design created to show a list of data.
 Widget ProductImages(String? image, String? name, String? price) => Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+  child: Column(
+    mainAxisSize: MainAxisSize.min,
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        width: 183,
+        height: 169,
+        margin: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          image: DecorationImage(
+            image: NetworkImage(image!),
+            fit: BoxFit.fill,
+          ),
+        ),
+      ),
+      Row(
         children: [
-          Container(
-            width: 183,
-            height: 169,
-            margin: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              image: DecorationImage(
-                image: NetworkImage(image!),
-                fit: BoxFit.fill,
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Text(
+              name!,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 20,
               ),
             ),
           ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Text(
-                  name!,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 65.0),
-                child: Text(
-                  price!,
-                  style: const TextStyle(color: Colors.black),
-                ),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(left: 65.0),
+            child: Text(
+              price!,
+              style: const TextStyle(color: Colors.black),
+            ),
           ),
         ],
       ),
-    );
+    ],
+  ),
+);
 
 //this is the design created to show a list of data.
 Widget Categories(String? name) => ButtonBar(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        OutlineButton(
-            child: Text(
-              name!,
-              style: const TextStyle(color: Colors.white),
-            ),
-            highlightedBorderColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            onPressed: () {
-            }),
-      ],
-    );
+  mainAxisSize: MainAxisSize.min,
+  children: [
+    OutlinedButton(
+        child: Text(
+          name!,
+          style: const TextStyle(color: Colors.white),
+        ),
+        style: OutlinedButton.styleFrom(
+          side: BorderSide(
+            width: 5.0,
+            color: Colors.white,
+            style: BorderStyle.solid,
+          ),
+        ),
+        // highlightedBorderColor: Colors.white,
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(15),
+        // ),
+        onPressed: () {
+        }),
+  ],
+);

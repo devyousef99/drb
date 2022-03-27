@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:drb/checkout_page.dart';
 
 
 class shippingAddress_page extends StatelessWidget {
@@ -265,7 +266,7 @@ class _shipping_addressState extends State<shipping_address> {
                               ),
                             ),
                             onPressed: () {
-                              //Get.to(checkout_page());
+                              Get.to(checkout_page());
                             },
                             child: const Text(
                               'Ok',
