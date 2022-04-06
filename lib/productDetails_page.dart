@@ -1,8 +1,7 @@
 // ignore_for_file: file_names
 import 'dart:convert';
 import 'dart:ui';
-import 'package:drb/products_page.dart';
-import 'package:dropdown_button2/custom_dropdown_button2.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,10 +9,10 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:group_button/group_button.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+
 import 'Modules/category.dart';
 import 'Modules/products.dart';
 import 'cart_page.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 
 class productDetails_page extends StatelessWidget {
   @override
@@ -32,37 +31,46 @@ class productDetails extends StatefulWidget {
 }
 
 class _productDetailsState extends State<productDetails> {
-  // String? ValueChoose;
+  String? ValueChoose;
   int _counter = 1;
-  // Products? item;
-  // List<Products>? all_products;
-  //
-  // Future<List<Products>> _Products() async {
-  //   final response =
-  //   await http.get(Uri.parse("http://10.0.2.2:8000/product/get_products"));
-  //   if (response.statusCode == 200) {
-  //     List jsonResponse = json.decode(response.body);
-  //     return jsonResponse.map((data) => Products.fromJson(data)).toList();
-  //   } else {
-  //     throw Exception('Failed to load album');
-  //   }
-  // }
+  String? selectedValue;
+  String? selectedValue1;
+  Future<void> addtocart() async {
+      var response = await http
+          .post(Uri.parse("http://10.0.2.2:8000/account/sign"), body: {
+        'product': [
+          {
+            'pr_name': 'text',
+            'id': 'id'
+          }
+      ],
+        'price': 'price',
+        'size': 'size',
+        'quantity': 'quantity'
+      }
+      );
+      if (response.statusCode == 200) {
+        print("Welcome");
+        Get.to('Next Screen');
+      } else {
+        print("Wrong Data");
+      }
+  }
+  @override
   void initState() {
     super.initState();
-    // _Products();
-    // all_products;
   }
-
-  String? selectedValue;
   List<String> items = [
     'Item1',
     'Item2',
     'Item3',
     'Item4',
   ];
+
+
   @override
   Widget build(BuildContext context) {
-    final Products? passed_data =
+    final Products? passedData =
     ModalRoute.of(context)!.settings.arguments as Products?;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -95,19 +103,19 @@ class _productDetailsState extends State<productDetails> {
             ),
           ],
           centerTitle: true,
-          title: passed_data != null
+          title: passedData != null
               ? Text(
-            passed_data.itemName.toString(),
+            passedData.owner.toString(),
             style: const TextStyle(
                 color: Colors.black,
                 fontSize: 20,
                 fontWeight: FontWeight.bold),
           )
-              : Center(),
+              : const Center(),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
+        body: Padding(
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -129,7 +137,7 @@ class _productDetailsState extends State<productDetails> {
                             child: FadeInAnimation(
                               delay: const Duration(milliseconds: 100),
                               child: productImages(
-                                  passed_data!.itemImg.toString()),
+                                  passedData!.detail![0].prImg.toString()),
                             ),
                           ),
                         );
@@ -147,24 +155,10 @@ class _productDetailsState extends State<productDetails> {
                         bottom: 10.0,
                       ),
                       child: Text(
-                        'st',
-                        // passed_data!.itemName.toString(),
+                        passedData!.prName.toString(),
                         style: const TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 5, left: 20.0, bottom: 10.0),
-                      child: Text(
-                        'name',
-                        // passed_data.itemName.toString(),
-                        style: const TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                            fontSize: 20.0, fontWeight: FontWeight.bold
+                        ),
                       ),
                     ),
                   ],
@@ -173,11 +167,10 @@ class _productDetailsState extends State<productDetails> {
                   children: [
                     Padding(
                       padding:
-                      EdgeInsets.only(left: 20.0, bottom: 5.0, top: 5.0),
+                      const EdgeInsets.only(left: 20.0, bottom: 5.0, top: 5.0),
                       child: Text(
-                        'des',
-                        // passed_data.itemDesc.toString(),
-                        style: TextStyle(
+                        passedData.prDescription.toString(),
+                        style: const TextStyle(
                           fontSize: 16.0,
                         ),
                       ),
@@ -214,29 +207,29 @@ class _productDetailsState extends State<productDetails> {
                           selectedItemHighlightColor:
                           const Color.fromRGBO(110, 114, 253, 0.9),
                           hint: const Text(
-                            'Select size',
+                            'Select Color',
                             style: TextStyle(
                               fontSize: 14,
                               color: Color.fromRGBO(110, 114, 253, 0.9),
                             ),
                           ),
-                          items: items
+                          value: selectedValue,
+                          items: passedData.detail!
                               .map(
-                                (item) => DropdownMenuItem<String>(
-                              value: item,
+                                (item) => DropdownMenuItem(
+                              value: item.prSize.toString(),
                               child: Text(
-                                item,
+                                item.prSize.toString(),
                                 style: const TextStyle(
                                     fontSize: 14, color: Colors.black),
                               ),
                             ),
-                          )
-                              .toList(),
-                          value: selectedValue,
+                          ).toList(),
                           onChanged: (value) {
                             setState(() {
                               selectedValue = value as String;
                             });
+                            // print(value);
                           },
                           buttonHeight: 40,
                           buttonWidth: 100,
@@ -247,72 +240,8 @@ class _productDetailsState extends State<productDetails> {
                     const SizedBox(
                       width: 100,
                     ),
-                    // DropdownButtonHideUnderline(
-                    //   child: DropdownButton2(
-                    //     selectedItemHighlightColor:
-                    //         const Color.fromRGBO(110, 114, 253, 0.9),
-                    //     items: items
-                    //         .map((item) => DropdownMenuItem<String>(
-                    //               value: item,
-                    //               child: Text(
-                    //                 item,
-                    //                 style: const TextStyle(
-                    //                     fontSize: 14, color: Colors.black),
-                    //               ),
-                    //             ))
-                    //         .toList(),
-                    //     value: selectedValue,
-                    //     onChanged: (value) {
-                    //       setState(() {
-                    //         selectedValue = value as String;
-                    //       });
-                    //     },
-                    //     buttonHeight: 40,
-                    //     buttonWidth: 100,
-                    //     itemHeight: 40,
-                    //   ),
-                    // ),
                   ],
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.start,
-                //   children: [
-                //     Padding(
-                //       padding: const EdgeInsets.only(
-                //         left: 20.0,
-                //         top: 10.0,
-                //       ),
-                //       child: MediaQuery.removePadding(
-                //         context: context,
-                //         removeBottom: true,
-                //         child: SizedBox(
-                //           height: 100.0,
-                //           width: 100.0,
-                //           child: ListView.builder(
-                //             physics: const ClampingScrollPhysics(),
-                //             shrinkWrap: true,
-                //             scrollDirection: Axis.horizontal,
-                //             itemBuilder: (context, index) {
-                //               return AnimationConfiguration.staggeredGrid(
-                //                 position: index,
-                //                 columnCount: 2,
-                //                 child: ScaleAnimation(
-                //                   child: FadeInAnimation(
-                //                     delay: const Duration(milliseconds: 100),
-                //                     child: productImages(
-                //                         passed_data!.itemImg.toString()
-                //                     ),
-                //                   ),
-                //                 ),
-                //               );
-                //             },
-                //             //itemCount: passed_data.length,
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 const SizedBox(height: 15),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -341,29 +270,29 @@ class _productDetailsState extends State<productDetails> {
                           selectedItemHighlightColor:
                           const Color.fromRGBO(110, 114, 253, 0.9),
                           hint: const Text(
-                            'Select size',
+                            'Select Size',
                             style: TextStyle(
                               fontSize: 14,
                               color: Color.fromRGBO(110, 114, 253, 0.9),
                             ),
                           ),
-                          items: items
+                          value: selectedValue1,
+                          items: passedData.detail!
                               .map(
-                                (item) => DropdownMenuItem<String>(
-                              value: item,
+                                (item) => DropdownMenuItem(
+                              value: item.prSize.toString(),
                               child: Text(
-                                item,
+                                item.prSize.toString(),
                                 style: const TextStyle(
                                     fontSize: 14, color: Colors.black),
                               ),
                             ),
-                          )
-                              .toList(),
-                          value: selectedValue,
+                          ).toList(),
                           onChanged: (value) {
                             setState(() {
-                              selectedValue = value as String;
+                              selectedValue1 = value as String;
                             });
+                            // print(value);
                           },
                           buttonHeight: 40,
                           buttonWidth: 100,
@@ -374,31 +303,6 @@ class _productDetailsState extends State<productDetails> {
                     const SizedBox(
                       width: 100,
                     ),
-                    // DropdownButtonHideUnderline(
-                    //   child: DropdownButton2(
-                    //     selectedItemHighlightColor:
-                    //         const Color.fromRGBO(110, 114, 253, 0.9),
-                    //     items: items
-                    //         .map((item) => DropdownMenuItem<String>(
-                    //               value: item,
-                    //               child: Text(
-                    //                 item,
-                    //                 style: const TextStyle(
-                    //                     fontSize: 14, color: Colors.black),
-                    //               ),
-                    //             ))
-                    //         .toList(),
-                    //     value: selectedValue,
-                    //     onChanged: (value) {
-                    //       setState(() {
-                    //         selectedValue = value as String;
-                    //       });
-                    //     },
-                    //     buttonHeight: 40,
-                    //     buttonWidth: 100,
-                    //     itemHeight: 40,
-                    //   ),
-                    // ),
                   ],
                 ),
                 const SizedBox(height: 15),
@@ -462,7 +366,6 @@ class _productDetailsState extends State<productDetails> {
                               const BoxDecoration(color: Colors.white),
                               child: Text(
                                 '$_counter',
-                                // passed_data.itemQunatity.toString(),
                                 style: const TextStyle(
                                     color: Colors.black, fontSize: 16),
                               ),
@@ -470,7 +373,12 @@ class _productDetailsState extends State<productDetails> {
                             InkWell(
                               onTap: () {
                                 setState(() {
-                                  _counter++;
+                                  if (
+                                  _counter < passedData.detail![0].prQunatity!.toInt()) {
+                                    _counter++;
+                                  } else {
+                                    return;
+                                  }
                                 });
                               },
                               child: const Icon(
@@ -487,8 +395,7 @@ class _productDetailsState extends State<productDetails> {
                       width: 180,
                     ),
                     Text(
-                      'pr',
-                      // passed_data.itemPrice.toString(),
+                      passedData.detail![0].prPrice.toString(),
                       style: const TextStyle(
                           fontSize: 18.0, fontWeight: FontWeight.bold),
                     )
@@ -535,12 +442,12 @@ Widget productImages(String? image) => Card(
     children: [
       Container(
         width: 300,
-        height: 300,
+        height: 292,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           image: DecorationImage(
-            image: NetworkImage(image!),
-            fit: BoxFit.contain,
+            image: NetworkImage('http://10.0.2.2:8000'+image!),
+            fit: BoxFit.fill,
           ),
         ),
       ),

@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:ui';
 import 'package:drb/Modules/category.dart';
 import 'package:drb/products_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -11,30 +9,29 @@ import 'Modules/products.dart';
 import 'cart_page.dart';
 import 'productDetails_page.dart';
 
-// Custom class to show the data.
-
-class store_page extends StatelessWidget {
+class StorePage extends StatelessWidget {
+  const StorePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: store(),
+      home: Store(),
     );
   }
 }
 
-class store extends StatefulWidget {
+class Store extends StatefulWidget {
+  const Store({Key? key}) : super(key: key);
+
   @override
-  _storeState createState() => _storeState();
+  StoreState createState() => StoreState();
 }
 
-class _storeState extends State<store> {
-  List<Products>? all_products;
-  List<Category>? all_cat;
+class StoreState extends State<Store> {
 
   Future<List<Products>> _Products() async {
     final response =
-    await http.get(Uri.parse("http://10.0.2.2:8000/product/get_products"));
+        await http.get(Uri.parse("http://10.0.2.2:8000/product/get"));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Products.fromJson(data)).toList();
@@ -45,7 +42,7 @@ class _storeState extends State<store> {
 
   Future<List<Category>> _Category() async {
     final response =
-    await http.get(Uri.parse("http://10.0.2.2:8000/product/get_cat"));
+        await http.get(Uri.parse("http://10.0.2.2:8000/product/get_cat"));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Category.fromJson(data)).toList();
@@ -58,319 +55,318 @@ class _storeState extends State<store> {
   void initState() {
     super.initState();
     _Products();
-    all_products;
     _Category();
-    all_cat;
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          title: const Text(
-            'Community Of Creators',
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        title: const Text(
+          'Community Of Creators',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(cart());
+            },
+            color: Colors.white,
+            icon: const Icon(Icons.shopping_bag),
           ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Get.to(cart());
-              },
-              color: Colors.white,
-              icon: const Icon(Icons.shopping_bag),
-            ),
-          ],
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(60),
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: EdgeInsets.zero,
-                  filled: true,
-                  fillColor: Colors.white,
+        ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
                 ),
+                contentPadding: EdgeInsets.zero,
+                filled: true,
+                fillColor: Colors.white,
               ),
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/background.png'), fit: BoxFit.fill),
-            ),
-            child:
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Container(
-                height: 200.0,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
-                  child: FutureBuilder(
-                      future: _Products(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            physics: const ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              List<Products> item = snapshot.data;
-                              return AnimationConfiguration.staggeredGrid(
-                                position: index,
-                                columnCount: 2,
-                                child: ScaleAnimation(
-                                  child: FadeInAnimation(
-                                    delay: const Duration(milliseconds: 100),
-                                    child: AdSpace(item[index].itemImg),
-                                  ),
-                                ),
-                              );
-                            },
-                            itemCount: snapshot.data.length,
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-                        // By default, show a loading spinner.
-                        return const CircularProgressIndicator();
-                      }),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/background.png'), fit: BoxFit.fill),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 80),
+          child: SingleChildScrollView(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    'Categories',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 150,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Get.to(products());
-                    },
-                    child: const Text(
-                      'View All',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              MediaQuery.removePadding(
-                removeTop: true,
-                context: context,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 70,
-                        child: FutureBuilder(
-                            future: _Category(),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                  physics: ClampingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    List<Category> item = snapshot.data;
-                                    return AnimationConfiguration.staggeredGrid(
-                                      position: index,
-                                      columnCount: 2,
-                                      child: ScaleAnimation(
-                                        child: FadeInAnimation(
-                                          delay: Duration(milliseconds: 100),
-                                          child: InkWell(
-                                              onTap: () {
-                                                // Navigator.push(context,
-                                                //     MaterialPageRoute(
-                                                //         builder: (context) => products_page(),
-                                                //     settings: RouteSettings(
-                                                //       arguments: item[index]
-                                                //     )));
-                                                print('object');
-                                              },
-                                              child: Categories(
-                                                  item[index].catName)),
-                                        ),
+                  SizedBox(
+                    height: 200.0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 40.0),
+                      child: FutureBuilder(
+                          future: _Products(),
+                          builder: (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                physics: const ClampingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  List<Products> item = snapshot.data;
+                                  return AnimationConfiguration.staggeredGrid(
+                                    position: index,
+                                    columnCount: 2,
+                                    child: ScaleAnimation(
+                                      child: FadeInAnimation(
+                                        delay: const Duration(milliseconds: 100),
+                                        child: AdSpace(item[index].detail![0].prImg),
                                       ),
-                                    );
-                                  },
-                                  itemCount: snapshot.data.length,
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text('${snapshot.error}');
-                              }
-                              // By default, show a loading spinner.
-                              return const CircularProgressIndicator();
-                            }),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Text(
-                    'Newest',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 150,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Get.to(products());
-                    },
-                    child: const Text(
-                      'View All',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 200.0,
-                child: MediaQuery.removePadding(
-                  removeTop: true,
-                  context: context,
-                  child: FutureBuilder(
-                      future: _Products(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            physics: const ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              List<Products> item = snapshot.data;
-                              return AnimationConfiguration.staggeredGrid(
-                                position: index,
-                                columnCount: 2,
-                                child: ScaleAnimation(
-                                  child: FadeInAnimation(
-                                    delay: const Duration(milliseconds: 100),
-                                    child: card2(item[index].itemImg),
-                                  ),
-                                ),
+                                    ),
+                                  );
+                                },
+                                itemCount: snapshot.data.length,
                               );
-                            },
-                            itemCount: snapshot.data.length,
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-                        // By default, show a loading spinner.
-                        return const CircularProgressIndicator();
-                      }),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Text(
-                    'Popular',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(
-                    width: 150,
-                  ),
-                  MaterialButton(
-                    onPressed: () {
-                      Get.to(products());
-                    },
-                    child: const Text(
-                      'View All',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
-                      ),
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
+// By default, show a loading spinner.
+                            return const CircularProgressIndicator();
+                          }),
                     ),
                   ),
-                ],
-              ),
-              MediaQuery.removePadding(
-                removeTop: true,
-                context: context,
-                child: FutureBuilder(
-                    future: _Products(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        return GridView.builder(
-                          shrinkWrap: true,
-                          physics: const ScrollPhysics(),
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.85,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Text(
+                        'Categories',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        width: 150,
+                      ),
+                      MaterialButton(
+                        onPressed: () {
+                          Get.to(products());
+                        },
+                        child: const Text(
+                          'View All',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
                           ),
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context, index) {
-                            List<Products> item = snapshot.data;
-                            return AnimationConfiguration.staggeredGrid(
-                              position: index,
-                              columnCount: 2,
-                              child: ScaleAnimation(
-                                child: FadeInAnimation(
-                                  delay: const Duration(milliseconds: 100),
-                                  child: GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(context,
-                                          MaterialPageRoute(
-                                              builder: (context) => productDetails(),
-                                              settings: RouteSettings(
-                                                  arguments: item[index]
-                                              )));
-                                    },
-                                    child: ProductImages(
-                                        item[index].itemImg,
-                                        item[index].itemName,
-                                        item[index].itemPrice.toString()),
-                                  ),
-                                ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  MediaQuery.removePadding(
+                    removeTop: true,
+                    context: context,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 70,
+                            child: FutureBuilder(
+                                future: _Category(),
+                                builder:
+                                    (BuildContext context, AsyncSnapshot snapshot) {
+                                  if (snapshot.hasData) {
+                                    return ListView.builder(
+                                      physics: ClampingScrollPhysics(),
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        List<Category> item = snapshot.data;
+                                        return AnimationConfiguration.staggeredGrid(
+                                          position: index,
+                                          columnCount: 2,
+                                          child: ScaleAnimation(
+                                            child: FadeInAnimation(
+                                              delay: Duration(milliseconds: 100),
+                                              child: InkWell(
+                                                  onTap: () {
+// Navigator.push(context,
+//     MaterialPageRoute(
+//         builder: (context) => products_page(),
+//     settings: RouteSettings(
+//       arguments: item[index]
+//     )));
+                                                    print('object');
+                                                  },
+                                                  child: Categories(
+                                                      item[index].catName)),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      itemCount: snapshot.data.length,
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Text('${snapshot.error}');
+                                  }
+// By default, show a loading spinner.
+                                  return const CircularProgressIndicator();
+                                }),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Text(
+                        'Newest',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        width: 150,
+                      ),
+                      MaterialButton(
+                        onPressed: () {
+                          Get.to(products());
+                        },
+                        child: const Text(
+                          'View All',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 200.0,
+                    child: MediaQuery.removePadding(
+                      removeTop: true,
+                      context: context,
+                      child: FutureBuilder(
+                          future: _Products(),
+                          builder: (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                physics: const ClampingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  List<Products> item = snapshot.data;
+                                  return AnimationConfiguration.staggeredGrid(
+                                    position: index,
+                                    columnCount: 2,
+                                    child: ScaleAnimation(
+                                      child: FadeInAnimation(
+                                        delay: const Duration(milliseconds: 100),
+                                        child: card2(item[index].detail![0].prImg),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                itemCount: snapshot.data.length,
+                              );
+                            } else if (snapshot.hasError) {
+                              return Text('${snapshot.error}');
+                            }
+// By default, show a loading spinner.
+                            return const CircularProgressIndicator();
+                          }),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Text(
+                        'Popular',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        width: 150,
+                      ),
+                      MaterialButton(
+                        onPressed: () {
+                          Get.to(products());
+                        },
+                        child: const Text(
+                          'View All',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  MediaQuery.removePadding(
+                    removeTop: true,
+                    context: context,
+                    child: FutureBuilder(
+                        future: _Products(),
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            return GridView.builder(
+                              shrinkWrap: true,
+                              physics: const ScrollPhysics(),
+                              gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.85,
                               ),
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, index) {
+                                List<Products> item = snapshot.data;
+                                return AnimationConfiguration.staggeredGrid(
+                                  position: index,
+                                  columnCount: 2,
+                                  child: ScaleAnimation(
+                                    child: FadeInAnimation(
+                                      delay: const Duration(milliseconds: 100),
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) => productDetails(),
+                                                  settings: RouteSettings(
+                                                      arguments: item[index]
+                                                  )));
+                                        },
+                                        child: ProductImages(
+                                            item[index].detail![0].prImg,
+                                            item[index].prName,
+                                            item[index].detail![0].prPrice),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             );
-                          },
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-                      // By default, show a loading spinner.
-                      return const CircularProgressIndicator();
-                    }),
-              ),
-            ]),
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+// By default, show a loading spinner.
+                          return const CircularProgressIndicator();
+                        }),
+                  ),
+                ]),
           ),
         ),
       ),
@@ -378,127 +374,183 @@ class _storeState extends State<store> {
   }
 }
 
+class CustomSearchDelegate extends SearchDelegate {
+  List<String> searchTerms = ['A', 'd', 'd'];
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+      icon: Icon(Icons.arrow_back),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var x in searchTerms) {
+      if (x.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(x);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var x in searchTerms) {
+      if (x.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(x);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
+    );
+  }
+}
+
 //this is the design created to show a list of data.
 Widget AdSpace(String? image) => Card(
-  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-  child: Column(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Expanded(
-        child: Container(
-          width: 300,
-          height: 200,
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            image: DecorationImage(
-              image: NetworkImage(image!),
-              fit: BoxFit.fill,
-            ),
-          ),
-          child: MaterialButton(
-            onPressed: () {},
-          ),
-        ),
-      ),
-    ],
-  ),
-);
-
-//this is the design created to show a list of data.
-Widget card2(String? img) => Card(
-  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-  child: Column(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Expanded(
-        child: Container(
-          padding: EdgeInsets.zero,
-          width: 250,
-          height: 200,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            image: DecorationImage(
-              image: NetworkImage(img!),
-              fit: BoxFit.fill,
-            ),
-          ),
-          child: MaterialButton(
-            onPressed: () {},
-          ),
-        ),
-      ),
-    ],
-  ),
-);
-
-//this is the design created to show a list of data.
-Widget ProductImages(String? image, String? name, String? price) => Card(
-  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-  child: Column(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Container(
-        width: 183,
-        height: 169,
-        margin: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20.0),
-          image: DecorationImage(
-            image: NetworkImage(image!),
-            fit: BoxFit.fill,
-          ),
-        ),
-      ),
-      Row(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 10.0),
-            child: Text(
-              name!,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
+          Expanded(
+            child: Container(
+              width: 300,
+              height: 200,
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                image: DecorationImage(
+                  image: NetworkImage('http://10.0.2.2:8000'+image!),
+                  fit: BoxFit.fill,
+                ),
               ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 65.0),
-            child: Text(
-              price!,
-              style: const TextStyle(color: Colors.black),
+              child: MaterialButton(
+                onPressed: () {},
+              ),
             ),
           ),
         ],
       ),
-    ],
-  ),
-);
+    );
+
+//this is the design created to show a list of data.
+Widget card2(String? img) => Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.zero,
+              width: 250,
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                image: DecorationImage(
+                  image: NetworkImage('http://10.0.2.2:8000'+img!),
+                  fit: BoxFit.fill,
+                ),
+              ),
+              child: MaterialButton(
+                onPressed: () {},
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+//this is the design created to show a list of data.
+Widget ProductImages(String? image, String? name, String? price) => Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 183,
+            height: 169,
+            margin: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20.0),
+              image: DecorationImage(
+                image: NetworkImage('http://10.0.2.2:8000'+image!),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(
+                  name!,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 65.0),
+                child: Text(
+                  price!,
+                  style: const TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
 
 //this is the design created to show a list of data.
 Widget Categories(String? name) => ButtonBar(
-  mainAxisSize: MainAxisSize.min,
-  children: [
-    OutlinedButton(
-        child: Text(
-          name!,
-          style: const TextStyle(color: Colors.white),
-        ),
-        style: OutlinedButton.styleFrom(
-          side: BorderSide(
-            width: 5.0,
-            color: Colors.white,
-            style: BorderStyle.solid,
-          ),
-        ),
-        // highlightedBorderColor: Colors.white,
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(15),
-        // ),
-        onPressed: () {
-        }),
-  ],
-);
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        OutlineButton(
+            child: Text(
+              name!,
+              style: const TextStyle(color: Colors.white),
+            ),
+            highlightedBorderColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            onPressed: () {
+            }),
+      ],
+    );

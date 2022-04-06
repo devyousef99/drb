@@ -1,45 +1,57 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
 
-class signin_page extends StatelessWidget {
+class SignInPage extends StatelessWidget {
+  const SignInPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'test',
-      home: signin(),
+      home: SignIn(),
     );
   }
 }
 
-class signin extends StatefulWidget {
+class SignIn extends StatefulWidget {
+  const SignIn({Key? key}) : super(key: key);
+
   @override
-  _signinState createState() => _signinState();
+  SignInState createState() => SignInState();
 }
 
-class _signinState extends State<signin> {
-  TextEditingController UserName = TextEditingController();
-  TextEditingController Password = TextEditingController();
+class SignInState extends State<SignIn> {
+  TextEditingController username = TextEditingController();
+  TextEditingController password = TextEditingController();
   final _formkey = GlobalKey<FormState>();
 
   Future<void> _loginApi() async {
-    if(UserName.text.isNotEmpty && Password.text.isNotEmpty){
-      var response = await http.post(Uri.parse("http://10.0.2.2:8000/account/sign"), body: {
-        'username': UserName.text,
-        'password': Password.text,
+    if (username.text.isNotEmpty && password.text.isNotEmpty) {
+      var response = await http
+          .post(Uri.parse("http://10.0.2.2:8000/account/sign"), body: {
+        'username': username.text,
+        'password': password.text,
       });
-      if(response.statusCode==200){
-        print("Welcome");
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print("Welcome");
+        }
         Get.to('Next Screen');
       } else {
-        print("Wrong Data");
+        if (kDebugMode) {
+          print("Wrong Data");
+        }
       }
     } else {
-      print("wrong");
+      if (kDebugMode) {
+        print("wrong");
+      }
     }
   }
 
@@ -91,14 +103,15 @@ class _signinState extends State<signin> {
                         left: 30.0,
                       ),
                       child: TextFormField(
-                        controller: UserName,
+                        controller: username,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           labelText: 'User Name',
                         ),
                         validator: Validators.compose([
                           Validators.required('Email address is required'),
-                          Validators.email('Invalid email address')]),
+                          Validators.email('Invalid email address')
+                        ]),
                       ),
                     ),
                   ),
@@ -121,14 +134,14 @@ class _signinState extends State<signin> {
                         left: 30.0,
                       ),
                       child: TextFormField(
-                        controller: Password,
+                        controller: password,
                         obscureText: true,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           labelText: 'Password',
                         ),
-                        validator: Validators.compose([
-                          Validators.required('Password is required')]),
+                        validator: Validators.compose(
+                            [Validators.required('Password is required')]),
                       ),
                     ),
                   ),
@@ -157,7 +170,7 @@ class _signinState extends State<signin> {
                     right: 30.0,
                     left: 30.0,
                   ),
-                  child: Container(
+                  child: SizedBox(
                     height: 60.0,
                     width: 300.0,
                     child: RaisedButton(
@@ -184,6 +197,6 @@ class _signinState extends State<signin> {
           ),
         ),
       ),
-      );
+    );
   }
 }

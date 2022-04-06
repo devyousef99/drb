@@ -2,8 +2,7 @@ import 'package:drb/shippingAddress_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'cart_page.dart';
-import 'store_page.dart';
+
 
 class checkout_page extends StatefulWidget {
   const checkout_page({Key? key}) : super(key: key);

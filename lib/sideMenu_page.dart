@@ -2,12 +2,13 @@
 import 'package:flutter/material.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
-class sideMenu_page extends StatefulWidget {
+class SideMenuPage extends StatefulWidget {
+  const SideMenuPage({Key? key}) : super(key: key);
   @override
-  _sideMenu_pageState createState() => _sideMenu_pageState();
+  SideMenuPageState createState() => SideMenuPageState();
 }
 
-class _sideMenu_pageState extends State<sideMenu_page> {
+class SideMenuPageState extends State<SideMenuPage> {
   int _counter = 0;
   bool isOpened = false;
 

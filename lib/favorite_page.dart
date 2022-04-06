@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:drb/HTTP/album.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,27 +18,27 @@ class favorite extends StatefulWidget {
 }
 
 class _favoriteState extends State<favorite> {
-  Future<List<Album>> getData() async {
-    String url = 'https://jsonplaceholder.typicode.com/albums';
-    var jsonData = await http.get(Uri.parse(url));
-    if (jsonData.statusCode == 200) {
-      List data = jsonDecode(jsonData.body);
-      List<Album> allusers = [];
-      for (var u in data) {
-        Album album = Album.fromjson(u);
-        allusers.add(album);
-      }
-      return allusers;
-    } else {
-      throw Exception('error');
-    }
-  }
-
-  Future<List<Album>>? users;
+  // Future<List<Album>> getData() async {
+  //   String url = 'https://jsonplaceholder.typicode.com/albums';
+  //   var jsonData = await http.get(Uri.parse(url));
+  //   if (jsonData.statusCode == 200) {
+  //     List data = jsonDecode(jsonData.body);
+  //     List<Album> allusers = [];
+  //     for (var u in data) {
+  //       Album album = Album.fromjson(u);
+  //       allusers.add(album);
+  //     }
+  //     return allusers;
+  //   } else {
+  //     throw Exception('error');
+  //   }
+  // }
+  //
+  // Future<List<Album>>? users;
 
   @override
   void initState() {
-    users = getData();
+    // users = getData();
     super.initState();
   }
 
@@ -72,28 +71,28 @@ class _favoriteState extends State<favorite> {
                 fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
           ),
         ),
-        body: FutureBuilder(
-          future: users,
-          builder: (context, snapshout) {
-            var myList = snapshout.data as List<Album>;
-            return GridView.builder(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.85,
-              ),
-              itemBuilder: (context, index) {
-                return Container(
-                  width: double.infinity,
-                  child: const Card(
-                    elevation: 5,
-                    // child: Text(
-                    //     "ID: ${snapshout.data[index].id} \n title : ${snapshout.data[index].title}"),
-                  ),
-                );
-              },
-            );
-          },
-        ),
+        // body: FutureBuilder(
+        //   future: users,
+        //   builder: (context, snapshout) {
+        //     var myList = snapshout.data as List<Album>;
+        //     return GridView.builder(
+        //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        //         crossAxisCount: 2,
+        //         childAspectRatio: 0.85,
+        //       ),
+        //       itemBuilder: (context, index) {
+        //         return Container(
+        //           width: double.infinity,
+        //           child: const Card(
+        //             elevation: 5,
+        //             // child: Text(
+        //             //     "ID: ${snapshout.data[index].id} \n title : ${snapshout.data[index].title}"),
+        //           ),
+        //         );
+        //       },
+        //     );
+        //   },
+        // ),
       ),
     );
   }

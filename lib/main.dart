@@ -53,12 +53,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       // supportedLocaleshryatvvaontext.supportedLocales,
       // localizationsDelegates: context.localizationDelegates,
       // locale: context.locale,
-      home: cart_page(),
+      home: LandingPage(),
     );
   }
 }

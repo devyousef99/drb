@@ -1,23 +1,23 @@
-import 'package:drb/news_page.dart';
-import 'package:drb/events_page.dart';
-import 'package:drb/home_page.dart';
-import 'package:drb/shipping_page.dart';
 import 'package:drb/store_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class landing_page extends StatefulWidget {
-  const landing_page({Key? key}) : super(key: key);
+import 'events_page.dart';
+import 'home_page.dart';
+import 'news_page.dart';
+
+class LandingPage extends StatefulWidget {
+  const LandingPage({Key? key}) : super(key: key);
 
   @override
-  State<landing_page> createState() => _landing_pageState();
+  State<LandingPage> createState() => _LandingPageState();
 }
 
-class _landing_pageState extends State<landing_page> {
+class _LandingPageState extends State<LandingPage> {
   int currentTab = 0;
   final List<Widget> screens = [
     const home_page(),
-    store(),
+    const Store(),
     const events_page(),
     const news_page()
   ];
@@ -146,7 +146,7 @@ class _landing_pageState extends State<landing_page> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = store_page();
+                        currentScreen = const StorePage();
                         currentTab = 4;
                       });
                     },

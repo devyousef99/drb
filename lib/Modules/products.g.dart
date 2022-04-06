@@ -8,26 +8,24 @@ part of 'products.dart';
 
 Products _$ProductsFromJson(Map<String, dynamic> json) => Products(
       id: json['id'] as int?,
-      itemName: json['itemName'] as String?,
-      itemDesc: json['itemDesc'] as String?,
-      itemPrice: json['itemPrice'] as int?,
-      itemQunatity: json['itemQunatity'] as int?,
-      inStock: json['inStock'] as bool?,
-      itemImg: json['itemImg'] as String?,
-      catId: json['catId'] as int?,
-      itemSize: json['itemSize'] as int?,
-      createdBy: json['createdBy'] as int?,
+      owner: json['owner'] as String?,
+      detail: (json['detail'] as List<dynamic>?)
+          ?.map((e) => Detail.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      prName: json['prName'] as String?,
+      prDescription: json['prDescription'] as String?,
+      createAt: json['createAt'] as String?,
+      updateAt: json['updateAt'] as String?,
+      cat: json['cat'] as int?,
     );
 
 Map<String, dynamic> _$ProductsToJson(Products instance) => <String, dynamic>{
       'id': instance.id,
-      'itemName': instance.itemName,
-      'itemDesc': instance.itemDesc,
-      'itemPrice': instance.itemPrice,
-      'itemQunatity': instance.itemQunatity,
-      'inStock': instance.inStock,
-      'itemImg': instance.itemImg,
-      'catId': instance.catId,
-      'itemSize': instance.itemSize,
-      'createdBy': instance.createdBy,
+      'owner': instance.owner,
+      'detail': instance.detail,
+      'prName': instance.prName,
+      'prDescription': instance.prDescription,
+      'createAt': instance.createAt,
+      'updateAt': instance.updateAt,
+      'cat': instance.cat,
     };

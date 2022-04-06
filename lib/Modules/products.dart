@@ -5,53 +5,89 @@ part 'products.g.dart';
 @JsonSerializable()
 class Products {
   int? id;
-  String? itemName;
-  String? itemDesc;
-  int? itemPrice;
-  int? itemQunatity;
-  bool? inStock;
-  String? itemImg;
-  int? catId;
-  int? itemSize;
-  int? createdBy;
+  String? owner;
+  List<Detail>? detail;
+  String? prName;
+  String? prDescription;
+  String? createAt;
+  String? updateAt;
+  int? cat;
 
   Products(
       {this.id,
-        this.itemName,
-        this.itemDesc,
-        this.itemPrice,
-        this.itemQunatity,
-        this.inStock,
-        this.itemImg,
-        this.catId,
-        this.itemSize,
-        this.createdBy});
+        this.owner,
+        this.detail,
+        this.prName,
+        this.prDescription,
+        this.createAt,
+        this.updateAt,
+        this.cat});
 
   Products.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    itemName = json['item_name'];
-    itemDesc = json['item_desc'];
-    itemPrice = json['item_price'];
-    itemQunatity = json['item_qunatity'];
-    inStock = json['in_stock'];
-    itemImg = json['item_img'];
-    catId = json['cat_id'];
-    itemSize = json['item_size'];
-    createdBy = json['created_by'];
+    owner = json['owner'];
+    if (json['detail'] != null) {
+      detail = <Detail>[];
+      json['detail'].forEach((v) {
+        detail!.add(Detail.fromJson(v));
+      });
+    }
+    prName = json['pr_name'];
+    prDescription = json['pr_description'];
+    createAt = json['create_at'];
+    updateAt = json['update_at'];
+    cat = json['cat'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['item_name'] = this.itemName;
-    data['item_desc'] = this.itemDesc;
-    data['item_price'] = this.itemPrice;
-    data['item_qunatity'] = this.itemQunatity;
+    data['owner'] = this.owner;
+    if (this.detail != null) {
+      data['detail'] = this.detail!.map((v) => v.toJson()).toList();
+    }
+    data['pr_name'] = this.prName;
+    data['pr_description'] = this.prDescription;
+    data['create_at'] = this.createAt;
+    data['update_at'] = this.updateAt;
+    data['cat'] = this.cat;
+    return data;
+  }
+}
+
+class Detail {
+  String? prPrice;
+  bool? inStock;
+  int? prSize;
+  int? prQunatity;
+  String? prType;
+  String? prImg;
+
+  Detail(
+      {this.prPrice,
+        this.inStock,
+        this.prSize,
+        this.prQunatity,
+        this.prType,
+        this.prImg});
+
+  Detail.fromJson(Map<String, dynamic> json) {
+    prPrice = json['pr_price'];
+    inStock = json['in_stock'];
+    prSize = json['pr_size'];
+    prQunatity = json['pr_qunatity'];
+    prType = json['pr_type'];
+    prImg = json['pr_img'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['pr_price'] = this.prPrice;
     data['in_stock'] = this.inStock;
-    data['item_img'] = this.itemImg;
-    data['cat_id'] = this.catId;
-    data['item_size'] = this.itemSize;
-    data['created_by'] = this.createdBy;
+    data['pr_size'] = this.prSize;
+    data['pr_qunatity'] = this.prQunatity;
+    data['pr_type'] = this.prType;
+    data['pr_img'] = this.prImg;
     return data;
   }
 }
