@@ -45,7 +45,7 @@ class _eventDetails_pageState extends State<eventDetails_page> {
           actions: [
             IconButton(
               onPressed: () {
-                Get.to(cart());
+                Get.to(const Cart());
               },
               color: Colors.black,
               icon: const Icon(Icons.shopping_bag),

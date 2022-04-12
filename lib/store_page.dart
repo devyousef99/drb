@@ -13,7 +13,7 @@ class StorePage extends StatelessWidget {
   const StorePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Store(),
     );
@@ -28,8 +28,7 @@ class Store extends StatefulWidget {
 }
 
 class StoreState extends State<Store> {
-
-  Future<List<Products>> _Products() async {
+  Future<List<Products>> _products() async {
     final response =
         await http.get(Uri.parse("http://10.0.2.2:8000/product/get"));
     if (response.statusCode == 200) {
@@ -40,7 +39,7 @@ class StoreState extends State<Store> {
     }
   }
 
-  Future<List<Category>> _Category() async {
+  Future<List<Category>> _category() async {
     final response =
         await http.get(Uri.parse("http://10.0.2.2:8000/product/get_cat"));
     if (response.statusCode == 200) {
@@ -54,8 +53,8 @@ class StoreState extends State<Store> {
   @override
   void initState() {
     super.initState();
-    _Products();
-    _Category();
+    _products();
+    _category();
   }
 
   @override
@@ -73,7 +72,7 @@ class StoreState extends State<Store> {
         actions: [
           IconButton(
             onPressed: () {
-              Get.to(cart());
+              Get.to(const Cart());
             },
             color: Colors.white,
             icon: const Icon(Icons.shopping_bag),
@@ -82,7 +81,8 @@ class StoreState extends State<Store> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+            padding:
+                const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Search',
@@ -107,266 +107,267 @@ class StoreState extends State<Store> {
         child: Padding(
           padding: const EdgeInsets.only(top: 80),
           child: SingleChildScrollView(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 200.0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 40.0),
-                      child: FutureBuilder(
-                          future: _Products(),
-                          builder: (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                physics: const ClampingScrollPhysics(),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  List<Products> item = snapshot.data;
-                                  return AnimationConfiguration.staggeredGrid(
-                                    position: index,
-                                    columnCount: 2,
-                                    child: ScaleAnimation(
-                                      child: FadeInAnimation(
-                                        delay: const Duration(milliseconds: 100),
-                                        child: AdSpace(item[index].detail![0].prImg),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                itemCount: snapshot.data.length,
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              SizedBox(
+                height: 200.0,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: FutureBuilder(
+                      future: _products(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            physics: const ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              List<Products> item = snapshot.data;
+                              return AnimationConfiguration.staggeredGrid(
+                                position: index,
+                                columnCount: 2,
+                                child: ScaleAnimation(
+                                  child: FadeInAnimation(
+                                    delay: const Duration(milliseconds: 100),
+                                    child:
+                                        adSpace(item[index].detail![0].prImg),
+                                  ),
+                                ),
                               );
-                            } else if (snapshot.hasError) {
-                              return Text('${snapshot.error}');
-                            }
+                            },
+                            itemCount: snapshot.data.length,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
 // By default, show a loading spinner.
-                            return const CircularProgressIndicator();
-                          }),
+                        return const CircularProgressIndicator();
+                      }),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Text(
+                    'Categories',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 150,
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      Get.to(products());
+                    },
+                    child: const Text(
+                      'View All',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Text(
-                        'Categories',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        width: 150,
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          Get.to(products());
-                        },
-                        child: const Text(
-                          'View All',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  MediaQuery.removePadding(
-                    removeTop: true,
-                    context: context,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: SizedBox(
-                            height: 70,
-                            child: FutureBuilder(
-                                future: _Category(),
-                                builder:
-                                    (BuildContext context, AsyncSnapshot snapshot) {
-                                  if (snapshot.hasData) {
-                                    return ListView.builder(
-                                      physics: ClampingScrollPhysics(),
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        List<Category> item = snapshot.data;
-                                        return AnimationConfiguration.staggeredGrid(
-                                          position: index,
-                                          columnCount: 2,
-                                          child: ScaleAnimation(
-                                            child: FadeInAnimation(
-                                              delay: Duration(milliseconds: 100),
-                                              child: InkWell(
-                                                  onTap: () {
+                ],
+              ),
+              MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 70,
+                        child: FutureBuilder(
+                            future: _category(),
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
+                              if (snapshot.hasData) {
+                                return ListView.builder(
+                                  physics: const ClampingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    List<Category> item = snapshot.data;
+                                    return AnimationConfiguration.staggeredGrid(
+                                      position: index,
+                                      columnCount: 2,
+                                      child: ScaleAnimation(
+                                        child: FadeInAnimation(
+                                          delay: const Duration(milliseconds: 100),
+                                          child: InkWell(
+                                              onTap: () {
 // Navigator.push(context,
 //     MaterialPageRoute(
 //         builder: (context) => products_page(),
 //     settings: RouteSettings(
 //       arguments: item[index]
 //     )));
-                                                    print('object');
-                                                  },
-                                                  child: Categories(
-                                                      item[index].catName)),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      itemCount: snapshot.data.length,
+                                                print('object');
+                                              },
+                                              child: categories(
+                                                  item[index].catName)),
+                                        ),
+                                      ),
                                     );
-                                  } else if (snapshot.hasError) {
-                                    return Text('${snapshot.error}');
-                                  }
-// By default, show a loading spinner.
-                                  return const CircularProgressIndicator();
-                                }),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Text(
-                        'Newest',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        width: 150,
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          Get.to(products());
-                        },
-                        child: const Text(
-                          'View All',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 200.0,
-                    child: MediaQuery.removePadding(
-                      removeTop: true,
-                      context: context,
-                      child: FutureBuilder(
-                          future: _Products(),
-                          builder: (BuildContext context, AsyncSnapshot snapshot) {
-                            if (snapshot.hasData) {
-                              return ListView.builder(
-                                physics: const ClampingScrollPhysics(),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) {
-                                  List<Products> item = snapshot.data;
-                                  return AnimationConfiguration.staggeredGrid(
-                                    position: index,
-                                    columnCount: 2,
-                                    child: ScaleAnimation(
-                                      child: FadeInAnimation(
-                                        delay: const Duration(milliseconds: 100),
-                                        child: card2(item[index].detail![0].prImg),
-                                      ),
-                                    ),
-                                  );
-                                },
-                                itemCount: snapshot.data.length,
-                              );
-                            } else if (snapshot.hasError) {
-                              return Text('${snapshot.error}');
-                            }
-// By default, show a loading spinner.
-                            return const CircularProgressIndicator();
-                          }),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Text(
-                        'Popular',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        width: 150,
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          Get.to(products());
-                        },
-                        child: const Text(
-                          'View All',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  MediaQuery.removePadding(
-                    removeTop: true,
-                    context: context,
-                    child: FutureBuilder(
-                        future: _Products(),
-                        builder: (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            return GridView.builder(
-                              shrinkWrap: true,
-                              physics: const ScrollPhysics(),
-                              gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 0.85,
-                              ),
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (BuildContext context, index) {
-                                List<Products> item = snapshot.data;
-                                return AnimationConfiguration.staggeredGrid(
-                                  position: index,
-                                  columnCount: 2,
-                                  child: ScaleAnimation(
-                                    child: FadeInAnimation(
-                                      delay: const Duration(milliseconds: 100),
-                                      child: GestureDetector(
-                                        onTap: (){
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) => productDetails(),
-                                                  settings: RouteSettings(
-                                                      arguments: item[index]
-                                                  )));
-                                        },
-                                        child: ProductImages(
-                                            item[index].detail![0].prImg,
-                                            item[index].prName,
-                                            item[index].detail![0].prPrice),
-                                      ),
-                                    ),
-                                  ),
+                                  },
+                                  itemCount: snapshot.data.length,
                                 );
-                              },
-                            );
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          }
+                              } else if (snapshot.hasError) {
+                                return Text('${snapshot.error}');
+                              }
 // By default, show a loading spinner.
-                          return const CircularProgressIndicator();
-                        }),
+                              return const CircularProgressIndicator();
+                            }),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Text(
+                    'Newest',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
                   ),
-                ]),
+                  const SizedBox(
+                    width: 150,
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      Get.to(products());
+                    },
+                    child: const Text(
+                      'View All',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 200.0,
+                child: MediaQuery.removePadding(
+                  removeTop: true,
+                  context: context,
+                  child: FutureBuilder(
+                      future: _products(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            physics: const ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              List<Products> item = snapshot.data;
+                              return AnimationConfiguration.staggeredGrid(
+                                position: index,
+                                columnCount: 2,
+                                child: ScaleAnimation(
+                                  child: FadeInAnimation(
+                                    delay: const Duration(milliseconds: 100),
+                                    child: card2(item[index].detail![0].prImg),
+                                  ),
+                                ),
+                              );
+                            },
+                            itemCount: snapshot.data.length,
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+// By default, show a loading spinner.
+                        return const CircularProgressIndicator();
+                      }),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Text(
+                    'Popular',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    width: 150,
+                  ),
+                  MaterialButton(
+                    onPressed: () {
+                      Get.to(products());
+                    },
+                    child: const Text(
+                      'View All',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: FutureBuilder(
+                    future: _products(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return GridView.builder(
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.85,
+                          ),
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, index) {
+                            List<Products> item = snapshot.data;
+                            return AnimationConfiguration.staggeredGrid(
+                              position: index,
+                              columnCount: 2,
+                              child: ScaleAnimation(
+                                child: FadeInAnimation(
+                                  delay: const Duration(milliseconds: 100),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  productDetails(),
+                                              settings: RouteSettings(
+                                                  arguments: item[index])));
+                                    },
+                                    child: productImages(
+                                        item[index].detail![0].prImg,
+                                        item[index].prName,
+                                        item[index].detail![0].prPrice),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+// By default, show a loading spinner.
+                      return const CircularProgressIndicator();
+                    }),
+              ),
+            ]),
           ),
         ),
       ),
@@ -380,7 +381,7 @@ class CustomSearchDelegate extends SearchDelegate {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
@@ -391,7 +392,7 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         close(context, null);
       },
@@ -438,7 +439,7 @@ class CustomSearchDelegate extends SearchDelegate {
 }
 
 //this is the design created to show a list of data.
-Widget AdSpace(String? image) => Card(
+Widget adSpace(String? image) => Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -452,7 +453,7 @@ Widget AdSpace(String? image) => Card(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 image: DecorationImage(
-                  image: NetworkImage('http://10.0.2.2:8000'+image!),
+                  image: NetworkImage('http://10.0.2.2:8000' + image!),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -480,7 +481,7 @@ Widget card2(String? img) => Card(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 image: DecorationImage(
-                  image: NetworkImage('http://10.0.2.2:8000'+img!),
+                  image: NetworkImage('http://10.0.2.2:8000' + img!),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -494,7 +495,7 @@ Widget card2(String? img) => Card(
     );
 
 //this is the design created to show a list of data.
-Widget ProductImages(String? image, String? name, String? price) => Card(
+Widget productImages(String? image, String? name, String? price) => Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -507,7 +508,7 @@ Widget ProductImages(String? image, String? name, String? price) => Card(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               image: DecorationImage(
-                image: NetworkImage('http://10.0.2.2:8000'+image!),
+                image: NetworkImage('http://10.0.2.2:8000' + image!),
                 fit: BoxFit.fill,
               ),
             ),
@@ -538,7 +539,7 @@ Widget ProductImages(String? image, String? name, String? price) => Card(
     );
 
 //this is the design created to show a list of data.
-Widget Categories(String? name) => ButtonBar(
+Widget categories(String? name) => ButtonBar(
       mainAxisSize: MainAxisSize.min,
       children: [
         OutlineButton(
@@ -550,7 +551,6 @@ Widget Categories(String? name) => ButtonBar(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
-            onPressed: () {
-            }),
+            onPressed: () {}),
       ],
     );

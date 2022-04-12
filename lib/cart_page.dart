@@ -1,10 +1,7 @@
 import 'dart:convert';
 import 'package:drb/Modules/cart.dart';
 import 'package:drb/productDetails_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'dart:ui';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -12,26 +9,30 @@ import 'Modules/products.dart';
 import 'Modules/category.dart';
 import 'checkout_page.dart';
 
-class cart_page extends StatelessWidget {
+class CartPage extends StatelessWidget {
+  const CartPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: cart(),
+      home: Cart(),
     );
   }
 }
 
-class cart extends StatefulWidget {
+class Cart extends StatefulWidget {
+  const Cart({Key? key}) : super(key: key);
+
   @override
-  _cartState createState() => _cartState();
+  _CartState createState() => _CartState();
 }
 
-class _cartState extends State<cart> {
-  List<Products>? all_products;
-  List<Category>? all_cat;
+class _CartState extends State<Cart> {
+  List<Products>? allProducts;
+  List<Category>? allCat;
 
-  Future<List<Refrence>> _Products() async {
+  Future<List<Refrence>> getCartUser() async {
     final response =
         await http.get(Uri.parse("http://10.0.2.2:8000/cart/get_cart/1"));
     if (response.statusCode == 200) {
@@ -45,7 +46,7 @@ class _cartState extends State<cart> {
   @override
   void initState() {
     super.initState();
-    _Products();
+    getCartUser();
   }
 
   @override
@@ -92,7 +93,7 @@ class _cartState extends State<cart> {
                     Stack(
                       children: <Widget>[
                         FutureBuilder(
-                            future: _Products(),
+                            future: getCartUser(),
                             builder: (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
                                 return ListView.builder(
@@ -117,7 +118,7 @@ class _cartState extends State<cart> {
                                               //         )));
                                             },
                                             child: myCart(
-                                                'item[index]',
+                                                'item[index].product![0].detail![0].prImg',
                                                 item[index].product![0].prName,
                                                 item[index].price.toString(),
                                           ),
@@ -148,7 +149,7 @@ class _cartState extends State<cart> {
                           ),
                         ),
                         onPressed: () {
-                          Get.to(checkout_page());
+                          Get.to(const checkout_page());
                         },
                         child: const Text(
                           'Checkout',
@@ -190,7 +191,7 @@ Widget myCart(String? image, String? name, String? price) => Card(
                           image: NetworkImage('http://10.0.2.2:8000'+image!))),
                   child: InkWell(
                     onTap: () {
-                      Get.to(productDetails_page());
+                      Get.to(const productDetails_page());
                     },
                   )),
               Expanded(

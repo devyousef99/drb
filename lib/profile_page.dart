@@ -68,7 +68,7 @@ class _profileState extends State<profile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 70.0,
                   backgroundColor: Colors.transparent,
                   backgroundImage: AssetImage('assets/signin.jpeg'),

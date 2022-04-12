@@ -206,7 +206,7 @@ class _news_pageState extends State<news_page> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              Get.to(const article_page());
+                                              Get.to(const ArticlePage());
                                             },
                                             child: const Text(
                                               'View',

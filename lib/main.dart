@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // supportedLocaleshryatvvaontext.supportedLocales,
       // localizationsDelegates: context.localizationDelegates,
       // locale: context.locale,
-      home: LandingPage(),
+      home: SignInPage(),
     );
   }
 }

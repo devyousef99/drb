@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'drb.g.dart';
+
+@JsonSerializable()
 class Drb {
   String? drbName;
   String? drbDescription;

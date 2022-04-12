@@ -1,20 +1,16 @@
 // ignore_for_file: file_names
-import 'dart:convert';
-import 'dart:ui';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:favorite_button/favorite_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:group_button/group_button.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-import 'Modules/category.dart';
 import 'Modules/products.dart';
 import 'cart_page.dart';
 
 class productDetails_page extends StatelessWidget {
+  const productDetails_page({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -67,7 +63,6 @@ class _productDetailsState extends State<productDetails> {
     'Item4',
   ];
 
-
   @override
   Widget build(BuildContext context) {
     final Products? passedData =
@@ -96,7 +91,7 @@ class _productDetailsState extends State<productDetails> {
           actions: [
             IconButton(
               onPressed: () {
-                Get.to(cart());
+                Get.to(Cart());
               },
               color: Colors.black,
               icon: const Icon(Icons.shopping_bag),
@@ -415,7 +410,7 @@ class _productDetailsState extends State<productDetails> {
                       ),
                     ),
                     onPressed: () {
-                      Get.to(cart());
+                      Get.to(Cart());
                     },
                     child: const Text(
                       'Add To Cart',

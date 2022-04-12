@@ -81,7 +81,7 @@ class _productsState extends State<products> {
           actions: [
             IconButton(
               onPressed: () {
-                Get.to(cart());
+                Get.to(Cart());
               },
               color: Colors.white,
               icon: const Icon(Icons.shopping_bag),

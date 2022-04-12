@@ -1,10 +1,17 @@
+import 'dart:convert';
+
+import 'package:drb/Modules/users.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
+
+import 'landing_page.dart';
+import 'profile_page.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -29,6 +36,7 @@ class SignIn extends StatefulWidget {
 class SignInState extends State<SignIn> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
+  late int id ;
   final _formkey = GlobalKey<FormState>();
 
   Future<void> _loginApi() async {
@@ -38,23 +46,40 @@ class SignInState extends State<SignIn> {
         'username': username.text,
         'password': password.text,
       });
+      // _formkey.currentState!.save();
+      // SharedPreferences shared = await SharedPreferences.getInstance();
+      // shared.setString('users', json.encode(Users(
+      //     id : id
+      // ).toJson()));
+      // print(shared);
       if (response.statusCode == 200) {
-        if (kDebugMode) {
-          print("Welcome");
-        }
-        Get.to('Next Screen');
+        _savedDate();
+        // Get.to(() => profile_page());
       } else {
-        if (kDebugMode) {
-          print("Wrong Data");
-        }
+        print("Wrong Data");
       }
     } else {
-      if (kDebugMode) {
         print("wrong");
-      }
     }
   }
 
+  void _savedDate() async{
+    _formkey.currentState!.save();
+    SharedPreferences shared = await SharedPreferences.getInstance();
+    shared.setString('Users', json.encode(Users(
+      id : id
+    ).toJson()));
+    print(shared.get('Users'));
+  }
+
+  @override
+  void initState() {
+  }
+
+  void _getData() async{
+     SharedPreferences shared = await SharedPreferences.getInstance();
+     id = shared.getInt('id')!;
+   }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
