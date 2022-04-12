@@ -1,17 +1,19 @@
+// ignore_for_file: unnecessary_import
+
 import 'dart:ui';
 import 'package:drb/eventDetails_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class events_page extends StatefulWidget {
-  const events_page({Key? key}) : super(key: key);
+class EventPage extends StatefulWidget {
+  const EventPage({Key? key}) : super(key: key);
 
   @override
-  State<events_page> createState() => _events_pageState();
+  State<EventPage> createState() => _EventPageState();
 }
 
-class _events_pageState extends State<events_page> {
+class _EventPageState extends State<EventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -248,7 +250,7 @@ class _events_pageState extends State<events_page> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              Get.to(const eventDetails_page());
+                                              Get.to(const EventDetailPage());
                                             },
                                             child: const Text(
                                               'View',

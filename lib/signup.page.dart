@@ -1,42 +1,43 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: use_key_in_widget_constructors, avoid_print, deprecated_member_use, duplicate_ignore
+
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
 
-class signup_page extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'test',
-      home: signup(),
+      home: SignUp(),
     );
   }
 }
 
-class signup extends StatefulWidget {
+class SignUp extends StatefulWidget {
   @override
-  _signupState createState() => _signupState();
+  _SignUpState createState() => _SignUpState();
 }
 
-class _signupState extends State<signup> {
+class _SignUpState extends State<SignUp> {
   TextEditingController firstName = TextEditingController();
-  TextEditingController UserName = TextEditingController();
+  TextEditingController userName = TextEditingController();
   TextEditingController lastName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   final _formkey = GlobalKey<FormState>();
 
-  Future<void> _RegisterApi() async {
+  Future<void> _registerApi() async {
     if (firstName.text.isNotEmpty &&
         lastName.text.isNotEmpty &&
         email.text.isNotEmpty &&
         password.text.isNotEmpty &&
-        UserName.text.isNotEmpty) {
+        userName.text.isNotEmpty) {
       var response = await http
           .post(Uri.parse("http://10.0.2.2:8000/account/register"), body: {
-        'username': UserName.text,
+        'username': userName.text,
         'first_name': firstName.text,
         'last_name': lastName.text,
         'email': email.text,
@@ -72,7 +73,7 @@ class _signupState extends State<signup> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text(
+                  const Text(
                     'Sign up',
                     style: TextStyle(
                         color: Colors.white,
@@ -93,7 +94,7 @@ class _signupState extends State<signup> {
                         left: 30.0,
                       ),
                       child: TextFormField(
-                        controller: UserName,
+                        controller: userName,
                         decoration: const InputDecoration(
                           border: InputBorder.none,
                           labelText: 'User Name',
@@ -208,9 +209,7 @@ class _signupState extends State<signup> {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     GroupButton(
                       isRadio: true,
                       buttonWidth: 45,
@@ -238,7 +237,7 @@ class _signupState extends State<signup> {
                       onPressed: () {
                         // returns true if the form is valid or false.
                         // if the form is valid display a snackbar.
-                        _RegisterApi();
+                        _registerApi();
                       },
                       child: const Text(
                         'Sign up',

@@ -1,19 +1,18 @@
 // ignore_for_file: file_names
 
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'cart_page.dart';
 
-class eventDetails_page extends StatefulWidget {
-  const eventDetails_page({Key? key}) : super(key: key);
+class EventDetailPage extends StatefulWidget {
+  const EventDetailPage({Key? key}) : super(key: key);
 
   @override
-  State<eventDetails_page> createState() => _eventDetails_pageState();
+  State<EventDetailPage> createState() => _EventDetailPageState();
 }
 
-class _eventDetails_pageState extends State<eventDetails_page> {
+class _EventDetailPageState extends State<EventDetailPage> {
   String? selectedValue;
   List<String> items = [
     'Item1',
@@ -54,10 +53,10 @@ class _eventDetails_pageState extends State<eventDetails_page> {
           centerTitle: true,
           title:
               // passed_data != null ?
-              Text(
+              const Text(
             'Event',
             // passed_data.itemName.toString(),
-            style: const TextStyle(
+            style: TextStyle(
                 color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
           )
           // : Center(),

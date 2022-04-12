@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_key_in_widget_constructors, avoid_print
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -8,54 +8,52 @@ import 'package:http/http.dart' as http;
 import 'Modules/products.dart';
 import 'cart_page.dart';
 
-class productDetails_page extends StatelessWidget {
-  const productDetails_page({Key? key}) : super(key: key);
+class ProductDetailPage extends StatelessWidget {
+  const ProductDetailPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'test',
-      home: productDetails(),
+      home: ProductDetail(),
     );
   }
 }
 
-class productDetails extends StatefulWidget {
+class ProductDetail extends StatefulWidget {
   @override
-  _productDetailsState createState() => _productDetailsState();
+  _ProductDetailState createState() => _ProductDetailState();
 }
 
-class _productDetailsState extends State<productDetails> {
-  String? ValueChoose;
+class _ProductDetailState extends State<ProductDetail> {
+  String? valueChoose;
   int _counter = 1;
   String? selectedValue;
   String? selectedValue1;
   Future<void> addtocart() async {
-      var response = await http
-          .post(Uri.parse("http://10.0.2.2:8000/account/sign"), body: {
-        'product': [
-          {
-            'pr_name': 'text',
-            'id': 'id'
-          }
+    var response =
+        await http.post(Uri.parse("http://10.0.2.2:8000/account/sign"), body: {
+      'product': [
+        {'pr_name': 'text', 'id': 'id'}
       ],
-        'price': 'price',
-        'size': 'size',
-        'quantity': 'quantity'
-      }
-      );
-      if (response.statusCode == 200) {
-        print("Welcome");
-        Get.to('Next Screen');
-      } else {
-        print("Wrong Data");
-      }
+      'price': 'price',
+      'size': 'size',
+      'quantity': 'quantity'
+    });
+    if (response.statusCode == 200) {
+      print("Welcome");
+      Get.to('Next Screen');
+    } else {
+      print("Wrong Data");
+    }
   }
+
   @override
   void initState() {
     super.initState();
   }
+
   List<String> items = [
     'Item1',
     'Item2',
@@ -66,7 +64,7 @@ class _productDetailsState extends State<productDetails> {
   @override
   Widget build(BuildContext context) {
     final Products? passedData =
-    ModalRoute.of(context)!.settings.arguments as Products?;
+        ModalRoute.of(context)!.settings.arguments as Products?;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -91,7 +89,7 @@ class _productDetailsState extends State<productDetails> {
           actions: [
             IconButton(
               onPressed: () {
-                Get.to(Cart());
+                Get.to(const Cart());
               },
               color: Colors.black,
               icon: const Icon(Icons.shopping_bag),
@@ -100,12 +98,12 @@ class _productDetailsState extends State<productDetails> {
           centerTitle: true,
           title: passedData != null
               ? Text(
-            passedData.owner.toString(),
-            style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold),
-          )
+                  passedData.owner.toString(),
+                  style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                )
               : const Center(),
         ),
         body: Padding(
@@ -152,8 +150,7 @@ class _productDetailsState extends State<productDetails> {
                       child: Text(
                         passedData!.prName.toString(),
                         style: const TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -161,8 +158,8 @@ class _productDetailsState extends State<productDetails> {
                 Row(
                   children: [
                     Padding(
-                      padding:
-                      const EdgeInsets.only(left: 20.0, bottom: 5.0, top: 5.0),
+                      padding: const EdgeInsets.only(
+                          left: 20.0, bottom: 5.0, top: 5.0),
                       child: Text(
                         passedData.prDescription.toString(),
                         style: const TextStyle(
@@ -200,7 +197,7 @@ class _productDetailsState extends State<productDetails> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2(
                           selectedItemHighlightColor:
-                          const Color.fromRGBO(110, 114, 253, 0.9),
+                              const Color.fromRGBO(110, 114, 253, 0.9),
                           hint: const Text(
                             'Select Color',
                             style: TextStyle(
@@ -212,14 +209,15 @@ class _productDetailsState extends State<productDetails> {
                           items: passedData.detail!
                               .map(
                                 (item) => DropdownMenuItem(
-                              value: item.prSize.toString(),
-                              child: Text(
-                                item.prSize.toString(),
-                                style: const TextStyle(
-                                    fontSize: 14, color: Colors.black),
-                              ),
-                            ),
-                          ).toList(),
+                                  value: item.prSize.toString(),
+                                  child: Text(
+                                    item.prSize.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black),
+                                  ),
+                                ),
+                              )
+                              .toList(),
                           onChanged: (value) {
                             setState(() {
                               selectedValue = value as String;
@@ -263,7 +261,7 @@ class _productDetailsState extends State<productDetails> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton2(
                           selectedItemHighlightColor:
-                          const Color.fromRGBO(110, 114, 253, 0.9),
+                              const Color.fromRGBO(110, 114, 253, 0.9),
                           hint: const Text(
                             'Select Size',
                             style: TextStyle(
@@ -275,14 +273,15 @@ class _productDetailsState extends State<productDetails> {
                           items: passedData.detail!
                               .map(
                                 (item) => DropdownMenuItem(
-                              value: item.prSize.toString(),
-                              child: Text(
-                                item.prSize.toString(),
-                                style: const TextStyle(
-                                    fontSize: 14, color: Colors.black),
-                              ),
-                            ),
-                          ).toList(),
+                                  value: item.prSize.toString(),
+                                  child: Text(
+                                    item.prSize.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 14, color: Colors.black),
+                                  ),
+                                ),
+                              )
+                              .toList(),
                           onChanged: (value) {
                             setState(() {
                               selectedValue1 = value as String;
@@ -339,8 +338,8 @@ class _productDetailsState extends State<productDetails> {
                                 onTap: () {
                                   setState(() {
                                     if (
-                                    // passed_data.itemQunatity!
-                                    _counter >= 2) {
+                                        // passed_data.itemQunatity!
+                                        _counter >= 2) {
                                       _counter--;
                                       //   passed_data.itemQunatity!;
                                     } else {
@@ -358,7 +357,7 @@ class _productDetailsState extends State<productDetails> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 10, vertical: 5),
                               decoration:
-                              const BoxDecoration(color: Colors.white),
+                                  const BoxDecoration(color: Colors.white),
                               child: Text(
                                 '$_counter',
                                 style: const TextStyle(
@@ -368,8 +367,9 @@ class _productDetailsState extends State<productDetails> {
                             InkWell(
                               onTap: () {
                                 setState(() {
-                                  if (
-                                  _counter < passedData.detail![0].prQunatity!.toInt()) {
+                                  if (_counter <
+                                      passedData.detail![0].prQunatity!
+                                          .toInt()) {
                                     _counter++;
                                   } else {
                                     return;
@@ -410,7 +410,7 @@ class _productDetailsState extends State<productDetails> {
                       ),
                     ),
                     onPressed: () {
-                      Get.to(Cart());
+                      Get.to(const Cart());
                     },
                     child: const Text(
                       'Add To Cart',
@@ -428,24 +428,24 @@ class _productDetailsState extends State<productDetails> {
 }
 
 Widget productImages(String? image) => Card(
-  shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(5.0),
-  ),
-  child: Column(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Container(
-        width: 300,
-        height: 292,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-          image: DecorationImage(
-            image: NetworkImage('http://10.0.2.2:8000'+image!),
-            fit: BoxFit.fill,
-          ),
-        ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(5.0),
       ),
-    ],
-  ),
-);
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 300,
+            height: 292,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+              image: DecorationImage(
+                image: NetworkImage('http://10.0.2.2:8000' + image!),
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );

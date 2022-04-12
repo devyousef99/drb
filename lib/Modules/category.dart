@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'category.g.dart';
@@ -15,9 +17,9 @@ class Category {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['cat_name'] = this.catName;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['cat_name'] = catName;
     return data;
   }
 }

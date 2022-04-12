@@ -1,10 +1,16 @@
+// ignore_for_file: prefer_collection_literals
+
 class Address {
   int? id;
   String? usrDist;
   String? usrCity;
   String? usrBuilding;
 
-  Address({required this.id, required this.usrDist, required this.usrCity, required this.usrBuilding});
+  Address(
+      {required this.id,
+      required this.usrDist,
+      required this.usrCity,
+      required this.usrBuilding});
 
   Address.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -14,11 +20,11 @@ class Address {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
-    data['id'] = this.id;
-    data['usr_dist'] = this.usrDist;
-    data['usr_city'] = this.usrCity;
-    data['usr_building'] = this.usrBuilding;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['usr_dist'] = usrDist;
+    data['usr_city'] = usrCity;
+    data['usr_building'] = usrBuilding;
     return data;
   }
 }

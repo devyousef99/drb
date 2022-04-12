@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'event.g.dart';
@@ -25,19 +27,19 @@ class Event {
     if (json['ev_detail'] != null) {
       evDetail = <EvDetail>[];
       json['ev_detail'].forEach((v) {
-        evDetail!.add(new EvDetail.fromJson(v));
+        evDetail!.add(EvDetail.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ev_name'] = this.evName;
-    data['ev_description'] = this.evDescription;
-    data['ev_img'] = this.evImg;
-    data['ev_host'] = this.evHost;
-    if (this.evDetail != null) {
-      data['ev_detail'] = this.evDetail!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['ev_name'] = evName;
+    data['ev_description'] = evDescription;
+    data['ev_img'] = evImg;
+    data['ev_host'] = evHost;
+    if (evDetail != null) {
+      data['ev_detail'] = evDetail!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -58,19 +60,18 @@ class EvDetail {
     if (json['event_location'] != null) {
       eventLocation = <EventLocation>[];
       json['event_location'].forEach((v) {
-        eventLocation!.add(new EventLocation.fromJson(v));
+        eventLocation!.add(EventLocation.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ev_type'] = this.evType;
-    data['ev_price'] = this.evPrice;
-    data['ev_date'] = this.evDate;
-    if (this.eventLocation != null) {
-      data['event_location'] =
-          this.eventLocation!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['ev_type'] = evType;
+    data['ev_price'] = evPrice;
+    data['ev_date'] = evDate;
+    if (eventLocation != null) {
+      data['event_location'] = eventLocation!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -86,8 +87,8 @@ class EventLocation {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ev_location_name'] = this.evLocationName;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['ev_location_name'] = evLocationName;
     return data;
   }
 }

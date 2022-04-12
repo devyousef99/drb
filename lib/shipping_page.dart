@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-class shipping_page extends StatefulWidget {
-  const shipping_page({Key? key}) : super(key: key);
+class ShippingPage extends StatefulWidget {
+  const ShippingPage({Key? key}) : super(key: key);
 
   @override
-  State<shipping_page> createState() => _shipping_pageState();
+  State<ShippingPage> createState() => _ShippingPageState();
 }
 
-class _shipping_pageState extends State<shipping_page> {
+class _ShippingPageState extends State<ShippingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +92,7 @@ class _shipping_pageState extends State<shipping_page> {
                   children: [
                     CupertinoButton(
                       onPressed: () {
-                        Get.to(shippingAddress_page());
+                        Get.to(const ShippingAddressPage());
                       },
                       child: const Icon(
                         CupertinoIcons.add_circled_solid,

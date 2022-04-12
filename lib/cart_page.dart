@@ -94,7 +94,8 @@ class _CartState extends State<Cart> {
                       children: <Widget>[
                         FutureBuilder(
                             future: getCartUser(),
-                            builder: (BuildContext context, AsyncSnapshot snapshot) {
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapshot) {
                               if (snapshot.hasData) {
                                 return ListView.builder(
                                   shrinkWrap: true,
@@ -103,29 +104,29 @@ class _CartState extends State<Cart> {
                                   itemBuilder: (BuildContext context, index) {
                                     List<Refrence> item = snapshot.data;
                                     return AnimationConfiguration.staggeredGrid(
-                                      position: index,
-                                      columnCount: 2,
-                                      child: ScaleAnimation(
-                                        child: FadeInAnimation(
-                                          delay: const Duration(milliseconds: 100),
-                                          child: GestureDetector(
-                                            onTap: (){
-                                              // Navigator.push(context,
-                                              //     MaterialPageRoute(
-                                              //         builder: (context) => productDetails(),
-                                              //         settings: RouteSettings(
-                                              //             arguments: item[index]
-                                              //         )));
-                                            },
-                                            child: myCart(
+                                        position: index,
+                                        columnCount: 2,
+                                        child: ScaleAnimation(
+                                          child: FadeInAnimation(
+                                            delay: const Duration(
+                                                milliseconds: 100),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                // Navigator.push(context,
+                                                //     MaterialPageRoute(
+                                                //         builder: (context) => productDetails(),
+                                                //         settings: RouteSettings(
+                                                //             arguments: item[index]
+                                                //         )));
+                                              },
+                                              child: myCart(
                                                 'item[index].product![0].detail![0].prImg',
                                                 item[index].product![0].prName,
                                                 item[index].price.toString(),
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    )
-                                    );
+                                        ));
                                   },
                                 );
                               } else if (snapshot.hasError) {
@@ -149,7 +150,7 @@ class _CartState extends State<Cart> {
                           ),
                         ),
                         onPressed: () {
-                          Get.to(const checkout_page());
+                          Get.to(const CheckOutPage());
                         },
                         child: const Text(
                           'Checkout',
@@ -188,10 +189,11 @@ Widget myCart(String? image, String? name, String? price) => Card(
                       borderRadius: const BorderRadius.all(Radius.circular(5)),
                       color: Colors.blue.shade200,
                       image: DecorationImage(
-                          image: NetworkImage('http://10.0.2.2:8000'+image!))),
+                          image:
+                              NetworkImage('http://10.0.2.2:8000' + image!))),
                   child: InkWell(
                     onTap: () {
-                      Get.to(const productDetails_page());
+                      Get.to(const ProductDetailPage());
                     },
                   )),
               Expanded(
@@ -233,7 +235,7 @@ Widget myCart(String? image, String? name, String? price) => Card(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold),
                           ),
-                            const Padding(
+                          const Padding(
                             padding: EdgeInsets.only(top: 5),
                             // child: Row(
                             //   mainAxisAlignment:

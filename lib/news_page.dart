@@ -1,18 +1,15 @@
-import 'dart:ui';
 import 'package:drb/article_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-class news_page extends StatefulWidget {
-  const news_page({Key? key}) : super(key: key);
+class NewsPage extends StatefulWidget {
+  const NewsPage({Key? key}) : super(key: key);
 
   @override
-  State<news_page> createState() => _news_pageState();
+  State<NewsPage> createState() => _NewsPageState();
 }
 
-class _news_pageState extends State<news_page> {
+class _NewsPageState extends State<NewsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'drb.g.dart';
@@ -25,19 +27,19 @@ class Drb {
     if (json['drb_detail'] != null) {
       drbDetail = <DrbDetail>[];
       json['drb_detail'].forEach((v) {
-        drbDetail!.add(new DrbDetail.fromJson(v));
+        drbDetail!.add(DrbDetail.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['drb_name'] = this.drbName;
-    data['drb_description'] = this.drbDescription;
-    data['drb_img'] = this.drbImg;
-    data['drb_host'] = this.drbHost;
-    if (this.drbDetail != null) {
-      data['drb_detail'] = this.drbDetail!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['drb_name'] = drbName;
+    data['drb_description'] = drbDescription;
+    data['drb_img'] = drbImg;
+    data['drb_host'] = drbHost;
+    if (drbDetail != null) {
+      data['drb_detail'] = drbDetail!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -58,18 +60,18 @@ class DrbDetail {
     if (json['drb_location'] != null) {
       drbLocation = <DrbLocation>[];
       json['drb_location'].forEach((v) {
-        drbLocation!.add(new DrbLocation.fromJson(v));
+        drbLocation!.add(DrbLocation.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['drb_type'] = this.drbType;
-    data['drb_price'] = this.drbPrice;
-    data['drb_date'] = this.drbDate;
-    if (this.drbLocation != null) {
-      data['drb_location'] = this.drbLocation!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['drb_type'] = drbType;
+    data['drb_price'] = drbPrice;
+    data['drb_date'] = drbDate;
+    if (drbLocation != null) {
+      data['drb_location'] = drbLocation!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -85,8 +87,8 @@ class DrbLocation {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['drb_location_name'] = this.drbLocationName;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['drb_location_name'] = drbLocationName;
     return data;
   }
 }

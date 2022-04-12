@@ -1,17 +1,12 @@
+// ignore_for_file: avoid_print, must_call_super, unused_element
+
 import 'dart:convert';
 
 import 'package:drb/Modules/users.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
-
-import 'landing_page.dart';
-import 'profile_page.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({Key? key}) : super(key: key);
@@ -36,7 +31,7 @@ class SignIn extends StatefulWidget {
 class SignInState extends State<SignIn> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
-  late int id ;
+  late int id;
   final _formkey = GlobalKey<FormState>();
 
   Future<void> _loginApi() async {
@@ -59,27 +54,25 @@ class SignInState extends State<SignIn> {
         print("Wrong Data");
       }
     } else {
-        print("wrong");
+      print("wrong");
     }
   }
 
-  void _savedDate() async{
+  void _savedDate() async {
     _formkey.currentState!.save();
     SharedPreferences shared = await SharedPreferences.getInstance();
-    shared.setString('Users', json.encode(Users(
-      id : id
-    ).toJson()));
+    shared.setString('Users', json.encode(Users(id: id).toJson()));
     print(shared.get('Users'));
   }
 
   @override
-  void initState() {
+  void initState() {}
+
+  void _getData() async {
+    SharedPreferences shared = await SharedPreferences.getInstance();
+    id = shared.getInt('id')!;
   }
 
-  void _getData() async{
-     SharedPreferences shared = await SharedPreferences.getInstance();
-     id = shared.getInt('id')!;
-   }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -198,6 +191,7 @@ class SignInState extends State<SignIn> {
                   child: SizedBox(
                     height: 60.0,
                     width: 300.0,
+                    // ignore: deprecated_member_use
                     child: RaisedButton(
                       color: const Color.fromRGBO(110, 114, 253, 0.9),
                       onPressed: () {

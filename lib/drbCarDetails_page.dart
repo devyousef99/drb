@@ -1,15 +1,16 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class drbCarDetails_page extends StatefulWidget {
-  const drbCarDetails_page({Key? key}) : super(key: key);
+class DrbCarDetailPage extends StatefulWidget {
+  const DrbCarDetailPage({Key? key}) : super(key: key);
 
   @override
-  State<drbCarDetails_page> createState() => _drbCarDetails_pageState();
+  State<DrbCarDetailPage> createState() => _DrbCarDetailPageState();
 }
 
-class _drbCarDetails_pageState extends State<drbCarDetails_page> {
+class _DrbCarDetailPageState extends State<DrbCarDetailPage> {
   String? selectedValue;
   List<String> items = [
     'Item1',
@@ -38,18 +39,17 @@ class _drbCarDetails_pageState extends State<drbCarDetails_page> {
               ),
             ),
           ),
-
           centerTitle: true,
           title:
-          // passed_data != null ?
-          Text(
+              // passed_data != null ?
+              const Text(
             'Event',
             // passed_data.itemName.toString(),
-            style: const TextStyle(
+            style: TextStyle(
                 color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
           )
-        // : Center(),
-      ),
+          // : Center(),
+          ),
       body: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Column(
@@ -71,7 +71,7 @@ class _drbCarDetails_pageState extends State<drbCarDetails_page> {
                             height: 180,
                             decoration: const BoxDecoration(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(10)),
+                                    BorderRadius.all(Radius.circular(10)),
                                 // color: Color.fromRGBO(138, 71, 241, 1.0),
                                 gradient: LinearGradient(
                                     begin: Alignment.topRight,
@@ -155,7 +155,7 @@ class _drbCarDetails_pageState extends State<drbCarDetails_page> {
                     'About this event',
                     // passed_data!.itemName.toString(),
                     style:
-                    TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -187,7 +187,7 @@ class _drbCarDetails_pageState extends State<drbCarDetails_page> {
                   child: Text(
                     'Details',
                     style:
-                    TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
                 ),
               ],
@@ -198,7 +198,7 @@ class _drbCarDetails_pageState extends State<drbCarDetails_page> {
                 Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.only(left: 10),
                       child: Row(
                         children: const [
                           Icon(

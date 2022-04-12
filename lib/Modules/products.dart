@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'products.g.dart';
@@ -15,13 +17,13 @@ class Products {
 
   Products(
       {this.id,
-        this.owner,
-        this.detail,
-        this.prName,
-        this.prDescription,
-        this.createAt,
-        this.updateAt,
-        this.cat});
+      this.owner,
+      this.detail,
+      this.prName,
+      this.prDescription,
+      this.createAt,
+      this.updateAt,
+      this.cat});
 
   Products.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -40,17 +42,17 @@ class Products {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['owner'] = this.owner;
-    if (this.detail != null) {
-      data['detail'] = this.detail!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['id'] = id;
+    data['owner'] = owner;
+    if (detail != null) {
+      data['detail'] = detail!.map((v) => v.toJson()).toList();
     }
-    data['pr_name'] = this.prName;
-    data['pr_description'] = this.prDescription;
-    data['create_at'] = this.createAt;
-    data['update_at'] = this.updateAt;
-    data['cat'] = this.cat;
+    data['pr_name'] = prName;
+    data['pr_description'] = prDescription;
+    data['create_at'] = createAt;
+    data['update_at'] = updateAt;
+    data['cat'] = cat;
     return data;
   }
 }
@@ -65,11 +67,11 @@ class Detail {
 
   Detail(
       {this.prPrice,
-        this.inStock,
-        this.prSize,
-        this.prQunatity,
-        this.prType,
-        this.prImg});
+      this.inStock,
+      this.prSize,
+      this.prQunatity,
+      this.prType,
+      this.prImg});
 
   Detail.fromJson(Map<String, dynamic> json) {
     prPrice = json['pr_price'];
@@ -81,13 +83,13 @@ class Detail {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['pr_price'] = this.prPrice;
-    data['in_stock'] = this.inStock;
-    data['pr_size'] = this.prSize;
-    data['pr_qunatity'] = this.prQunatity;
-    data['pr_type'] = this.prType;
-    data['pr_img'] = this.prImg;
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['pr_price'] = prPrice;
+    data['in_stock'] = inStock;
+    data['pr_size'] = prSize;
+    data['pr_qunatity'] = prQunatity;
+    data['pr_type'] = prType;
+    data['pr_img'] = prImg;
     return data;
   }
 }

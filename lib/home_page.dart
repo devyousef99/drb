@@ -1,17 +1,15 @@
 import 'package:drb/drbCar_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-class home_page extends StatefulWidget {
-  const home_page({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<home_page> createState() => _home_pageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _home_pageState extends State<home_page> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,7 +126,7 @@ class _home_pageState extends State<home_page> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Get.to(const drbCar_page());
+                                    Get.to(const DrbCarPage());
                                   },
                                   child: const Text(
                                     'DRB CAR',

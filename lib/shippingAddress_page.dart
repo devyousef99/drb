@@ -1,30 +1,29 @@
-// ignore_for_file: file_names
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: file_names, use_key_in_widget_constructors
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:drb/checkout_page.dart';
 
+class ShippingAddressPage extends StatelessWidget {
+  const ShippingAddressPage({Key? key}) : super(key: key);
 
-class shippingAddress_page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: shipping_address(),
+      home: ShippingAddress(),
     );
   }
 }
 
-class shipping_address extends StatefulWidget {
+class ShippingAddress extends StatefulWidget {
   @override
-  _shipping_addressState createState() => _shipping_addressState();
+  _ShippingAddressState createState() => _ShippingAddressState();
 }
 
-class _shipping_addressState extends State<shipping_address> {
-  bool SaveAddress = false;
+class _ShippingAddressState extends State<ShippingAddress> {
+  bool saveAddress = false;
   @override
   Widget build(BuildContext context) {
-    var wid = MediaQuery.of(context).size.width;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -237,10 +236,10 @@ class _shipping_addressState extends State<shipping_address> {
                             Checkbox(
                               checkColor: Colors.greenAccent,
                               activeColor: Colors.white,
-                              value: SaveAddress,
+                              value: saveAddress,
                               onChanged: (value) {
                                 setState(() {
-                                  SaveAddress = value!;
+                                  saveAddress = value!;
                                 });
                               },
                             ),
@@ -251,30 +250,29 @@ class _shipping_addressState extends State<shipping_address> {
                         height: 10,
                       ),
                       Expanded(
-                        flex:1,
-                        child:SizedBox(
-                          height: 300.0,
-                          width: 300.0,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary:
-                              const Color.fromRGBO(110, 114, 253, 0.9),
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(10),
+                          flex: 1,
+                          child: SizedBox(
+                            height: 300.0,
+                            width: 300.0,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary:
+                                    const Color.fromRGBO(110, 114, 253, 0.9),
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
                                 ),
                               ),
+                              onPressed: () {
+                                Get.to(const CheckOutPage());
+                              },
+                              child: const Text(
+                                'Ok',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
-                            onPressed: () {
-                              Get.to(checkout_page());
-                            },
-                            child: const Text(
-                              'Ok',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        )
-                      ),
+                          )),
                     ],
                   ),
                 ),

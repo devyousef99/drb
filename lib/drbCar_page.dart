@@ -1,18 +1,17 @@
-import 'dart:ui';
+// ignore_for_file: file_names
+
 import 'package:drb/drbCarDetails_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
-class drbCar_page extends StatefulWidget {
-  const drbCar_page({Key? key}) : super(key: key);
+class DrbCarPage extends StatefulWidget {
+  const DrbCarPage({Key? key}) : super(key: key);
 
   @override
-  State<drbCar_page> createState() => _drbCar_pageState();
+  State<DrbCarPage> createState() => _DrbCarPageState();
 }
 
-class _drbCar_pageState extends State<drbCar_page> {
+class _DrbCarPageState extends State<DrbCarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -231,7 +230,7 @@ class _drbCar_pageState extends State<drbCar_page> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              Get.to(const drbCarDetails_page());
+                                              Get.to(const DrbCarDetailPage());
                                             },
                                             child: const Text(
                                               'View',

@@ -1,17 +1,15 @@
 import 'package:drb/shippingAddress_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
-class checkout_page extends StatefulWidget {
-  const checkout_page({Key? key}) : super(key: key);
+class CheckOutPage extends StatefulWidget {
+  const CheckOutPage({Key? key}) : super(key: key);
 
   @override
-  State<checkout_page> createState() => _checkout_pageState();
+  State<CheckOutPage> createState() => _CheckOutPageState();
 }
 
-class _checkout_pageState extends State<checkout_page> {
+class _CheckOutPageState extends State<CheckOutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +75,7 @@ class _checkout_pageState extends State<checkout_page> {
                     Expanded(
                       child: MaterialButton(
                         onPressed: () {
-                          Get.to(shippingAddress_page());
+                          Get.to(const ShippingAddressPage());
                         },
                         child: Container(
                           width: 600,
@@ -111,7 +109,7 @@ class _checkout_pageState extends State<checkout_page> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         const Text(
                                           "Green",
@@ -200,7 +198,7 @@ class _checkout_pageState extends State<checkout_page> {
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         const Text(
                                           "Green",
@@ -273,7 +271,7 @@ class _checkout_pageState extends State<checkout_page> {
                               border: InputBorder.none,
                               hintText: 'Apply promo code',
                               hintStyle:
-                              TextStyle(fontSize: 14, color: Colors.grey),
+                                  TextStyle(fontSize: 14, color: Colors.grey),
                             ),
                           ),
                         ),
@@ -343,7 +341,7 @@ class _checkout_pageState extends State<checkout_page> {
                             children: [
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: const [
                                   Text(
                                     'Sub Total',
@@ -362,7 +360,7 @@ class _checkout_pageState extends State<checkout_page> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: const [
                                   Text(
                                     'Shipping',
@@ -381,7 +379,7 @@ class _checkout_pageState extends State<checkout_page> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: const [
                                   Text(
                                     'Estimating Tax',
@@ -400,7 +398,7 @@ class _checkout_pageState extends State<checkout_page> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: const [
                                   Text(
                                     'Discounts',
@@ -427,7 +425,7 @@ class _checkout_pageState extends State<checkout_page> {
                               ),
                               Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceEvenly,
+                                    MainAxisAlignment.spaceEvenly,
                                 children: const [
                                   Text(
                                     'Total',
@@ -465,16 +463,16 @@ class _checkout_pageState extends State<checkout_page> {
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold),
                                           middleText:
-                                          'Your order is completed. \n Please check delivery status at order tracking page.',
+                                              'Your order is completed. \n Please check delivery status at order tracking page.',
                                           actions: [
                                             ElevatedButton(
                                               style: ElevatedButton.styleFrom(
                                                 primary: const Color.fromRGBO(
                                                     110, 114, 253, 0.9),
                                                 shape:
-                                                const RoundedRectangleBorder(
+                                                    const RoundedRectangleBorder(
                                                   borderRadius:
-                                                  BorderRadius.all(
+                                                      BorderRadius.all(
                                                     Radius.circular(10),
                                                   ),
                                                 ),

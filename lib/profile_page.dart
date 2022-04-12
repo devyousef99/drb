@@ -1,28 +1,27 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:wc_form_validators/wc_form_validators.dart';
-import 'package:http/http.dart' as http;
+// ignore_for_file: use_key_in_widget_constructors, unused_field
 
-class profile_page extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:wc_form_validators/wc_form_validators.dart';
+
+class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'test',
-      home: profile(),
+      home: Profile(),
     );
   }
 }
 
-class profile extends StatefulWidget {
+class Profile extends StatefulWidget {
   @override
-  _profileState createState() => _profileState();
+  _ProfileState createState() => _ProfileState();
 }
 
-class _profileState extends State<profile> {
+class _ProfileState extends State<Profile> {
   TextEditingController firstName = TextEditingController();
-  TextEditingController UserName = TextEditingController();
+  TextEditingController userName = TextEditingController();
   TextEditingController lastName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
@@ -76,55 +75,53 @@ class _profileState extends State<profile> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              right: 30.0,
-                              left: 30.0,
-                            ),
-                            child: TextField(
-                              controller: UserName,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                labelText: 'First Name',
-                              ),
-                            ),
+                Row(children: [
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 30.0,
+                          left: 30.0,
+                        ),
+                        child: TextField(
+                          controller: userName,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            labelText: 'First Name',
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 5.0,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 5.0,
+                  ),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15.0),
                       ),
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              right: 30.0,
-                              left: 30.0,
-                            ),
-                            child: TextField(
-                              controller: UserName,
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                labelText: 'Last Name',
-                              ),
-                            ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          right: 30.0,
+                          left: 30.0,
+                        ),
+                        child: TextField(
+                          controller: userName,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            labelText: 'Last Name',
                           ),
                         ),
-                      )
-                    ]
-                ),
+                      ),
+                    ),
+                  )
+                ]),
                 const SizedBox(
                   height: 10.0,
                 ),
@@ -221,8 +218,8 @@ class _profileState extends State<profile> {
                         border: InputBorder.none,
                         labelText: 'Password',
                       ),
-                      validator: Validators.compose([
-                        Validators.required('Password is required')]),
+                      validator: Validators.compose(
+                          [Validators.required('Password is required')]),
                     ),
                   ),
                 ),
@@ -235,8 +232,7 @@ class _profileState extends State<profile> {
                   // ignore: deprecated_member_use
                   child: RaisedButton(
                     color: const Color.fromRGBO(110, 114, 253, 0.9),
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                     child: const Text(
                       'Sign up',
                       style: TextStyle(color: Colors.white),

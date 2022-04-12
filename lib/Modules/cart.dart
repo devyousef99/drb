@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_collection_literals
+
 import 'products.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -13,10 +15,10 @@ class Cart {
 
   Cart(
       {this.refCode,
-        this.owner,
-        this.isOrdered,
-        this.dateOrdered,
-        this.refrence});
+      this.owner,
+      this.isOrdered,
+      this.dateOrdered,
+      this.refrence});
 
   Cart.fromJson(Map<String, dynamic> json) {
     refCode = json['ref_code'];
@@ -26,19 +28,19 @@ class Cart {
     if (json['refrence'] != null) {
       refrence = <Refrence>[];
       json['refrence'].forEach((v) {
-        refrence!.add(new Refrence.fromJson(v));
+        refrence!.add(Refrence.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ref_code'] = this.refCode;
-    data['owner'] = this.owner;
-    data['is_ordered'] = this.isOrdered;
-    data['date_ordered'] = this.dateOrdered;
-    if (this.refrence != null) {
-      data['refrence'] = this.refrence!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    data['ref_code'] = refCode;
+    data['owner'] = owner;
+    data['is_ordered'] = isOrdered;
+    data['date_ordered'] = dateOrdered;
+    if (refrence != null) {
+      data['refrence'] = refrence!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -50,7 +52,7 @@ class Refrence {
   String? size;
   int? quantity;
 
-  int totalPrice(){
+  int totalPrice() {
     // add your price calculation logic
     return price! * quantity!;
   }
@@ -61,7 +63,7 @@ class Refrence {
     if (json['product'] != null) {
       product = <Products>[];
       json['product'].forEach((v) {
-        product!.add(new Products.fromJson(v));
+        product!.add(Products.fromJson(v));
       });
     }
     price = json['price'];
@@ -70,13 +72,13 @@ class Refrence {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.product != null) {
-      data['product'] = this.product!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    if (product != null) {
+      data['product'] = product!.map((v) => v.toJson()).toList();
     }
-    data['price'] = this.price;
-    data['size'] = this.size;
-    data['quantity'] = this.quantity;
+    data['price'] = price;
+    data['size'] = size;
+    data['quantity'] = quantity;
     return data;
   }
 }

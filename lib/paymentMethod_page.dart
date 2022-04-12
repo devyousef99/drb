@@ -1,23 +1,24 @@
+// ignore_for_file: file_names, use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:credit_card_input_form/credit_card_input_form.dart';
-import 'package:credit_card_input_form/constants/constanst.dart';
 
-class payment_page extends StatelessWidget {
+class PaymentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: payment(),
+      home: Payment(),
     );
   }
 }
 
-class payment extends StatefulWidget {
+class Payment extends StatefulWidget {
   @override
-  _paymentState createState() => _paymentState();
+  _PaymentState createState() => _PaymentState();
 }
 
-class _paymentState extends State<payment> {
+class _PaymentState extends State<Payment> {
   final Map<String, String> customCaptions = {
     'PREV': 'Prev',
     'NEXT': 'Next',
@@ -33,22 +34,22 @@ class _paymentState extends State<payment> {
 
   final buttonDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(30.0),
-    gradient: LinearGradient(
+    gradient: const LinearGradient(
         colors: [
-           Color(0xfffcdf8a),
-           Color(0xfff38381),
+          Color(0xfffcdf8a),
+          Color(0xfff38381),
         ],
-        begin: const FractionalOffset(0.0, 0.0),
-        end: const FractionalOffset(1.0, 0.0),
+        begin: FractionalOffset(0.0, 0.0),
+        end: FractionalOffset(1.0, 0.0),
         stops: [0.0, 1.0],
         tileMode: TileMode.clamp),
   );
 
-  final buttonTextStyle =
-      TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18);
+  final buttonTextStyle = const TextStyle(
+      color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18);
 
   final cardDecoration =
-      BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)));
+      const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)));
 
   @override
   void initState() {
@@ -66,9 +67,9 @@ class _paymentState extends State<payment> {
           elevation: 0.0,
           leading: GestureDetector(
             child: Padding(
-              padding: EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(10.0),
               child: IconButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.arrow_back_rounded,
                   color: Colors.black12,
                 ),
@@ -79,7 +80,7 @@ class _paymentState extends State<payment> {
         ),
         body: SafeArea(
           child: AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             child: Stack(
               children: [
                 CreditCardInputForm(

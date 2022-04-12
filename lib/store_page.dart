@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:drb/Modules/category.dart';
 import 'package:drb/products_page.dart';
@@ -160,7 +162,7 @@ class StoreState extends State<Store> {
                   ),
                   MaterialButton(
                     onPressed: () {
-                      Get.to(products());
+                      Get.to(Product());
                     },
                     child: const Text(
                       'View All',
@@ -196,7 +198,8 @@ class StoreState extends State<Store> {
                                       columnCount: 2,
                                       child: ScaleAnimation(
                                         child: FadeInAnimation(
-                                          delay: const Duration(milliseconds: 100),
+                                          delay:
+                                              const Duration(milliseconds: 100),
                                           child: InkWell(
                                               onTap: () {
 // Navigator.push(context,
@@ -241,7 +244,7 @@ class StoreState extends State<Store> {
                   ),
                   MaterialButton(
                     onPressed: () {
-                      Get.to(products());
+                      Get.to(Product());
                     },
                     child: const Text(
                       'View All',
@@ -304,7 +307,7 @@ class StoreState extends State<Store> {
                   ),
                   MaterialButton(
                     onPressed: () {
-                      Get.to(products());
+                      Get.to(Product());
                     },
                     child: const Text(
                       'View All',
@@ -346,7 +349,7 @@ class StoreState extends State<Store> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  productDetails(),
+                                                  ProductDetail(),
                                               settings: RouteSettings(
                                                   arguments: item[index])));
                                     },
@@ -542,6 +545,7 @@ Widget productImages(String? image, String? name, String? price) => Card(
 Widget categories(String? name) => ButtonBar(
       mainAxisSize: MainAxisSize.min,
       children: [
+        // ignore: deprecated_member_use
         OutlineButton(
             child: Text(
               name!,

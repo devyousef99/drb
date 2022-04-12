@@ -1,14 +1,6 @@
-import 'package:drb/cart_page.dart';
-import 'package:drb/checkout_page.dart';
-import 'package:drb/landing_page.dart';
-import 'package:drb/store_page.dart';
 import 'package:flutter/material.dart';
 import 'package:drb/signin_page.dart';
 import 'package:get/get.dart';
-
-import 'favorite_page.dart';
-import 'productDetails_page.dart';
-
 
 void main() {
   //To initilaized the localization for the hole app.

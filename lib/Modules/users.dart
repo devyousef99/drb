@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_cast, unnecessary_getters_setters, prefer_collection_literals
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'users.g.dart';
@@ -14,17 +16,17 @@ class Users {
   late String _usrStore;
   late int _usrType;
 
-  Users(
-      {int? id,
-        String? username,
-        String? firstName,
-        String? lastName,
-        String? email,
-        String? usrImg,
-        int? usrAddress,
-        int? usrStore,
-        int? usrType,})
-  {
+  Users({
+    int? id,
+    String? username,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? usrImg,
+    int? usrAddress,
+    int? usrStore,
+    int? usrType,
+  }) {
     if (id != null) {
       _id = this.id;
     }
@@ -83,7 +85,7 @@ class Users {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = _id;
     data['username'] = _username;
     data['first_name'] = _firstName;

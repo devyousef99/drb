@@ -1,37 +1,34 @@
+// ignore_for_file: use_key_in_widget_constructors
+
 import 'dart:convert';
-import 'dart:ui';
 import 'package:drb/cart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'Modules/products.dart';
 import 'productDetails_page.dart';
-import 'store_page.dart';
 import 'package:http/http.dart' as http;
 
-
 // Products page.
-class products_page extends StatelessWidget {
+class ProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: products(),
+      home: Product(),
     );
   }
 }
 
-class products extends StatefulWidget {
+class Product extends StatefulWidget {
   @override
-  _productsState createState() => _productsState();
+  _ProductState createState() => _ProductState();
 }
 
-class _productsState extends State<products> {
-
-  List<Products>? all_products;
-  Future<List<Products>> _Products() async {
+class _ProductState extends State<Product> {
+  Future<List<Products>> _products() async {
     final response =
-    await http.get(Uri.parse("http://10.0.2.2:8000/product/get_products"));
+        await http.get(Uri.parse("http://10.0.2.2:8000/product/get_products"));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Products.fromJson(data)).toList();
@@ -43,8 +40,7 @@ class _productsState extends State<products> {
   @override
   void initState() {
     super.initState();
-    _Products();
-    all_products;
+    _products();
   }
 
   @override
@@ -73,7 +69,7 @@ class _productsState extends State<products> {
             ),
           ),
           centerTitle: true,
-          title: Text(
+          title: const Text(
             'passed_data!',
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
@@ -81,7 +77,7 @@ class _productsState extends State<products> {
           actions: [
             IconButton(
               onPressed: () {
-                Get.to(Cart());
+                Get.to(const Cart());
               },
               color: Colors.white,
               icon: const Icon(Icons.shopping_bag),
@@ -150,52 +146,52 @@ class _productsState extends State<products> {
                     removeTop: true,
                     context: context,
                     child: FutureBuilder(
-                      future: _Products(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot){
-                        if (snapshot.hasData) {
-                          return GridView.builder(
-                            shrinkWrap: true,
-                            physics: const ScrollPhysics(),
-                            gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.85,
-                            ),
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext context, index) {
-                              List<Products> item = snapshot.data;
-                              return AnimationConfiguration.staggeredGrid(
-                                position: index,
-                                columnCount: 2,
-                                child: ScaleAnimation(
-                                  child: FadeInAnimation(
-                                    delay: const Duration(milliseconds: 100),
-                                    child: GestureDetector(
-                                      onTap: (){
-                                        Navigator.of(context).push(MaterialPageRoute(
-                                            builder: (context)=>
-                                                productDetails(),
-                                        settings: RouteSettings(
-                                          arguments: item[index]
-                                        )));
-                                      },
-                                      child: ProductImages(
-                                          item[index].detail![0].prImg,
-                                          item[index].prName,
-                                          item[index].detail![0].prPrice),
+                        future: _products(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            return GridView.builder(
+                              shrinkWrap: true,
+                              physics: const ScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 0.85,
+                              ),
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, index) {
+                                List<Products> item = snapshot.data;
+                                return AnimationConfiguration.staggeredGrid(
+                                  position: index,
+                                  columnCount: 2,
+                                  child: ScaleAnimation(
+                                    child: FadeInAnimation(
+                                      delay: const Duration(milliseconds: 100),
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ProductDetail(),
+                                                  settings: RouteSettings(
+                                                      arguments: item[index])));
+                                        },
+                                        child: productImages(
+                                            item[index].detail![0].prImg,
+                                            item[index].prName,
+                                            item[index].detail![0].prPrice),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-                        // By default, show a loading spinner.
-                        return const CircularProgressIndicator();
-                      }
-                    ),
+                                );
+                              },
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
+                          // By default, show a loading spinner.
+                          return const CircularProgressIndicator();
+                        }),
                   ),
                 ],
               ),
@@ -205,46 +201,47 @@ class _productsState extends State<products> {
       ),
     );
   }
-  Widget ProductImages(String? image, String? name, String? price) => Card(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 183,
-          height: 169,
-          margin: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20.0),
-            image: DecorationImage(
-              image: NetworkImage(image!),
-              fit: BoxFit.fill,
-            ),
-          ),
-        ),
-        Row(
+
+  Widget productImages(String? image, String? name, String? price) => Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 10.0),
-              child: Text(
-                name!,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
+            Container(
+              width: 183,
+              height: 169,
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.0),
+                image: DecorationImage(
+                  image: NetworkImage(image!),
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 65.0),
-              child: Text(
-                price!,
-                style: const TextStyle(color: Colors.black),
-              ),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    name!,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 65.0),
+                  child: Text(
+                    price!,
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
-      ],
-    ),
-  );
+      );
 }

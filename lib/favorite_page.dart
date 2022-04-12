@@ -1,23 +1,27 @@
+// ignore_for_file: unused_import, use_key_in_widget_constructors
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class favorite_page extends StatelessWidget {
+class FavoritePage extends StatelessWidget {
+  const FavoritePage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: favorite(),
+      home: Favorite(),
     );
   }
 }
 
-class favorite extends StatefulWidget {
+class Favorite extends StatefulWidget {
   @override
-  _favoriteState createState() => _favoriteState();
+  _FavoriteState createState() => _FavoriteState();
 }
 
-class _favoriteState extends State<favorite> {
+class _FavoriteState extends State<Favorite> {
   // Future<List<Album>> getData() async {
   //   String url = 'https://jsonplaceholder.typicode.com/albums';
   //   var jsonData = await http.get(Uri.parse(url));

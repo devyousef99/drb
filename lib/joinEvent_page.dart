@@ -1,13 +1,8 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, unnecessary_import, camel_case_types
 
-import 'package:drb/eventDetails_page.dart';
-import 'package:drb/landing_page.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'cart_page.dart';
 
 class Category {
   String name, image;
@@ -23,14 +18,14 @@ class artistsData {
   List<Category> get myList => _myList;
 }
 
-class joinEvent_page extends StatefulWidget {
-  const joinEvent_page({Key? key}) : super(key: key);
+class JoinEvetntPage extends StatefulWidget {
+  const JoinEvetntPage({Key? key}) : super(key: key);
 
   @override
-  State<joinEvent_page> createState() => _joinEvent_pageState();
+  State<JoinEvetntPage> createState() => _JoinEvetntPageState();
 }
 
-class _joinEvent_pageState extends State<joinEvent_page> {
+class _JoinEvetntPageState extends State<JoinEvetntPage> {
   @override
   Widget build(BuildContext context) {
     List<Category> _artistsList = artistsData().myList;
@@ -68,7 +63,7 @@ class _joinEvent_pageState extends State<joinEvent_page> {
           ),
           child: Column(
             children: [
-            Padding(
+              Padding(
                 padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
                 child: GridView.builder(
                   shrinkWrap: true,

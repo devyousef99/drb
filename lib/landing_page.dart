@@ -1,3 +1,4 @@
+// ignore_for_file: unused_import
 import 'package:drb/store_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,13 +17,13 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   int currentTab = 0;
   final List<Widget> screens = [
-    const home_page(),
+    const HomePage(),
     const Store(),
-    const events_page(),
-    const news_page()
+    const EventPage(),
+    const NewsPage()
   ];
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currentScreen = const home_page();
+  Widget currentScreen = const HomePage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +38,7 @@ class _LandingPageState extends State<LandingPage> {
         ),
         onPressed: () {
           setState(() {
-            currentScreen = const home_page();
+            currentScreen = const HomePage();
             currentTab = 0;
           });
         },
@@ -58,7 +59,7 @@ class _LandingPageState extends State<LandingPage> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = const news_page();
+                        currentScreen = const NewsPage();
                         currentTab = 1;
                       });
                     },
@@ -118,7 +119,7 @@ class _LandingPageState extends State<LandingPage> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = const events_page();
+                        currentScreen = const EventPage();
                         currentTab = 3;
                       });
                     },
