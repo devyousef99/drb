@@ -1,3 +1,4 @@
+import 'package:drb/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:drb/signin_page.dart';
 import 'package:get/get.dart';
@@ -45,12 +46,12 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       // supportedLocaleshryatvvaontext.supportedLocales,
       // localizationsDelegates: context.localizationDelegates,
       // locale: context.locale,
-      home: SignInPage(),
+      home: LandingPage(),
     );
   }
 }

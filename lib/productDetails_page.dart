@@ -32,8 +32,8 @@ class _ProductDetailState extends State<ProductDetail> {
   String? selectedValue;
   String? selectedValue1;
   Future<void> addtocart() async {
-    var response =
-        await http.post(Uri.parse("http://10.0.2.2:8000/account/sign"), body: {
+    var response = await http
+        .post(Uri.parse("http://10.0.2.2:8000/account/sign/4"), body: {
       'product': [
         {'pr_name': 'text', 'id': 'id'}
       ],

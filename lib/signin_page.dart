@@ -1,16 +1,16 @@
-// ignore_for_file: avoid_print, must_call_super, unused_element
+// ignore_for_file: avoid_print, must_call_super, unused_element, use_key_in_widget_constructors
 
 import 'dart:convert';
 
 import 'package:drb/Modules/users.dart';
+import 'package:drb/landing_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
@@ -31,7 +31,7 @@ class SignIn extends StatefulWidget {
 class SignInState extends State<SignIn> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
-  late int id;
+  int? id;
   final _formkey = GlobalKey<FormState>();
 
   Future<void> _loginApi() async {
@@ -41,15 +41,12 @@ class SignInState extends State<SignIn> {
         'username': username.text,
         'password': password.text,
       });
-      // _formkey.currentState!.save();
-      // SharedPreferences shared = await SharedPreferences.getInstance();
-      // shared.setString('users', json.encode(Users(
-      //     id : id
-      // ).toJson()));
-      // print(shared);
       if (response.statusCode == 200) {
-        _savedDate();
-        // Get.to(() => profile_page());
+        _formkey.currentState!.save();
+        SharedPreferences shared = await SharedPreferences.getInstance();
+        shared.setString('Users', json.decode(response.body).toString());
+        print(shared.get('Users'));
+        Get.to(() => const LandingPage());
       } else {
         print("Wrong Data");
       }
@@ -58,15 +55,10 @@ class SignInState extends State<SignIn> {
     }
   }
 
-  void _savedDate() async {
-    _formkey.currentState!.save();
-    SharedPreferences shared = await SharedPreferences.getInstance();
-    shared.setString('Users', json.encode(Users(id: id).toJson()));
-    print(shared.get('Users'));
-  }
-
   @override
-  void initState() {}
+  void initState() {
+    _loginApi();
+  }
 
   void _getData() async {
     SharedPreferences shared = await SharedPreferences.getInstance();
