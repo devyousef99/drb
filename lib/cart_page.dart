@@ -34,23 +34,25 @@ class _CartState extends State<Cart> {
   List<Products>? allProducts;
   List<Category>? allCat;
   var test;
+  Users? user;
 
   void _getData() async {
     SharedPreferences shared = await SharedPreferences.getInstance();
     test = shared.getString('Users');
+    user = Users.fromJson(test);
   }
 
   Future<List<Refrence>> getCartUser() async {
     // SharedPreferences shared = await SharedPreferences.getInstance();
     // var test = shared.getString('Users');
     // user = Users.fromJson(json.decode(test!));
-    final response =
-        await http.get(Uri.parse("http://10.0.2.2:8000/cart/get_cart/${test}"));
+    final response = await http
+        .get(Uri.parse("http://10.0.2.2:8000/cart/get_cart/${user?.id}"));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Refrence.fromJson(data)).toList();
     } else {
-      print(test);
+      print(user?.id);
       throw Exception('Failed to load album');
     }
   }
