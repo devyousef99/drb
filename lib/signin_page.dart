@@ -46,7 +46,7 @@ class SignInState extends State<SignIn> {
       if (response.statusCode == 200) {
         _formkey.currentState!.save();
         SharedPreferences shared = await SharedPreferences.getInstance();
-        var body = json.encode(response.body).toString();
+        var body = jsonEncode(response.body).toString();
         shared.setString('Users', body);
         print(shared.getString('Users'));
         Get.to(CartPage());
