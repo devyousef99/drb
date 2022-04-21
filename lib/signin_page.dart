@@ -10,6 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
 
+import 'cart_page.dart';
+
 class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -44,9 +46,10 @@ class SignInState extends State<SignIn> {
       if (response.statusCode == 200) {
         _formkey.currentState!.save();
         SharedPreferences shared = await SharedPreferences.getInstance();
-        shared.setString('Users', json.decode(response.body).toString());
-        print(shared.get('Users'));
-        Get.to(() => const LandingPage());
+        var body = json.encode(response.body).toString();
+        shared.setString('Users', body);
+        print(shared.getString('Users'));
+        Get.to(CartPage());
       } else {
         print("Wrong Data");
       }
@@ -58,11 +61,6 @@ class SignInState extends State<SignIn> {
   @override
   void initState() {
     _loginApi();
-  }
-
-  void _getData() async {
-    SharedPreferences shared = await SharedPreferences.getInstance();
-    id = shared.getInt('id')!;
   }
 
   @override
