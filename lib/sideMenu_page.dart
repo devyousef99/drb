@@ -1,5 +1,7 @@
 // ignore_for_file: file_names
+import 'package:drb/cart_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class SideMenuPage extends StatefulWidget {
@@ -125,7 +127,9 @@ class SideMenuPageState extends State<SideMenuPage> {
             // padding: EdgeInsets.zero,
           ),
           ListTile(
-            onTap: () {},
+            onTap: () {
+              Get.to(const CartPage());
+            },
             leading: const Icon(Icons.shopping_cart,
                 size: 20.0, color: Colors.white),
             title: const Text("Cart"),

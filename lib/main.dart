@@ -1,5 +1,9 @@
 import 'package:drb/landing_page.dart';
+<<<<<<< HEAD
 import 'package:drb/test.dart';
+=======
+import 'package:drb/profile_page.dart';
+>>>>>>> 3f2b525e2f154e09dcfc36f5fe94ceaf884cd9ce
 import 'package:flutter/material.dart';
 import 'package:drb/signin_page.dart';
 import 'package:get/get.dart';
@@ -52,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // supportedLocaleshryatvvaontext.supportedLocales,
       // localizationsDelegates: context.localizationDelegates,
       // locale: context.locale,
-      home: LandingPage(),
+      home: SignInPage(),
     );
   }
 }

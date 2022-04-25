@@ -1,4 +1,6 @@
 import 'package:drb/drbCar_page.dart';
+import 'package:drb/favorite_page.dart';
+import 'package:drb/profile_page.dart';
 import 'package:drb/sideMenu_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -26,15 +28,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
   bool isOpened = false;
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
   final GlobalKey<SideMenuState> _endSideMenuKey = GlobalKey<SideMenuState>();
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   toggleMenu([bool end = true]) {
     if (end) {
@@ -53,7 +49,6 @@ class _HomePageState extends State<HomePage> {
     return SideMenu(
       key: _endSideMenuKey,
       inverse: true, // end side menu
-      background: Colors.green[700],
       type: SideMenuType.slideNRotate,
       menu: Padding(
         padding: const EdgeInsets.only(left: 25.0),
@@ -302,43 +297,60 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           ListTile(
-            onTap: () {},
-            leading: const Icon(Icons.home, size: 20.0, color: Colors.white),
-            title: const Text("Home"),
+            onTap: () {
+              Get.to(ProfilePage());
+            },
+            leading: const Icon(Icons.admin_panel_settings_rounded,
+                size: 20.0, color: Colors.white),
+            title: const Text(
+              "Profile",
+              style: TextStyle(color: Colors.white),
+            ),
             dense: true,
           ),
           ListTile(
-            onTap: () {},
-            leading: const Icon(Icons.verified_user,
+            onTap: () {
+              Get.to(ProfilePage());
+            },
+            leading: const Icon(Icons.notifications,
                 size: 20.0, color: Colors.white),
-            title: const Text("Profile"),
+            title: const Text(
+              "Notfactions",
+              style: TextStyle(color: Colors.white),
+            ),
             dense: true,
-
-            // padding: EdgeInsets.zero,
           ),
           ListTile(
-            onTap: () {},
-            leading: const Icon(Icons.monetization_on,
-                size: 20.0, color: Colors.white),
-            title: const Text("Wallet"),
+            onTap: () {
+              Get.to(Favorite());
+            },
+            leading:
+                const Icon(Icons.favorite, size: 20.0, color: Colors.white),
+            title: const Text(
+              "Favorites",
+              style: TextStyle(color: Colors.white),
+            ),
             dense: true,
-
-            // padding: EdgeInsets.zero,
           ),
           ListTile(
             onTap: () {},
             leading: const Icon(Icons.shopping_cart,
                 size: 20.0, color: Colors.white),
-            title: const Text("Cart"),
+            title: const Text(
+              "Tracking",
+              style: TextStyle(color: Colors.white),
+            ),
             dense: true,
-
             // padding: EdgeInsets.zero,
           ),
           ListTile(
             onTap: () {},
-            leading:
-                const Icon(Icons.star_border, size: 20.0, color: Colors.white),
-            title: const Text("Favorites"),
+            leading: const Icon(Icons.store_rounded,
+                size: 20.0, color: Colors.white),
+            title: const Text(
+              "My Store",
+              style: TextStyle(color: Colors.white),
+            ),
             dense: true,
 
             // padding: EdgeInsets.zero,
@@ -347,7 +359,10 @@ class _HomePageState extends State<HomePage> {
             onTap: () {},
             leading:
                 const Icon(Icons.settings, size: 20.0, color: Colors.white),
-            title: const Text("Settings"),
+            title: const Text(
+              "Help",
+              style: TextStyle(color: Colors.white),
+            ),
             dense: true,
 
             // padding: EdgeInsets.zero,

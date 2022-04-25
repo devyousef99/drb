@@ -8,7 +8,6 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'test',
       home: Profile(),
     );
   }

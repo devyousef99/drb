@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:drb/Modules/cart.dart';
+import 'package:drb/Modules/users.dart';
 import 'package:drb/productDetails_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Modules/products.dart';
 import 'Modules/category.dart';
 import 'checkout_page.dart';
@@ -31,20 +33,43 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   List<Products>? allProducts;
   List<Category>? allCat;
+  var test;
+  // Users? user;
+  var userData;
+
+  void _getData() async {
+    SharedPreferences shared = await SharedPreferences.getInstance();
+    test = shared.getString('Users');
+    // user = Users.fromJson(test);
+    // SharedPreferences shared = await SharedPreferences.getInstance();
+    // print(shared.getString('Users')!);
+    Map<String, dynamic> jsonData = jsonDecode(test!);
+    userData = Users.fromJson(jsonData);
+  }
 
   Future<List<Refrence>> getCartUser() async {
+<<<<<<< HEAD
     final response =
         await http.get(Uri.parse("http://10.0.2.2:8000/cart/get_cart/"));
+=======
+    // SharedPreferences shared = await SharedPreferences.getInstance();
+    // var test = shared.getString('Users');
+    // user = Users.fromJson(json.decode(test!));
+    final response = await http
+        .get(Uri.parse("http://10.0.2.2:8000/cart/get_cart/${userData}"));
+>>>>>>> 3f2b525e2f154e09dcfc36f5fe94ceaf884cd9ce
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Refrence.fromJson(data)).toList();
     } else {
+      print(userData);
       throw Exception('Failed to load album');
     }
   }
 
   @override
   void initState() {
+    _getData();
     super.initState();
     getCartUser();
   }
