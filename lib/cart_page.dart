@@ -34,7 +34,7 @@ class _CartState extends State<Cart> {
 
   Future<List<Refrence>> getCartUser() async {
     final response =
-        await http.get(Uri.parse("http://10.0.2.2:8000/cart/get_cart/1"));
+        await http.get(Uri.parse("http://10.0.2.2:8000/cart/get_cart/"));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Refrence.fromJson(data)).toList();

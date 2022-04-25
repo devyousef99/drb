@@ -46,7 +46,7 @@ class SignInState extends State<SignIn> {
         SharedPreferences shared = await SharedPreferences.getInstance();
         shared.setString('Users', json.decode(response.body).toString());
         print(shared.get('Users'));
-        Get.to(() => const LandingPage());
+        Get.to(const LandingPage());
       } else {
         print("Wrong Data");
       }

@@ -21,15 +21,8 @@ class SideMenuPageState extends State<SideMenuPage> {
     });
   }
 
-  toggleMenu([bool end = false]) {
+  toggleMenu([bool end = true]) {
     if (end) {
-      final _state = _endSideMenuKey.currentState!;
-      if (_state.isOpened) {
-        _state.closeSideMenu();
-      } else {
-        _state.openSideMenu();
-      }
-    } else {
       final _state = _sideMenuKey.currentState!;
       if (_state.isOpened) {
         _state.closeSideMenu();
@@ -69,31 +62,12 @@ class SideMenuPageState extends State<SideMenuPage> {
                 icon: const Icon(Icons.menu),
                 onPressed: () => toggleMenu(),
               ),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.menu),
-                  onPressed: () => toggleMenu(true),
-                )
-              ],
             ),
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  Text(
-                    '$_counter',
-                    style: Theme.of(context).textTheme.headline4,
-                  ),
-                ],
+                children: <Widget>[],
               ),
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: _incrementCounter,
-              tooltip: 'Increment',
-              child: const Icon(Icons.add),
             ),
           ),
         ),
@@ -162,7 +136,7 @@ class SideMenuPageState extends State<SideMenuPage> {
           ListTile(
             onTap: () {},
             leading:
-            const Icon(Icons.star_border, size: 20.0, color: Colors.white),
+                const Icon(Icons.star_border, size: 20.0, color: Colors.white),
             title: const Text("Favorites"),
             dense: true,
 
@@ -171,7 +145,7 @@ class SideMenuPageState extends State<SideMenuPage> {
           ListTile(
             onTap: () {},
             leading:
-            const Icon(Icons.settings, size: 20.0, color: Colors.white),
+                const Icon(Icons.settings, size: 20.0, color: Colors.white),
             title: const Text("Settings"),
             dense: true,
 
