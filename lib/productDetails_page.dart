@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
 import 'Modules/products.dart';
 import 'cart_page.dart';
 
@@ -98,7 +97,7 @@ class _ProductDetailState extends State<ProductDetail> {
           centerTitle: true,
           title: passedData != null
               ? Text(
-                  passedData.owner.toString(),
+                  passedData.data.toString(),
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -129,8 +128,7 @@ class _ProductDetailState extends State<ProductDetail> {
                           child: ScaleAnimation(
                             child: FadeInAnimation(
                               delay: const Duration(milliseconds: 100),
-                              child: productImages(
-                                  passedData!.detail![0].prImg.toString()),
+                              child: productImages(passedData!.data.toString()),
                             ),
                           ),
                         );
@@ -148,7 +146,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         bottom: 10.0,
                       ),
                       child: Text(
-                        passedData!.prName.toString(),
+                        passedData!.data.toString(),
                         style: const TextStyle(
                             fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
@@ -161,7 +159,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       padding: const EdgeInsets.only(
                           left: 20.0, bottom: 5.0, top: 5.0),
                       child: Text(
-                        passedData.prDescription.toString(),
+                        passedData.data.toString(),
                         style: const TextStyle(
                           fontSize: 16.0,
                         ),
@@ -194,41 +192,41 @@ class _ProductDetailState extends State<ProductDetail> {
                       padding: const EdgeInsets.only(
                         left: 20.0,
                       ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2(
-                          selectedItemHighlightColor:
-                              const Color.fromRGBO(110, 114, 253, 0.9),
-                          hint: const Text(
-                            'Select Color',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromRGBO(110, 114, 253, 0.9),
-                            ),
-                          ),
-                          value: selectedValue,
-                          items: passedData.detail!
-                              .map(
-                                (item) => DropdownMenuItem(
-                                  value: item.prSize.toString(),
-                                  child: Text(
-                                    item.prSize.toString(),
-                                    style: const TextStyle(
-                                        fontSize: 14, color: Colors.black),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedValue = value as String;
-                            });
-                            // print(value);
-                          },
-                          buttonHeight: 40,
-                          buttonWidth: 100,
-                          itemHeight: 40,
-                        ),
-                      ),
+                      // child: DropdownButtonHideUnderline(
+                      //   child: DropdownButton2(
+                      //     selectedItemHighlightColor:
+                      //         const Color.fromRGBO(110, 114, 253, 0.9),
+                      //     hint: const Text(
+                      //       'Select Color',
+                      //       style: TextStyle(
+                      //         fontSize: 14,
+                      //         color: Color.fromRGBO(110, 114, 253, 0.9),
+                      //       ),
+                      //     ),
+                      //     value: selectedValue,
+                      //     items: passedData.data!
+                      //         .map(
+                      //           (item) => DropdownMenuItem(
+                      //             value: item.prSize.toString(),
+                      //             child: Text(
+                      //               item.prSize.toString(),
+                      //               style: const TextStyle(
+                      //                   fontSize: 14, color: Colors.black),
+                      //             ),
+                      //           ),
+                      //         )
+                      //         .toList(),
+                      //     onChanged: (value) {
+                      //       setState(() {
+                      //         selectedValue = value as String;
+                      //       });
+                      //       // print(value);
+                      //     },
+                      //     buttonHeight: 40,
+                      //     buttonWidth: 100,
+                      //     itemHeight: 40,
+                      //   ),
+                      // ),
                     ),
                     const SizedBox(
                       width: 100,
@@ -258,41 +256,41 @@ class _ProductDetailState extends State<ProductDetail> {
                       padding: const EdgeInsets.only(
                         left: 20.0,
                       ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton2(
-                          selectedItemHighlightColor:
-                              const Color.fromRGBO(110, 114, 253, 0.9),
-                          hint: const Text(
-                            'Select Size',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Color.fromRGBO(110, 114, 253, 0.9),
-                            ),
-                          ),
-                          value: selectedValue1,
-                          items: passedData.detail!
-                              .map(
-                                (item) => DropdownMenuItem(
-                                  value: item.prSize.toString(),
-                                  child: Text(
-                                    item.prSize.toString(),
-                                    style: const TextStyle(
-                                        fontSize: 14, color: Colors.black),
-                                  ),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedValue1 = value as String;
-                            });
-                            // print(value);
-                          },
-                          buttonHeight: 40,
-                          buttonWidth: 100,
-                          itemHeight: 40,
-                        ),
-                      ),
+                      // child: DropdownButtonHideUnderline(
+                      // child: DropdownButton2(
+                      //   selectedItemHighlightColor:
+                      //       const Color.fromRGBO(110, 114, 253, 0.9),
+                      //   hint: const Text(
+                      //     'Select Size',
+                      //     style: TextStyle(
+                      //       fontSize: 14,
+                      //       color: Color.fromRGBO(110, 114, 253, 0.9),
+                      //     ),
+                      //   ),
+                      //   value: selectedValue1,
+                      //   items: passedData.data!
+                      //       .map(
+                      //         (item) => DropdownMenuItem(
+                      //           value: item.prSize.toString(),
+                      //           child: Text(
+                      //             item.prSize.toString(),
+                      //             style: const TextStyle(
+                      //                 fontSize: 14, color: Colors.black),
+                      //           ),
+                      //         ),
+                      //       )
+                      //       .toList(),
+                      //   onChanged: (value) {
+                      //     setState(() {
+                      //       selectedValue1 = value as String;
+                      //     });
+                      //     // print(value);
+                      //   },
+                      //   buttonHeight: 40,
+                      //   buttonWidth: 100,
+                      //   itemHeight: 40,
+                      // ),
+                      // ),
                     ),
                     const SizedBox(
                       width: 100,
@@ -367,13 +365,13 @@ class _ProductDetailState extends State<ProductDetail> {
                             InkWell(
                               onTap: () {
                                 setState(() {
-                                  if (_counter <
-                                      passedData.detail![0].prQunatity!
-                                          .toInt()) {
-                                    _counter++;
-                                  } else {
-                                    return;
-                                  }
+                                  // if (_counter <
+                                  //     passedData.detail![0].prQunatity!
+                                  //         .toInt()) {
+                                  //   _counter++;
+                                  // } else {
+                                  //   return;
+                                  // }
                                 });
                               },
                               child: const Icon(
@@ -389,11 +387,11 @@ class _ProductDetailState extends State<ProductDetail> {
                     const SizedBox(
                       width: 180,
                     ),
-                    Text(
-                      passedData.detail![0].prPrice.toString(),
-                      style: const TextStyle(
-                          fontSize: 18.0, fontWeight: FontWeight.bold),
-                    )
+                    Text(''
+                        // passedData.detail![0].prPrice.toString(),
+                        // style: const TextStyle(
+                        // fontSize: 18.0, fontWeight: FontWeight.bold),
+                        )
                   ],
                 ),
                 const SizedBox(height: 20),

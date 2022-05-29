@@ -11,16 +11,13 @@ class SideMenuPage extends StatefulWidget {
 }
 
 class SideMenuPageState extends State<SideMenuPage> {
-  int _counter = 0;
   bool isOpened = false;
 
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
   final GlobalKey<SideMenuState> _endSideMenuKey = GlobalKey<SideMenuState>();
 
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    setState(() {});
   }
 
   toggleMenu([bool end = true]) {

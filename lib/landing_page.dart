@@ -2,7 +2,6 @@
 import 'package:drb/store_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'events_page.dart';
 import 'home_page.dart';
 import 'news_page.dart';
@@ -22,6 +21,7 @@ class _LandingPageState extends State<LandingPage> {
     const EventPage(),
     const NewsPage()
   ];
+
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = const HomePage();
   @override

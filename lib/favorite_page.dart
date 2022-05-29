@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class FavoritePage extends StatelessWidget {
@@ -61,10 +62,12 @@ class _FavoriteState extends State<Favorite> {
               padding: const EdgeInsets.all(10.0),
               child: IconButton(
                 icon: const Icon(
-                  Icons.arrow_back_rounded,
+                  Icons.arrow_back_ios_outlined,
                   color: Colors.black,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Get.back();
+                },
               ),
             ),
           ),

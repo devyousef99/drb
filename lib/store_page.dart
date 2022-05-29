@@ -3,13 +3,18 @@
 import 'dart:convert';
 import 'package:drb/Modules/category.dart';
 import 'package:drb/products_page.dart';
+import 'package:easy_actions/easy_actions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Modules/products.dart';
 import 'cart_page.dart';
 import 'productDetails_page.dart';
+import 'package:oauth2/oauth2.dart' as oauth2;
+import 'dart:io';
 
 class StorePage extends StatelessWidget {
   const StorePage({Key? key}) : super(key: key);
@@ -30,25 +35,45 @@ class Store extends StatefulWidget {
 }
 
 class StoreState extends State<Store> {
+  final identifier = 'my product identifier';
+  final secret = 'my product secret';
+
+  // final authorizationEndpoint =
+  //     Uri.parse("https://drbdesignksa.daftra.com/api2/products/");
+  // final tokenEndpoint = Uri.parse("caf98c3cb7227bbaf07a5d5ca9ca71125a160bf3");
+  // final redirectUrl = Uri.parse("https://www.daftra.com/");
+
+  // Future<oauth2.AuthorizationCodeGrant> _products() async {
+  //   var grant = oauth2.AuthorizationCodeGrant(
+  //       identifier, authorizationEndpoint, tokenEndpoint,
+  //       secret: secret);
+  //   return grant;
+  // }
+
   Future<List<Products>> _products() async {
-    final response =
-        await http.get(Uri.parse("http://10.0.2.2:8000/product/get"));
+    String token = 'caf98c3cb7227bbaf07a5d5ca9ca71125a160bf3';
+    final response = await http.get(
+        Uri.parse('https://drbdesignksa.daftra.com/api2/products/'),
+        headers: {
+          'Authorization': token,
+        });
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      print(response.body);
+      return jsonResponse.map((data) => Products.fromJson(data)).toList();
+    } else {
+      throw Exception(response.body);
+    }
+  }
+
+  Future<List<Products>> _category() async {
+    final response = await http
+        .get(Uri.parse("https://drbdesignksa.daftra.com/api2/products/"));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Products.fromJson(data)).toList();
     } else {
-      throw Exception('Failed to load album');
-    }
-  }
-
-  Future<List<Category>> _category() async {
-    final response =
-        await http.get(Uri.parse("http://10.0.2.2:8000/product/get_cat"));
-    if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((data) => Category.fromJson(data)).toList();
-    } else {
-      throw Exception('Failed to load album');
+      throw Exception(response.body);
     }
   }
 
@@ -131,13 +156,13 @@ class StoreState extends State<Store> {
                                 child: ScaleAnimation(
                                   child: FadeInAnimation(
                                     delay: const Duration(milliseconds: 100),
-                                    child:
-                                        adSpace(item[index].detail![0].prImg),
+                                    child: adSpace(
+                                        item[index].data![0].toString()),
                                   ),
                                 ),
                               );
                             },
-                            itemCount: snapshot.data.length,
+                            itemCount: snapshot.data,
                           );
                         } else if (snapshot.hasError) {
                           return Text('${snapshot.error}');
@@ -161,9 +186,7 @@ class StoreState extends State<Store> {
                     width: 150,
                   ),
                   MaterialButton(
-                    onPressed: () {
-                      Get.to(Product());
-                    },
+                    onPressed: () {},
                     child: const Text(
                       'View All',
                       style: TextStyle(
@@ -243,9 +266,7 @@ class StoreState extends State<Store> {
                     width: 150,
                   ),
                   MaterialButton(
-                    onPressed: () {
-                      Get.to(Product());
-                    },
+                    onPressed: () {},
                     child: const Text(
                       'View All',
                       style: TextStyle(
@@ -270,16 +291,11 @@ class StoreState extends State<Store> {
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              List<Products> item = snapshot.data;
+                              List<Products> item = snapshot.data.length;
                               return AnimationConfiguration.staggeredGrid(
                                 position: index,
                                 columnCount: 2,
-                                child: ScaleAnimation(
-                                  child: FadeInAnimation(
-                                    delay: const Duration(milliseconds: 100),
-                                    child: card2(item[index].detail![0].prImg),
-                                  ),
-                                ),
+                                child: card2(item[index].data.toString()),
                               );
                             },
                             itemCount: snapshot.data.length,
@@ -306,9 +322,7 @@ class StoreState extends State<Store> {
                     width: 150,
                   ),
                   MaterialButton(
-                    onPressed: () {
-                      Get.to(Product());
-                    },
+                    onPressed: () {},
                     child: const Text(
                       'View All',
                       style: TextStyle(
@@ -354,9 +368,9 @@ class StoreState extends State<Store> {
                                                   arguments: item[index])));
                                     },
                                     child: productImages(
-                                        item[index].detail![0].prImg,
-                                        item[index].prName,
-                                        item[index].detail![0].prPrice),
+                                        item[index].data.toString(),
+                                        item[index].data.toString(),
+                                        item[index].data.toString()),
                                   ),
                                 ),
                               ),
@@ -545,16 +559,14 @@ Widget productImages(String? image, String? name, String? price) => Card(
 Widget categories(String? name) => ButtonBar(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // ignore: deprecated_member_use
-        OutlineButton(
-            child: Text(
-              name!,
-              style: const TextStyle(color: Colors.white),
-            ),
-            highlightedBorderColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
-            ),
-            onPressed: () {}),
+        EasyOutlinedButton(
+          label: name!,
+          labelStyle: const TextStyle(
+            color: Colors.black,
+          ),
+          labelColor: Colors.white,
+          isRounded: true,
+          onPressed: () {},
+        ),
       ],
     );

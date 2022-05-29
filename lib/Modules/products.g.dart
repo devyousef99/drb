@@ -1,7 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-// ignore_for_file: unused_element
-
 part of 'products.dart';
 
 // **************************************************************************
@@ -9,25 +7,19 @@ part of 'products.dart';
 // **************************************************************************
 
 Products _$ProductsFromJson(Map<String, dynamic> json) => Products(
-      id: json['id'] as int?,
-      owner: json['owner'] as String?,
-      detail: (json['detail'] as List<dynamic>?)
-          ?.map((e) => Detail.fromJson(e as Map<String, dynamic>))
+      code: json['code'] as int?,
+      result: json['result'] as String?,
+      data: (json['data'] as List<dynamic>?)
+          ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
           .toList(),
-      prName: json['prName'] as String?,
-      prDescription: json['prDescription'] as String?,
-      createAt: json['createAt'] as String?,
-      updateAt: json['updateAt'] as String?,
-      cat: json['cat'] as int?,
+      pagination: json['pagination'] == null
+          ? null
+          : Pagination.fromJson(json['pagination'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ProductsToJson(Products instance) => <String, dynamic>{
-      'id': instance.id,
-      'owner': instance.owner,
-      'detail': instance.detail,
-      'prName': instance.prName,
-      'prDescription': instance.prDescription,
-      'createAt': instance.createAt,
-      'updateAt': instance.updateAt,
-      'cat': instance.cat,
+      'code': instance.code,
+      'result': instance.result,
+      'data': instance.data,
+      'pagination': instance.pagination,
     };

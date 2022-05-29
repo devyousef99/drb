@@ -35,41 +35,35 @@ class _CartState extends State<Cart> {
   List<Category>? allCat;
   var test;
   // Users? user;
-  var userData;
+  // var userData;
 
-  void _getData() async {
-    SharedPreferences shared = await SharedPreferences.getInstance();
-    test = shared.getString('Users');
-    // user = Users.fromJson(test);
-    // SharedPreferences shared = await SharedPreferences.getInstance();
-    // print(shared.getString('Users')!);
-    Map<String, dynamic> jsonData = jsonDecode(test!);
-    userData = Users.fromJson(jsonData);
-  }
+  // void _getData() async {
+  //   SharedPreferences shared = await SharedPreferences.getInstance();
+  //   test = shared.getString('Users');
+  //   // user = Users.fromJson(test);
+  //   // SharedPreferences shared = await SharedPreferences.getInstance();
+  //   // print(shared.getString('Users')!);
+  //   // Map<String, dynamic> jsonData = jsonDecode(test!);
+  //   // userData = Users.fromJson(jsonData);
+  // }
 
   Future<List<Refrence>> getCartUser() async {
-<<<<<<< HEAD
-    final response =
-        await http.get(Uri.parse("http://10.0.2.2:8000/cart/get_cart/"));
-=======
-    // SharedPreferences shared = await SharedPreferences.getInstance();
-    // var test = shared.getString('Users');
-    // user = Users.fromJson(json.decode(test!));
+    SharedPreferences shared = await SharedPreferences.getInstance();
+    test = shared.getString('Users');
     final response = await http
-        .get(Uri.parse("http://10.0.2.2:8000/cart/get_cart/${userData}"));
->>>>>>> 3f2b525e2f154e09dcfc36f5fe94ceaf884cd9ce
+        .get(Uri.parse("http://192.168.1.38:8000/cart/get_cart/$test"));
     if (response.statusCode == 200) {
       List jsonResponse = json.decode(response.body);
       return jsonResponse.map((data) => Refrence.fromJson(data)).toList();
     } else {
-      print(userData);
+      print(test);
       throw Exception('Failed to load album');
     }
   }
 
   @override
   void initState() {
-    _getData();
+    // _getData();
     super.initState();
     getCartUser();
   }
@@ -144,11 +138,11 @@ class _CartState extends State<Cart> {
                                                 //             arguments: item[index]
                                                 //         )));
                                               },
-                                              child: myCart(
-                                                'item[index].product![0].detail![0].prImg',
-                                                item[index].product![0].prName,
-                                                item[index].price.toString(),
-                                              ),
+                                              // child: myCart(
+                                              //   'item[index].product![0].detail![0].prImg',
+                                              //   item[index].product![0].prName,
+                                              //   item[index].price.toString(),
+                                              // ),
                                             ),
                                           ),
                                         ));

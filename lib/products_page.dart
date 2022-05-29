@@ -177,9 +177,9 @@ class _ProductState extends State<Product> {
                                                       arguments: item[index])));
                                         },
                                         child: productImages(
-                                            item[index].detail![0].prImg,
-                                            item[index].prName,
-                                            item[index].detail![0].prPrice),
+                                            item[index].data.toString(),
+                                            item[index].data.toString(),
+                                            item[index].data.toString()),
                                       ),
                                     ),
                                   ),

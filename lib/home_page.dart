@@ -1,7 +1,7 @@
 import 'package:drb/drbCar_page.dart';
 import 'package:drb/favorite_page.dart';
 import 'package:drb/profile_page.dart';
-import 'package:drb/sideMenu_page.dart';
+import 'package:drb/signup.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -15,6 +15,7 @@ class Category {
 //Custom list to show the data.
 class artistsData {
   final List<Category> _myList = <Category>[
+    Category(name: 'artist1', image: 'assets/log_in.png'),
     Category(name: 'artist1', image: 'assets/log_in.png'),
   ];
   List<Category> get myList => _myList;
@@ -30,7 +31,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isOpened = false;
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
-  final GlobalKey<SideMenuState> _endSideMenuKey = GlobalKey<SideMenuState>();
 
   toggleMenu([bool end = true]) {
     if (end) {
@@ -47,58 +47,53 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     List<Category> _artistsList = artistsData().myList;
     return SideMenu(
-      key: _endSideMenuKey,
-      inverse: true, // end side menu
-      type: SideMenuType.slideNRotate,
-      menu: Padding(
-        padding: const EdgeInsets.only(left: 25.0),
-        child: buildMenu(),
+      closeIcon: const Icon(
+        Icons.close_rounded,
+        color: Colors.black,
+        size: 16,
       ),
+      key: _sideMenuKey,
+      menu: buildMenu(),
+      background: Colors.transparent,
+      type: SideMenuType.slide,
       onChange: (_isOpened) {
         setState(() => isOpened = _isOpened);
       },
-      child: SideMenu(
-        key: _sideMenuKey,
-        menu: buildMenu(),
-        type: SideMenuType.slideNRotate,
-        onChange: (_isOpened) {
-          setState(() => isOpened = _isOpened);
-        },
-        child: IgnorePointer(
-          ignoring: isOpened,
-          child: Scaffold(
-            extendBodyBehindAppBar: true,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-              leading: GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: IconButton(
+      child: IgnorePointer(
+        ignoring: isOpened,
+        child: Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            leading: GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: IconButton(
                     icon: const Icon(
                       Icons.menu,
                       color: Colors.white,
                     ),
-                    onPressed: () => toggleMenu(),
-                  ),
-                ),
+                    onPressed: () => toggleMenu()),
               ),
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  color: Colors.white,
-                  icon: const Icon(Icons.hdr_auto_sharp),
-                ),
-              ],
             ),
-            body: SingleChildScrollView(
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/background.png'),
-                      fit: BoxFit.fill),
-                ),
-                child: Column(children: [
+            actions: [
+              IconButton(
+                onPressed: () {},
+                color: Colors.white,
+                icon: const Icon(Icons.hdr_auto_sharp),
+              ),
+            ],
+          ),
+          body: Container(
+            height: (MediaQuery.of(context).size.height),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/background.png'), fit: BoxFit.fill),
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
                   const Padding(
                     padding: EdgeInsets.only(top: 80, right: 240),
                     child: Text(
@@ -131,73 +126,65 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-
-                  // Row(
-                  //   children: [
-                  //     Column(
-                  //       children: [
-                  //         GridView.builder(
-                  //           shrinkWrap: true,
-                  //           physics: const ScrollPhysics(),
-                  //           gridDelegate:
-                  //               const SliverGridDelegateWithFixedCrossAxisCount(
-                  //             crossAxisCount: 1,
-                  //             childAspectRatio: 0.85,
-                  //           ),
-                  //           itemCount: _artistsList.length,
-                  //           itemBuilder: (BuildContext context, index) {
-                  //             return AnimationConfiguration.staggeredGrid(
-                  //               columnCount: 1,
-                  //               position: index,
-                  //               duration: const Duration(milliseconds: 1000),
-                  //               child: ScaleAnimation(
-                  //                 child: FadeInAnimation(
-                  //                   delay: const Duration(milliseconds: 100),
-                  //                   child: mylistItem(_artistsList[index]),
-                  //                 ),
-                  //               ),
-                  //             );
-                  //           },
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     Column(
-                  //       children: [
-                  //         GridView.builder(
-                  //           shrinkWrap: true,
-                  //           physics: const ScrollPhysics(),
-                  //           gridDelegate:
-                  //               const SliverGridDelegateWithFixedCrossAxisCount(
-                  //             crossAxisCount: 1,
-                  //             childAspectRatio: 0.85,
-                  //           ),
-                  //           itemCount: _artistsList.length,
-                  //           itemBuilder: (BuildContext context, index) {
-                  //             return AnimationConfiguration.staggeredGrid(
-                  //               columnCount: 1,
-                  //               position: index,
-                  //               duration: const Duration(milliseconds: 1000),
-                  //               child: ScaleAnimation(
-                  //                 child: FadeInAnimation(
-                  //                   delay: const Duration(milliseconds: 100),
-                  //                   child: mylistItem(_artistsList[index]),
-                  //                 ),
-                  //               ),
-                  //             );
-                  //           },
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ],
-                  // ),
+                  MediaQuery.removePadding(
+                    removeTop: true,
+                    context: context,
+                    child: Column(
+                      children: [
+                        GridView.builder(
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.85,
+                          ),
+                          itemCount: _artistsList.length,
+                          itemBuilder: (BuildContext context, index) {
+                            return AnimationConfiguration.staggeredGrid(
+                              columnCount: 2,
+                              position: index,
+                              child: mylistItem(_artistsList[index]),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  MediaQuery.removePadding(
+                    removeTop: true,
+                    context: context,
+                    child: Column(
+                      children: [
+                        GridView.builder(
+                          shrinkWrap: true,
+                          physics: const ScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.85,
+                          ),
+                          itemCount: _artistsList.length,
+                          itemBuilder: (BuildContext context, index) {
+                            return AnimationConfiguration.staggeredGrid(
+                              columnCount: 2,
+                              position: index,
+                              child: mylistItem(_artistsList[index]),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                   const SizedBox(
-                    height: 20,
+                    height: 5,
                   ),
                   Stack(
                     children: [
                       Container(
-                        height: 246,
-                        width: double.infinity,
+                        height: 200,
+                        // height: (MediaQuery.of(context).size.height),
+                        width: (MediaQuery.of(context).size.width),
                         decoration: const BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.vertical(
@@ -209,60 +196,57 @@ class _HomePageState extends State<HomePage> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Stack(
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                        right: 8, left: 8, top: 10, bottom: 10),
-                                    width: 320,
-                                    height: 180,
-                                    decoration: const BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      color: Color.fromRGBO(88, 93, 249, 1.0),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          width: 130,
-                                          height: 130,
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10)),
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/signin.jpeg'),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          width: 50,
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Get.to(const DrbCarPage());
-                                          },
-                                          child: const Text(
-                                            'DRB CAR',
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      right: 8, left: 8, top: 10, bottom: 10),
+                                  // width: 330,
+                                  // height: 130,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                    color: Color.fromRGBO(88, 93, 249, 1.0),
                                   ),
-                                ],
-                              )
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width: 120,
+                                        height: 120,
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                'assets/signin.jpeg'),
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        width: 50,
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Get.to(const DrbCarPage());
+                                        },
+                                        child: const Text(
+                                          'DRB CAR',
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ),
                     ],
                   ),
-                ]),
+                ],
               ),
             ),
           ),
@@ -272,7 +256,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildMenu() {
-    return SingleChildScrollView(
+    return Container(
       padding: const EdgeInsets.symmetric(vertical: 50.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -284,13 +268,13 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
                 CircleAvatar(
-                  backgroundColor: Colors.white,
-                  radius: 22.0,
+                  backgroundColor: Colors.black,
+                  radius: 30.0,
                 ),
                 SizedBox(height: 16.0),
                 Text(
                   "Hello, John Doe",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
                 SizedBox(height: 20.0),
               ],
@@ -300,11 +284,14 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               Get.to(ProfilePage());
             },
-            leading: const Icon(Icons.admin_panel_settings_rounded,
-                size: 20.0, color: Colors.white),
+            leading: const Icon(
+              Icons.person_outlined,
+              size: 20.0,
+              color: Color.fromRGBO(88, 93, 249, 1.0),
+            ),
             title: const Text(
               "Profile",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
             dense: true,
           ),
@@ -312,11 +299,14 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               Get.to(ProfilePage());
             },
-            leading: const Icon(Icons.notifications,
-                size: 20.0, color: Colors.white),
+            leading: const Icon(
+              Icons.notifications,
+              size: 20.0,
+              color: Color.fromRGBO(88, 93, 249, 1.0),
+            ),
             title: const Text(
               "Notfactions",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
             dense: true,
           ),
@@ -324,48 +314,70 @@ class _HomePageState extends State<HomePage> {
             onTap: () {
               Get.to(Favorite());
             },
-            leading:
-                const Icon(Icons.favorite, size: 20.0, color: Colors.white),
+            leading: const Icon(
+              Icons.favorite,
+              size: 20.0,
+              color: Color.fromRGBO(88, 93, 249, 1.0),
+            ),
             title: const Text(
               "Favorites",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
             dense: true,
           ),
           ListTile(
             onTap: () {},
-            leading: const Icon(Icons.shopping_cart,
-                size: 20.0, color: Colors.white),
+            leading: const Icon(
+              Icons.track_changes_rounded,
+              size: 20.0,
+              color: Color.fromRGBO(88, 93, 249, 1.0),
+            ),
             title: const Text(
               "Tracking",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
             dense: true,
-            // padding: EdgeInsets.zero,
           ),
           ListTile(
             onTap: () {},
-            leading: const Icon(Icons.store_rounded,
-                size: 20.0, color: Colors.white),
+            leading: const Icon(
+              Icons.store_rounded,
+              size: 20.0,
+              color: Color.fromRGBO(88, 93, 249, 1.0),
+            ),
             title: const Text(
               "My Store",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
             dense: true,
-
-            // padding: EdgeInsets.zero,
           ),
           ListTile(
             onTap: () {},
-            leading:
-                const Icon(Icons.settings, size: 20.0, color: Colors.white),
+            leading: const Icon(
+              Icons.help_rounded,
+              size: 20.0,
+              color: Color.fromRGBO(88, 93, 249, 1.0),
+            ),
             title: const Text(
               "Help",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
             dense: true,
-
-            // padding: EdgeInsets.zero,
+          ),
+          ListTile(
+            onTap: () {
+              Get.to(SignUpPage());
+            },
+            leading: const Icon(
+              Icons.logout,
+              size: 20.0,
+              color: Color.fromRGBO(88, 93, 249, 1.0),
+            ),
+            title: const Text(
+              "Logout",
+              style: TextStyle(color: Colors.black),
+            ),
+            dense: true,
           ),
         ],
       ),
@@ -381,7 +393,7 @@ Widget mylistItem(Category category) => Card(
         children: [
           Container(
             width: 183,
-            height: 169,
+            height: 160,
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
@@ -396,30 +408,6 @@ Widget mylistItem(Category category) => Card(
           // const SizedBox(
           //   height: 5,
           // ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Text(
-                  category.name,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontFamily: 'koliko',
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 65.0),
-                child: GestureDetector(
-                  child: IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {},
-                  ),
-                ),
-              ),
-            ],
-          ),
         ],
       ),
     );

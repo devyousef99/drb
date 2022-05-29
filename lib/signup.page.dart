@@ -229,7 +229,7 @@ class _SignUpState extends State<SignUp> {
                     height: 10.0,
                   ),
                   SizedBox(
-                    height: 60.0,
+                    height: 45.0,
                     width: 300.0,
                     // ignore: deprecated_member_use
                     child: RaisedButton(

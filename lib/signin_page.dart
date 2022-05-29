@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print, must_call_super, unused_element, use_key_in_widget_constructors
 
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:drb/Modules/users.dart';
 import 'package:drb/landing_page.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,6 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
-
 import 'cart_page.dart';
 
 class SignInPage extends StatelessWidget {
@@ -34,28 +33,34 @@ class SignInState extends State<SignIn> {
   TextEditingController username = TextEditingController();
   TextEditingController password = TextEditingController();
   int? id;
+  late String mytest;
+  var response;
+  Users? myresponse;
   final _formkey = GlobalKey<FormState>();
 
   Future<void> _loginApi() async {
     if (username.text.isNotEmpty && password.text.isNotEmpty) {
-      var response = await http
-          .post(Uri.parse("http://10.0.2.2:8000/account/sign"), body: {
-        'username': username.text,
-        'password': password.text,
-      });
+      // mytest = response;
+      // response = await http
+      //     .post(Uri.parse("http://192.168.1.38:8000/account/sign"), body: {
+      //   'username': username.text,
+      //   'password': password.text,
+      // }
+      final response = await http.get(
+        Uri.parse('https://drbdesignksa.daftra.com/api2/clients/'),
+        headers: {
+          'Authorization': '',
+        },
+      );
+      myresponse = response as Users?;
       if (response.statusCode == 200) {
         _formkey.currentState!.save();
         SharedPreferences shared = await SharedPreferences.getInstance();
-<<<<<<< HEAD
+
         shared.setString('Users', json.decode(response.body).toString());
         print(shared.get('Users'));
-        Get.to(const LandingPage());
-=======
-        var body = jsonEncode(response.body).toString();
-        shared.setString('Users', body);
-        print(shared.getString('Users'));
+
         Get.to(CartPage());
->>>>>>> 3f2b525e2f154e09dcfc36f5fe94ceaf884cd9ce
       } else {
         print("Wrong Data");
       }
@@ -185,7 +190,7 @@ class SignInState extends State<SignIn> {
                     left: 30.0,
                   ),
                   child: SizedBox(
-                    height: 60.0,
+                    height: 45.0,
                     width: 300.0,
                     // ignore: deprecated_member_use
                     child: RaisedButton(
