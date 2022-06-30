@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'category.dart';
+part of 'clients.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
+Clients _$ClientsFromJson(Map<String, dynamic> json) => Clients(
       code: json['code'] as int?,
       result: json['result'] as String?,
       data: (json['data'] as List<dynamic>?)
@@ -17,7 +17,7 @@ Category _$CategoryFromJson(Map<String, dynamic> json) => Category(
           : Pagination.fromJson(json['pagination'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$CategoryToJson(Category instance) => <String, dynamic>{
+Map<String, dynamic> _$ClientsToJson(Clients instance) => <String, dynamic>{
       'code': instance.code,
       'result': instance.result,
       'data': instance.data,

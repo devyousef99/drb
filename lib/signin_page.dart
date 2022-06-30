@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:drb/Modules/users.dart';
+import 'package:drb/Modules/clients.dart';
 import 'package:drb/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -35,7 +35,7 @@ class SignInState extends State<SignIn> {
   int? id;
   late String mytest;
   var response;
-  Users? myresponse;
+  Clients? myresponse;
   final _formkey = GlobalKey<FormState>();
 
   Future<void> _loginApi() async {
@@ -52,7 +52,7 @@ class SignInState extends State<SignIn> {
           'Authorization': '',
         },
       );
-      myresponse = response as Users?;
+      myresponse = response as Clients?;
       if (response.statusCode == 200) {
         _formkey.currentState!.save();
         SharedPreferences shared = await SharedPreferences.getInstance();

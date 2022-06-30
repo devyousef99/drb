@@ -1,20 +1,14 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
-import 'package:drb/Modules/category.dart';
-import 'package:drb/products_page.dart';
 import 'package:easy_actions/easy_actions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'Modules/products.dart';
 import 'cart_page.dart';
 import 'productDetails_page.dart';
-import 'package:oauth2/oauth2.dart' as oauth2;
-import 'dart:io';
 
 class StorePage extends StatelessWidget {
   const StorePage({Key? key}) : super(key: key);
@@ -35,53 +29,57 @@ class Store extends StatefulWidget {
 }
 
 class StoreState extends State<Store> {
-  final identifier = 'my product identifier';
-  final secret = 'my product secret';
-
-  // final authorizationEndpoint =
-  //     Uri.parse("https://drbdesignksa.daftra.com/api2/products/");
-  // final tokenEndpoint = Uri.parse("caf98c3cb7227bbaf07a5d5ca9ca71125a160bf3");
-  // final redirectUrl = Uri.parse("https://www.daftra.com/");
-
-  // Future<oauth2.AuthorizationCodeGrant> _products() async {
-  //   var grant = oauth2.AuthorizationCodeGrant(
-  //       identifier, authorizationEndpoint, tokenEndpoint,
-  //       secret: secret);
-  //   return grant;
-  // }
-
+  String token = '88b8aaf9b86a29d4ec41f3f4734bd349b09588d4';
+  List<Products>? item;
   Future<List<Products>> _products() async {
-    String token = 'caf98c3cb7227bbaf07a5d5ca9ca71125a160bf3';
     final response = await http.get(
-        Uri.parse('https://drbdesignksa.daftra.com/api2/products/'),
+        Uri.parse('https://drbdesignksa.daftra.com/api2/products'),
         headers: {
-          'Authorization': token,
+          'APIKEY': token,
+          'Cookie':
+              'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
         });
     if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      print(response.body);
-      return jsonResponse.map((data) => Products.fromJson(data)).toList();
+      // print(response.body);
+      // Map<String, dynamic> items = json.decode(response.body);
+      // List test = items as List;
+      // print(test);
+      // return test.map((data) => Products.fromJson(data)).toList();
+
+      Map<String, dynamic> map = json.decode(response.body);
+      List item = map['data'];
+      print(item);
+      return item.map((data) => Products.fromJson(map)).toList();
     } else {
       throw Exception(response.body);
     }
   }
 
-  Future<List<Products>> _category() async {
-    final response = await http
-        .get(Uri.parse("https://drbdesignksa.daftra.com/api2/products/"));
-    if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((data) => Products.fromJson(data)).toList();
-    } else {
-      throw Exception(response.body);
-    }
-  }
+  // Future<List> _category() async {
+  //   final response = await http.get(
+  //       Uri.parse("https://drbdesignksa.daftra.com/api2/product_categories"),
+  //       headers: {
+  //         'APIKEY': token,
+  //         'Cookie':
+  //             'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
+  //       });
+  //   if (response.statusCode == 200) {
+  //     Map<String, dynamic> map = jsonDecode(response.body);
+  //     List cat = map['data'];
+  //     print(cat);
+  //     return cat;
+  //     // List jsonResponse = json.decode(response.body);
+  //     // return jsonResponse.map((data) => Category.fromJson(data)).toList();
+  //   } else {
+  //     throw Exception(response.body);
+  //   }
+  // }
 
   @override
   void initState() {
     super.initState();
     _products();
-    _category();
+    // _category();
   }
 
   @override
@@ -136,42 +134,42 @@ class StoreState extends State<Store> {
           child: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              SizedBox(
-                height: 200.0,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
-                  child: FutureBuilder(
-                      future: _products(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            physics: const ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              List<Products> item = snapshot.data;
-                              return AnimationConfiguration.staggeredGrid(
-                                position: index,
-                                columnCount: 2,
-                                child: ScaleAnimation(
-                                  child: FadeInAnimation(
-                                    delay: const Duration(milliseconds: 100),
-                                    child: adSpace(
-                                        item[index].data![0].toString()),
-                                  ),
-                                ),
-                              );
-                            },
-                            itemCount: snapshot.data,
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-// By default, show a loading spinner.
-                        return const CircularProgressIndicator();
-                      }),
-                ),
-              ),
+//               SizedBox(
+//                 height: 200.0,
+//                 child: Padding(
+//                   padding: const EdgeInsets.only(top: 40.0),
+//                   child: FutureBuilder(
+//                       future: _products(),
+//                       builder: (BuildContext context, AsyncSnapshot snapshot) {
+//                         if (snapshot.hasData) {
+//                           return ListView.builder(
+//                             physics: const ClampingScrollPhysics(),
+//                             shrinkWrap: true,
+//                             scrollDirection: Axis.horizontal,
+//                             itemBuilder: (context, index) {
+//                               List<Products> item = snapshot.data;
+//                               return AnimationConfiguration.staggeredGrid(
+//                                 position: index,
+//                                 columnCount: 2,
+//                                 child: ScaleAnimation(
+//                                   child: FadeInAnimation(
+//                                     delay: const Duration(milliseconds: 100),
+//                                     child: adSpace(
+//                                         item[index].data![0].toString()),
+//                                   ),
+//                                 ),
+//                               );
+//                             },
+//                             itemCount: snapshot.data,
+//                           );
+//                         } else if (snapshot.hasError) {
+//                           return Text('${snapshot.error}');
+//                         }
+// // By default, show a loading spinner.
+//                         return const CircularProgressIndicator();
+//                       }),
+//                 ),
+//               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -197,61 +195,62 @@ class StoreState extends State<Store> {
                   ),
                 ],
               ),
-              MediaQuery.removePadding(
-                removeTop: true,
-                context: context,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        height: 70,
-                        child: FutureBuilder(
-                            future: _category(),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                  physics: const ClampingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    List<Category> item = snapshot.data;
-                                    return AnimationConfiguration.staggeredGrid(
-                                      position: index,
-                                      columnCount: 2,
-                                      child: ScaleAnimation(
-                                        child: FadeInAnimation(
-                                          delay:
-                                              const Duration(milliseconds: 100),
-                                          child: InkWell(
-                                              onTap: () {
-// Navigator.push(context,
-//     MaterialPageRoute(
-//         builder: (context) => products_page(),
-//     settings: RouteSettings(
-//       arguments: item[index]
-//     )));
-                                                print('object');
-                                              },
-                                              child: categories(
-                                                  item[index].catName)),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  itemCount: snapshot.data.length,
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text('${snapshot.error}');
-                              }
-// By default, show a loading spinner.
-                              return const CircularProgressIndicator();
-                            }),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+//               MediaQuery.removePadding(
+//                 removeTop: true,
+//                 context: context,
+//                 child: Row(
+//                   children: [
+//                     Expanded(
+//                       child: SizedBox(
+//                         height: 70,
+//                         child: FutureBuilder(
+//                             future: _category(),
+//                             builder:
+//                                 (BuildContext context, AsyncSnapshot snapshot) {
+//                               if (snapshot.hasData) {
+//                                 return ListView.builder(
+//                                   physics: const ClampingScrollPhysics(),
+//                                   shrinkWrap: true,
+//                                   scrollDirection: Axis.horizontal,
+//                                   itemBuilder: (context, index) {
+//                                     List<Category> item = snapshot.data;
+//                                     return AnimationConfiguration.staggeredGrid(
+//                                       position: index,
+//                                       columnCount: 2,
+//                                       child: ScaleAnimation(
+//                                         child: FadeInAnimation(
+//                                           delay:
+//                                               const Duration(milliseconds: 100),
+//                                           child: InkWell(
+//                                               onTap: () {
+// // Navigator.push(context,
+// //     MaterialPageRoute(
+// //         builder: (context) => products_page(),
+// //     settings: RouteSettings(
+// //       arguments: item[index]
+// //     )));
+//                                                 // print('object');
+//                                               },
+//                                               child: categories(item[index]
+//                                                   .data![0]
+//                                                   .toString())),
+//                                         ),
+//                                       ),
+//                                     );
+//                                   },
+//                                   itemCount: snapshot.data.length,
+//                                 );
+//                               } else if (snapshot.hasError) {
+//                                 return Text('${snapshot.error}');
+//                               }
+//                               // By default, show a loading spinner.
+//                               return const CircularProgressIndicator();
+//                             }),
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -277,37 +276,37 @@ class StoreState extends State<Store> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 200.0,
-                child: MediaQuery.removePadding(
-                  removeTop: true,
-                  context: context,
-                  child: FutureBuilder(
-                      future: _products(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            physics: const ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              List<Products> item = snapshot.data.length;
-                              return AnimationConfiguration.staggeredGrid(
-                                position: index,
-                                columnCount: 2,
-                                child: card2(item[index].data.toString()),
-                              );
-                            },
-                            itemCount: snapshot.data.length,
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('${snapshot.error}');
-                        }
-// By default, show a loading spinner.
-                        return const CircularProgressIndicator();
-                      }),
-                ),
-              ),
+//               SizedBox(
+//                 height: 200.0,
+//                 child: MediaQuery.removePadding(
+//                   removeTop: true,
+//                   context: context,
+//                   child: FutureBuilder(
+//                       future: _products(),
+//                       builder: (BuildContext context, AsyncSnapshot snapshot) {
+//                         if (snapshot.hasData) {
+//                           return ListView.builder(
+//                             physics: const ClampingScrollPhysics(),
+//                             shrinkWrap: true,
+//                             scrollDirection: Axis.horizontal,
+//                             itemBuilder: (context, index) {
+//                               List<Products> item = snapshot.data.length;
+//                               return AnimationConfiguration.staggeredGrid(
+//                                 position: index,
+//                                 columnCount: 2,
+//                                 child: card2(item[index].data.toString()),
+//                               );
+//                             },
+//                             itemCount: snapshot.data.length,
+//                           );
+//                         } else if (snapshot.hasError) {
+//                           return Text('${snapshot.error}');
+//                         }
+// // By default, show a loading spinner.
+//                         return const CircularProgressIndicator();
+//                       }),
+//                 ),
+//               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -336,53 +335,53 @@ class StoreState extends State<Store> {
               MediaQuery.removePadding(
                 removeTop: true,
                 context: context,
-                child: FutureBuilder(
-                    future: _products(),
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.hasData) {
-                        return GridView.builder(
-                          shrinkWrap: true,
-                          physics: const ScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.85,
-                          ),
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context, index) {
-                            List<Products> item = snapshot.data;
-                            return AnimationConfiguration.staggeredGrid(
-                              position: index,
-                              columnCount: 2,
-                              child: ScaleAnimation(
-                                child: FadeInAnimation(
-                                  delay: const Duration(milliseconds: 100),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ProductDetail(),
-                                              settings: RouteSettings(
-                                                  arguments: item[index])));
-                                    },
-                                    child: productImages(
-                                        item[index].data.toString(),
-                                        item[index].data.toString(),
-                                        item[index].data.toString()),
-                                  ),
+                child: item != null
+                    ? GridView.builder(
+                        shrinkWrap: true,
+                        physics: const ScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.85,
+                        ),
+                        itemCount: item!.length,
+                        itemBuilder: (BuildContext context, index) {
+                          final items = item![index];
+                          return AnimationConfiguration.staggeredGrid(
+                            position: index,
+                            columnCount: 2,
+                            child: ScaleAnimation(
+                              child: FadeInAnimation(
+                                delay: const Duration(milliseconds: 100),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ProductDetail(),
+                                            settings: RouteSettings(
+                                                arguments: item![index])));
+                                  },
+                                  child: productImages(
+                                      items.data![index].product!.name
+                                          .toString(),
+                                      items.data![index].product!.name
+                                          .toString(),
+                                      items.data![index].product!.name
+                                          .toString()),
                                 ),
                               ),
-                            );
-                          },
-                        );
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
-// By default, show a loading spinner.
-                      return const CircularProgressIndicator();
-                    }),
+                            ),
+                          );
+                        },
+                      )
+                    : const Center(
+                        child: Text(
+                          "No Data",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
               ),
             ]),
           ),
@@ -512,7 +511,8 @@ Widget card2(String? img) => Card(
     );
 
 //this is the design created to show a list of data.
-Widget productImages(String? image, String? name, String? price) => Card(
+Widget productImages(String? productImage, String? name, String? buyPrice) =>
+    Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -525,7 +525,7 @@ Widget productImages(String? image, String? name, String? price) => Card(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               image: DecorationImage(
-                image: NetworkImage('http://10.0.2.2:8000' + image!),
+                image: NetworkImage(productImage!),
                 fit: BoxFit.fill,
               ),
             ),
@@ -545,7 +545,7 @@ Widget productImages(String? image, String? name, String? price) => Card(
               Padding(
                 padding: const EdgeInsets.only(left: 65.0),
                 child: Text(
-                  price!,
+                  buyPrice!,
                   style: const TextStyle(color: Colors.black),
                 ),
               ),
