@@ -30,8 +30,8 @@ class Store extends StatefulWidget {
 
 class StoreState extends State<Store> {
   String token = '88b8aaf9b86a29d4ec41f3f4734bd349b09588d4';
-  List<Products>? item;
-  Future<List<Products>> _products() async {
+  // late Future<List<Products>> item;
+  Future<Products> _products() async {
     final response = await http.get(
         Uri.parse('https://drbdesignksa.daftra.com/api2/products'),
         headers: {
@@ -39,6 +39,8 @@ class StoreState extends State<Store> {
           'Cookie':
               'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
         });
+
+    var jsonresponse = jsonDecode(response.body);
     if (response.statusCode == 200) {
       // print(response.body);
       // Map<String, dynamic> items = json.decode(response.body);
@@ -46,12 +48,15 @@ class StoreState extends State<Store> {
       // print(test);
       // return test.map((data) => Products.fromJson(data)).toList();
 
-      Map<String, dynamic> map = json.decode(response.body);
-      List item = map['data'];
-      print(item);
-      return item.map((data) => Products.fromJson(map)).toList();
+      // Map<String, dynamic> map = json.decode(response.body);
+      // List item = map['data'];
+      // print(item);
+      // return item.map((data) => Products.fromJson(map)).toList();
+      print(jsonresponse);
+      return Products.fromJson(jsonresponse);
     } else {
-      throw Exception(response.body);
+      // throw Exception(response.body);
+      return Products.fromJson(jsonresponse);
     }
   }
 
@@ -229,7 +234,6 @@ class StoreState extends State<Store> {
 // //     settings: RouteSettings(
 // //       arguments: item[index]
 // //     )));
-//                                                 // print('object');
 //                                               },
 //                                               child: categories(item[index]
 //                                                   .data![0]
@@ -332,56 +336,101 @@ class StoreState extends State<Store> {
                   ),
                 ],
               ),
+
               MediaQuery.removePadding(
                 removeTop: true,
                 context: context,
-                child: item != null
-                    ? GridView.builder(
-                        shrinkWrap: true,
-                        physics: const ScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.85,
-                        ),
-                        itemCount: item!.length,
-                        itemBuilder: (BuildContext context, index) {
-                          final items = item![index];
-                          return AnimationConfiguration.staggeredGrid(
-                            position: index,
-                            columnCount: 2,
-                            child: ScaleAnimation(
-                              child: FadeInAnimation(
-                                delay: const Duration(milliseconds: 100),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ProductDetail(),
-                                            settings: RouteSettings(
-                                                arguments: item![index])));
-                                  },
-                                  child: productImages(
-                                      items.data![index].product!.name
-                                          .toString(),
-                                      items.data![index].product!.name
-                                          .toString(),
-                                      items.data![index].product!.name
-                                          .toString()),
-                                ),
-                              ),
+                child: FutureBuilder<Products>(
+                  future: _products(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      // return ListView.builder(
+                      //   itemCount: snapshot.data!.data!.length,
+                      //   itemBuilder: (context, index) {
+                      //     return Column(
+                      //       children: [Text('$index')],
+                      //     );
+                      //   },
+                      // );
+
+                      return SizedBox(
+                        child: GridView.builder(
+                            shrinkWrap: true,
+                            itemCount: snapshot.data!.data!.length,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.85,
                             ),
-                          );
-                        },
-                      )
-                    : const Center(
-                        child: Text(
-                          "No Data",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                            itemBuilder: (context, index) {
+                              final item = snapshot.data!.data!;
+                              return productImages(
+                                  item[index].product!.productImage,
+                                  snapshot.data!.data![index].product!.name
+                                      .toString(),
+                                  snapshot.data!.data![index].product!.buyPrice
+                                      .toString());
+                            }),
+                      );
+                    } else if (snapshot.hasError) {
+                      print(snapshot.error);
+                      return const Text(
+                        "No Data",
+                        style: TextStyle(color: Colors.white),
+                      );
+                    }
+                    // By default, show a loading spinner.
+                    return const CircularProgressIndicator();
+                  },
+                ),
+
+                // child: item != null
+                //     ? GridView.builder(
+                //         shrinkWrap: true,
+                //         physics: const ScrollPhysics(),
+                //         gridDelegate:
+                //             const SliverGridDelegateWithFixedCrossAxisCount(
+                //           crossAxisCount: 2,
+                //           childAspectRatio: 0.85,
+                //         ),
+                //         itemCount: item!.length,
+                //         itemBuilder: (BuildContext context, index) {
+                //           final items = item![index];
+                //           return AnimationConfiguration.staggeredGrid(
+                //             position: index,
+                //             columnCount: 2,
+                //             child: ScaleAnimation(
+                //               child: FadeInAnimation(
+                //                 delay: const Duration(milliseconds: 100),
+                //                 child: GestureDetector(
+                //                   onTap: () {
+                //                     Navigator.push(
+                //                         context,
+                //                         MaterialPageRoute(
+                //                             builder: (context) =>
+                //                                 ProductDetail(),
+                //                             settings: RouteSettings(
+                //                                 arguments: item![index])));
+                //                   },
+                //                   child: productImages(
+                //                       items.data![index].product!.name
+                //                           .toString(),
+                //                       items.data![index].product!.name
+                //                           .toString(),
+                //                       items.data![index].product!.name
+                //                           .toString()),
+                //                 ),
+                //               ),
+                //             ),
+                //           );
+                //         },
+                //       )
+                //     : const Center(
+                //         child: Text(
+                //           "No Data",
+                //           style: TextStyle(color: Colors.white),
+                //         ),
+                //       ),
               ),
             ]),
           ),
@@ -455,7 +504,7 @@ class CustomSearchDelegate extends SearchDelegate {
 }
 
 //this is the design created to show a list of data.
-Widget adSpace(String? image) => Card(
+Widget adSpace(List<ProductImage>? productImage) => Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -469,7 +518,7 @@ Widget adSpace(String? image) => Card(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 image: DecorationImage(
-                  image: NetworkImage('http://10.0.2.2:8000' + image!),
+                  image: NetworkImage('$productImage'),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -483,7 +532,7 @@ Widget adSpace(String? image) => Card(
     );
 
 //this is the design created to show a list of data.
-Widget card2(String? img) => Card(
+Widget card2(List<ProductImage>? productImage) => Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -497,7 +546,7 @@ Widget card2(String? img) => Card(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 image: DecorationImage(
-                  image: NetworkImage('http://10.0.2.2:8000' + img!),
+                  image: NetworkImage('$productImage'),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -511,7 +560,8 @@ Widget card2(String? img) => Card(
     );
 
 //this is the design created to show a list of data.
-Widget productImages(String? productImage, String? name, String? buyPrice) =>
+Widget productImages(
+        List<ProductImage>? productImage, String? name, String? buyPrice) =>
     Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Column(
@@ -525,7 +575,7 @@ Widget productImages(String? productImage, String? name, String? buyPrice) =>
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               image: DecorationImage(
-                image: NetworkImage(productImage!),
+                image: NetworkImage('$productImage'),
                 fit: BoxFit.fill,
               ),
             ),
@@ -538,7 +588,7 @@ Widget productImages(String? productImage, String? name, String? buyPrice) =>
                   name!,
                   style: const TextStyle(
                     color: Colors.black,
-                    fontSize: 20,
+                    fontSize: 10,
                   ),
                 ),
               ),

@@ -59,31 +59,31 @@ class Data {
 }
 
 class Product {
-  int? id;
-  int? staffId;
+  String? id;
+  String? staffId;
   String? name;
   String? description;
-  int? unitPrice;
+  String? unitPrice;
   int? tax1;
   int? tax2;
-  int? supplierId;
+  String? supplierId;
   String? brand;
   String? category;
   String? tags;
-  int? buyPrice;
+  String? buyPrice;
   String? productCode;
-  bool? trackStock;
-  int? stockBalance;
-  int? lowStockThershold;
+  String? trackStock;
+  String? stockBalance;
+  String? lowStockThershold;
   String? barcode;
   String? notes;
-  int? deactivate;
+  String? deactivate;
   String? created;
   String? modified;
   Null? followUpStatus;
-  bool? updatedPrice;
-  int? averagePrice;
-  Null? type;
+  String? updatedPrice;
+  String? averagePrice;
+  String? type;
   Null? minimumPrice;
   Null? profitMargin;
   Null? discount;
@@ -264,10 +264,10 @@ class ProductImage {
 }
 
 class ProductCategory {
-  int? id;
+  String? id;
   String? name;
   String? description;
-  int? categoryType;
+  String? categoryType;
   int? parentId;
   String? image;
   String? created;
