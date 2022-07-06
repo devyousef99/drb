@@ -42,6 +42,12 @@ class StoreState extends State<Store> {
 
     var jsonresponse = jsonDecode(response.body);
     if (response.statusCode == 200) {
+      // print(response.body);
+      // Map<String, dynamic> items = json.decode(response.body);
+      // List test = items as List;
+      // print(test);
+      // return test.map((data) => Products.fromJson(data)).toList();
+
       // Map<String, dynamic> map = json.decode(response.body);
       // List item = map['data'];
       // print(item);
@@ -346,10 +352,10 @@ class StoreState extends State<Store> {
                       //     );
                       //   },
                       // );
-
                       return SizedBox(
                         child: GridView.builder(
                             shrinkWrap: true,
+                            physics: const ScrollPhysics(),
                             itemCount: snapshot.data!.data!.length,
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -360,10 +366,7 @@ class StoreState extends State<Store> {
                               final item = snapshot.data!.data!;
                               return productImages(
                                   item[index].product!.productImage,
-                                  item[index]
-                                      .product!
-                                      .productCategory![0]
-                                      .name
+                                  snapshot.data!.data![index].product!.name
                                       .toString(),
                                   snapshot.data!.data![index].product!.buyPrice
                                       .toString());
