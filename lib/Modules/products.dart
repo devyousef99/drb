@@ -224,7 +224,7 @@ class Product {
 
 class ProductImage {
   int? id;
-  int? productId;
+  String? productId;
   bool? based;
   String? file;
   String? created;

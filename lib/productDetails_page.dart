@@ -14,7 +14,6 @@ class ProductDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'test',
       home: ProductDetail(),
     );
   }
@@ -31,15 +30,22 @@ class _ProductDetailState extends State<ProductDetail> {
   String? selectedValue;
   String? selectedValue1;
   Future<void> addtocart() async {
-    var response = await http
-        .post(Uri.parse("http://10.0.2.2:8000/account/sign/4"), body: {
-      'product': [
-        {'pr_name': 'text', 'id': 'id'}
-      ],
-      'price': 'price',
-      'size': 'size',
-      'quantity': 'quantity'
-    });
+    String token = '88b8aaf9b86a29d4ec41f3f4734bd349b09588d4';
+    var response = await http.post(
+        Uri.parse('https://drbdesignksa.daftra.com/api2/products'),
+        headers: {
+          'APIKEY': token,
+          'Cookie':
+              'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
+        },
+        body: {
+          'Product': [
+            {'name': 'name', 'id': 'id'}
+          ],
+          'buyPrice': 'buyPrice',
+          'size': 'size',
+          'default_quantity': 'default_quantity'
+        });
     if (response.statusCode == 200) {
       print("Welcome");
       Get.to('Next Screen');
@@ -63,7 +69,7 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     final Products? passedData =
-        ModalRoute.of(context)!.settings.arguments as Products?;
+        ModalRoute.of(context)!.settings.arguments as Products;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
@@ -97,7 +103,7 @@ class _ProductDetailState extends State<ProductDetail> {
           centerTitle: true,
           title: passedData != null
               ? Text(
-                  passedData.data.toString(),
+                  passedData.data!.toString(),
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -128,12 +134,12 @@ class _ProductDetailState extends State<ProductDetail> {
                           child: ScaleAnimation(
                             child: FadeInAnimation(
                               delay: const Duration(milliseconds: 100),
-                              child: productImages(passedData!.data.toString()),
+                              child:
+                                  productImages(passedData!.data!.toString()),
                             ),
                           ),
                         );
                       },
-                      //itemCount: passed_data.length,
                     ),
                   ),
                 ),
@@ -146,7 +152,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         bottom: 10.0,
                       ),
                       child: Text(
-                        passedData!.data.toString(),
+                        passedData!.data!.toString(),
                         style: const TextStyle(
                             fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
@@ -159,7 +165,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       padding: const EdgeInsets.only(
                           left: 20.0, bottom: 5.0, top: 5.0),
                       child: Text(
-                        passedData.data.toString(),
+                        passedData.data!.toString(),
                         style: const TextStyle(
                           fontSize: 16.0,
                         ),

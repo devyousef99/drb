@@ -1,12 +1,14 @@
 // ignore_for_file: avoid_print
 
 import 'dart:convert';
+import 'package:drb/products_page.dart';
 import 'package:easy_actions/easy_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'Modules/products.dart';
+import 'Modules/category.dart';
 import 'cart_page.dart';
 import 'productDetails_page.dart';
 
@@ -30,7 +32,6 @@ class Store extends StatefulWidget {
 
 class StoreState extends State<Store> {
   String token = '88b8aaf9b86a29d4ec41f3f4734bd349b09588d4';
-  // late Future<List<Products>> item;
   Future<Products> _products() async {
     final response = await http.get(
         Uri.parse('https://drbdesignksa.daftra.com/api2/products'),
@@ -39,52 +40,37 @@ class StoreState extends State<Store> {
           'Cookie':
               'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
         });
-
-    var jsonresponse = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      // print(response.body);
-      // Map<String, dynamic> items = json.decode(response.body);
-      // List test = items as List;
-      // print(test);
-      // return test.map((data) => Products.fromJson(data)).toList();
-
-      // Map<String, dynamic> map = json.decode(response.body);
-      // List item = map['data'];
-      // print(item);
-      // return item.map((data) => Products.fromJson(map)).toList();
+      var jsonresponse = jsonDecode(response.body);
       print(jsonresponse);
       return Products.fromJson(jsonresponse);
     } else {
-      // throw Exception(response.body);
-      return Products.fromJson(jsonresponse);
+      throw Exception(response.body);
     }
   }
 
-  // Future<List> _category() async {
-  //   final response = await http.get(
-  //       Uri.parse("https://drbdesignksa.daftra.com/api2/product_categories"),
-  //       headers: {
-  //         'APIKEY': token,
-  //         'Cookie':
-  //             'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
-  //       });
-  //   if (response.statusCode == 200) {
-  //     Map<String, dynamic> map = jsonDecode(response.body);
-  //     List cat = map['data'];
-  //     print(cat);
-  //     return cat;
-  //     // List jsonResponse = json.decode(response.body);
-  //     // return jsonResponse.map((data) => Category.fromJson(data)).toList();
-  //   } else {
-  //     throw Exception(response.body);
-  //   }
-  // }
+  Future<Category> _category() async {
+    final response = await http.get(
+        Uri.parse("https://drbdesignksa.daftra.com/api2/product_categories"),
+        headers: {
+          'APIKEY': token,
+          'Cookie':
+              'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
+        });
+    if (response.statusCode == 200) {
+      var jsonresponse = jsonDecode(response.body);
+      print(jsonresponse);
+      return Category.fromJson(jsonresponse);
+    } else {
+      throw Exception(response.body);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     _products();
-    // _category();
+    _category();
   }
 
   @override
@@ -139,42 +125,41 @@ class StoreState extends State<Store> {
           child: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-//               SizedBox(
-//                 height: 200.0,
-//                 child: Padding(
-//                   padding: const EdgeInsets.only(top: 40.0),
-//                   child: FutureBuilder(
-//                       future: _products(),
-//                       builder: (BuildContext context, AsyncSnapshot snapshot) {
-//                         if (snapshot.hasData) {
-//                           return ListView.builder(
-//                             physics: const ClampingScrollPhysics(),
-//                             shrinkWrap: true,
-//                             scrollDirection: Axis.horizontal,
-//                             itemBuilder: (context, index) {
-//                               List<Products> item = snapshot.data;
-//                               return AnimationConfiguration.staggeredGrid(
-//                                 position: index,
-//                                 columnCount: 2,
-//                                 child: ScaleAnimation(
-//                                   child: FadeInAnimation(
-//                                     delay: const Duration(milliseconds: 100),
-//                                     child: adSpace(
-//                                         item[index].data![0].toString()),
-//                                   ),
-//                                 ),
-//                               );
-//                             },
-//                             itemCount: snapshot.data,
-//                           );
-//                         } else if (snapshot.hasError) {
-//                           return Text('${snapshot.error}');
-//                         }
-// // By default, show a loading spinner.
-//                         return const CircularProgressIndicator();
-//                       }),
-//                 ),
-//               ),
+              SizedBox(
+                height: 200.0,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: FutureBuilder<Products>(
+                      future: _products(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return ListView.builder(
+                            physics: const ClampingScrollPhysics(),
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: snapshot.data!.data!.length,
+                            itemBuilder: (context, index) {
+                              final item = snapshot.data!.data!;
+                              return AnimationConfiguration.staggeredGrid(
+                                position: index,
+                                columnCount: 2,
+                                child: ScaleAnimation(
+                                  child: FadeInAnimation(
+                                    delay: const Duration(milliseconds: 100),
+                                    child: adSpace(
+                                      item[index].product!.productImage,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }
+                        // By default, show a loading spinner.
+                        return const Center(child: CircularProgressIndicator());
+                      }),
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -200,61 +185,67 @@ class StoreState extends State<Store> {
                   ),
                 ],
               ),
-//               MediaQuery.removePadding(
-//                 removeTop: true,
-//                 context: context,
-//                 child: Row(
-//                   children: [
-//                     Expanded(
-//                       child: SizedBox(
-//                         height: 70,
-//                         child: FutureBuilder(
-//                             future: _category(),
-//                             builder:
-//                                 (BuildContext context, AsyncSnapshot snapshot) {
-//                               if (snapshot.hasData) {
-//                                 return ListView.builder(
-//                                   physics: const ClampingScrollPhysics(),
-//                                   shrinkWrap: true,
-//                                   scrollDirection: Axis.horizontal,
-//                                   itemBuilder: (context, index) {
-//                                     List<Category> item = snapshot.data;
-//                                     return AnimationConfiguration.staggeredGrid(
-//                                       position: index,
-//                                       columnCount: 2,
-//                                       child: ScaleAnimation(
-//                                         child: FadeInAnimation(
-//                                           delay:
-//                                               const Duration(milliseconds: 100),
-//                                           child: InkWell(
-//                                               onTap: () {
-// // Navigator.push(context,
-// //     MaterialPageRoute(
-// //         builder: (context) => products_page(),
-// //     settings: RouteSettings(
-// //       arguments: item[index]
-// //     )));
-//                                               },
-//                                               child: categories(item[index]
-//                                                   .data![0]
-//                                                   .toString())),
-//                                         ),
-//                                       ),
-//                                     );
-//                                   },
-//                                   itemCount: snapshot.data.length,
-//                                 );
-//                               } else if (snapshot.hasError) {
-//                                 return Text('${snapshot.error}');
-//                               }
-//                               // By default, show a loading spinner.
-//                               return const CircularProgressIndicator();
-//                             }),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               ),
+              MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        height: 70,
+                        child: FutureBuilder<Category>(
+                          future: _category(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const ClampingScrollPhysics(),
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: snapshot.data!.data!.length,
+                                  itemBuilder: (context, index) {
+                                    final items = snapshot.data!.data!;
+                                    return AnimationConfiguration.staggeredGrid(
+                                        position: index,
+                                        columnCount: 1,
+                                        child: categories(
+                                          items[index].categoriesCategory!.name,
+                                        ));
+                                  });
+                            }
+                            // By default, show a loading spinner.
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          },
+                        ),
+                        // child: FutureBuilder<Category>(
+                        //     future: _category(),
+                        //     builder:
+                        //         (BuildContext context, AsyncSnapshot snapshot) {
+                        //       if (snapshot.hasData) {
+                        //         return ListView.builder(
+                        //             shrinkWrap: true,
+                        //             physics: const ClampingScrollPhysics(),
+                        //             scrollDirection: Axis.horizontal,
+                        //             itemCount: snapshot.data.length,
+                        //             itemBuilder: (context, index) {
+                        //               final item = snapshot.data;
+                        //               return AnimationConfiguration
+                        //                   .staggeredGrid(
+                        //                       position: index,
+                        //                       columnCount: 1,
+                        //                       child: categories(snapshot.data.);
+                        //             });
+                        //       } else if (snapshot.hasError) {
+                        //         return Text('${snapshot.error}');
+                        //       }
+                        //       // By default, show a loading spinner.
+                        //       return const CircularProgressIndicator();
+                        //     }),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -280,37 +271,61 @@ class StoreState extends State<Store> {
                   ),
                 ],
               ),
-//               SizedBox(
-//                 height: 200.0,
-//                 child: MediaQuery.removePadding(
-//                   removeTop: true,
-//                   context: context,
-//                   child: FutureBuilder(
-//                       future: _products(),
-//                       builder: (BuildContext context, AsyncSnapshot snapshot) {
-//                         if (snapshot.hasData) {
-//                           return ListView.builder(
-//                             physics: const ClampingScrollPhysics(),
-//                             shrinkWrap: true,
-//                             scrollDirection: Axis.horizontal,
-//                             itemBuilder: (context, index) {
-//                               List<Products> item = snapshot.data.length;
-//                               return AnimationConfiguration.staggeredGrid(
-//                                 position: index,
-//                                 columnCount: 2,
-//                                 child: card2(item[index].data.toString()),
-//                               );
-//                             },
-//                             itemCount: snapshot.data.length,
-//                           );
-//                         } else if (snapshot.hasError) {
-//                           return Text('${snapshot.error}');
-//                         }
-// // By default, show a loading spinner.
-//                         return const CircularProgressIndicator();
-//                       }),
-//                 ),
-//               ),
+              SizedBox(
+                height: 200.0,
+                child: MediaQuery.removePadding(
+                  removeTop: true,
+                  context: context,
+                  //  Yousef
+                  // child: FutureBuilder(
+                  //     future: _products(),
+                  //     builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  //       if (snapshot.hasData) {
+                  //         return ListView.builder(
+                  //           physics: const ClampingScrollPhysics(),
+                  //           shrinkWrap: true,
+                  //           scrollDirection: Axis.horizontal,
+                  //           itemBuilder: (context, index) {
+                  //             List<ProductImage> item = snapshot.data.length;
+                  //             return AnimationConfiguration.staggeredGrid(
+                  //               position: index,
+                  //               columnCount: 2,
+                  //               child: card2(item[index].productId),
+                  //             );
+                  //           },
+                  //           itemCount: snapshot.data.length,
+                  //         );
+                  //       }
+                  //       // By default, show a loading spinner.
+                  //       return const CircularProgressIndicator();
+                  //     }),
+                  child: FutureBuilder<Products>(
+                    future: _products(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return SizedBox(
+                          child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const ClampingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: snapshot.data!.data!.length,
+                              itemBuilder: (context, index) {
+                                final item = snapshot.data!.data!;
+                                return AnimationConfiguration.staggeredGrid(
+                                    position: index,
+                                    columnCount: 1,
+                                    child: card2(
+                                      item[index].product!.productImage,
+                                    ));
+                              }),
+                        );
+                      }
+                      // By default, show a loading spinner.
+                      return const Center(child: CircularProgressIndicator());
+                    },
+                  ),
+                ),
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -336,7 +351,6 @@ class StoreState extends State<Store> {
                   ),
                 ],
               ),
-
               MediaQuery.removePadding(
                 removeTop: true,
                 context: context,
@@ -344,14 +358,6 @@ class StoreState extends State<Store> {
                   future: _products(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      // return ListView.builder(
-                      //   itemCount: snapshot.data!.data!.length,
-                      //   itemBuilder: (context, index) {
-                      //     return Column(
-                      //       children: [Text('$index')],
-                      //     );
-                      //   },
-                      // );
                       return SizedBox(
                         child: GridView.builder(
                             shrinkWrap: true,
@@ -364,26 +370,53 @@ class StoreState extends State<Store> {
                             ),
                             itemBuilder: (context, index) {
                               final item = snapshot.data!.data!;
-                              return productImages(
-                                  item[index].product!.productImage,
-                                  snapshot.data!.data![index].product!.name
-                                      .toString(),
-                                  snapshot.data!.data![index].product!.buyPrice
-                                      .toString());
+                              return AnimationConfiguration.staggeredGrid(
+                                position: index,
+                                columnCount: 2,
+                                child: ScaleAnimation(
+                                  child: FadeInAnimation(
+                                    delay: const Duration(milliseconds: 100),
+                                    child: GestureDetector(
+                                      onTap: (() {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProductDetail(),
+                                                settings: RouteSettings(
+                                                    arguments: item[index])));
+                                      }),
+                                      child: productImages(
+                                          item[index].product!.productImage,
+                                          item[index]
+                                                  .product!
+                                                  .productCategory!
+                                                  .isNotEmpty
+                                              ? item[index]
+                                                  .product!
+                                                  .productCategory![0]
+                                                  .name
+                                                  .toString()
+                                              : item[index]
+                                                  .product!
+                                                  .name
+                                                  .toString(),
+                                          item[index]
+                                              .product!
+                                              .buyPrice
+                                              .toString()),
+                                    ),
+                                  ),
+                                ),
+                              );
                             }),
-                      );
-                    } else if (snapshot.hasError) {
-                      print(snapshot.error);
-                      return const Text(
-                        "No Data",
-                        style: TextStyle(color: Colors.white),
                       );
                     }
                     // By default, show a loading spinner.
-                    return const CircularProgressIndicator();
+                    return const Center(child: CircularProgressIndicator());
                   },
                 ),
-
+                //Yousef
                 // child: item != null
                 //     ? GridView.builder(
                 //         shrinkWrap: true,
@@ -566,7 +599,7 @@ Widget productImages(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
             width: 183,
@@ -613,6 +646,7 @@ Widget categories(String? name) => ButtonBar(
           label: name!,
           labelStyle: const TextStyle(
             color: Colors.black,
+            fontSize: 20,
           ),
           labelColor: Colors.white,
           isRounded: true,
