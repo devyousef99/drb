@@ -2,7 +2,6 @@
 
 import 'package:drb/drbCarDetails_page.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class DrbCarPage extends StatefulWidget {
   const DrbCarPage({Key? key}) : super(key: key);
@@ -230,7 +229,14 @@ class _DrbCarPageState extends State<DrbCarPage> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              Get.to(const DrbCarDetailPage());
+                                              // Get.to(const DrbCarDetailPage());
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const DrbCarDetailPage(),
+                                                ),
+                                              );
                                             },
                                             child: const Text(
                                               'View',

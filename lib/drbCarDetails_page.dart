@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class DrbCarDetailPage extends StatefulWidget {
   const DrbCarDetailPage({Key? key}) : super(key: key);
@@ -34,7 +33,8 @@ class _DrbCarDetailPageState extends State<DrbCarDetailPage> {
                   color: Colors.black,
                 ),
                 onPressed: () {
-                  Get.back();
+                  // Get.back();
+                  Navigator.pop(context);
                 },
               ),
             ),

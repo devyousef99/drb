@@ -1,7 +1,6 @@
 import 'package:drb/shippingAddress_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 
 class ShippingPage extends StatefulWidget {
   const ShippingPage({Key? key}) : super(key: key);
@@ -27,7 +26,8 @@ class _ShippingPageState extends State<ShippingPage> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Get.back();
+                // Get.back();
+                Navigator.pop(context);
               },
             ),
           ),
@@ -92,7 +92,12 @@ class _ShippingPageState extends State<ShippingPage> {
                   children: [
                     CupertinoButton(
                       onPressed: () {
-                        Get.to(const ShippingAddressPage());
+                        // Get.to(const ShippingAddressPage());
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ShippingAddress()),
+                        );
                       },
                       child: const Icon(
                         CupertinoIcons.add_circled_solid,

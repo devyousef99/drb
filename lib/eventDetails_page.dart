@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:drb/Modules/products.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -41,15 +42,16 @@ class _EventDetailPageState extends State<EventDetailPage> {
               ),
             ),
           ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                Get.to(const Cart());
-              },
-              color: Colors.black,
-              icon: const Icon(Icons.shopping_bag),
-            ),
-          ],
+          // actions: [
+          //   IconButton(
+          //      onPressed: () async {
+          //     List<Product>? products = await getProudcts();
+          //     Get.to(Cart(products: products ?? []));
+          //   },
+          //     color: Colors.black,
+          //     icon: const Icon(Icons.shopping_bag),
+          //   ),
+          // ],
           centerTitle: true,
           title:
               // passed_data != null ?

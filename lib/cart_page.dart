@@ -1,341 +1,622 @@
-import 'dart:convert';
-import 'package:drb/Modules/cart.dart';
-import 'package:drb/Modules/clients.dart';
+// ignore_for_file: avoid_unnecessary_containers, library_private_types_in_public_api
+
 import 'package:drb/productDetails_page.dart';
+import 'package:drb/store_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Modules/products.dart';
-import 'Modules/category.dart';
 import 'checkout_page.dart';
 
-class CartPage extends StatelessWidget {
-  const CartPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Cart(),
-    );
-  }
-}
-
 class Cart extends StatefulWidget {
-  const Cart({Key? key}) : super(key: key);
+  final List<Product> products;
+  const Cart({Key? key, required this.products}) : super(key: key);
 
   @override
   _CartState createState() => _CartState();
 }
 
 class _CartState extends State<Cart> {
-  List<Products>? allProducts;
-  List<Category>? allCat;
-  var test;
-  // Users? user;
-  // var userData;
+  int _counter = 1;
 
   // void _getData() async {
   //   SharedPreferences shared = await SharedPreferences.getInstance();
-  //   test = shared.getString('Users');
-  //   // user = Users.fromJson(test);
-  //   // SharedPreferences shared = await SharedPreferences.getInstance();
-  //   // print(shared.getString('Users')!);
-  //   // Map<String, dynamic> jsonData = jsonDecode(test!);
-  //   // userData = Users.fromJson(jsonData);
+  //   test = shared.getString('Proudct');
+  //   product = Product.fromJson(test);
+  //   print(shared.getString('Proudct')!);
+  //   Map<String, dynamic> jsonData = jsonDecode(test!);
+  //   userData = Product.fromJson(jsonData);
   // }
 
-  Future<List<Refrence>> getCartUser() async {
-    SharedPreferences shared = await SharedPreferences.getInstance();
-    test = shared.getString('Users');
-    final response = await http
-        .get(Uri.parse("http://192.168.1.38:8000/cart/get_cart/$test"));
-    if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((data) => Refrence.fromJson(data)).toList();
-    } else {
-      print(test);
-      throw Exception('Failed to load album');
-    }
+  // Future<List<Refrence>> getCartUser() async {
+  //   SharedPreferences shared = await SharedPreferences.getInstance();
+  //   test = shared.getString('Users');
+  //   final response = await http
+  //       .get(Uri.parse("http://192.168.1.38:8000/cart/get_cart/$test"));
+  //   if (response.statusCode == 200) {
+  //     List jsonResponse = json.decode(response.body);
+  //     return jsonResponse.map((data) => Refrence.fromJson(data)).toList();
+  //   } else {
+  //     print(test);
+  //     throw Exception('Failed to load album');
+  //   }
+  // }
+
+  // delete product
+  clear() async {
+    SharedPreferences deleteProduct = await SharedPreferences.getInstance();
+    deleteProduct.clear();
   }
 
   @override
   void initState() {
-    // _getData();
     super.initState();
-    getCartUser();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          centerTitle: true,
-          title: const Text(
-            'Cart',
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          leading: GestureDetector(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: IconButton(
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'Cart',
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        leading: GestureDetector(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(
                 icon: const Icon(
                   Icons.arrow_back_ios_outlined,
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Get.back();
-                },
-              ),
-            ),
+                  // Get.back();
+                  Navigator.pop(context);
+                }),
           ),
         ),
-        body: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/background.png'), fit: BoxFit.fill),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Store(),
+                ),
+              );
+            },
+            color: Colors.white,
+            icon: const Icon(Icons.store),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 80),
-            child: SingleChildScrollView(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Stack(
-                      children: <Widget>[
-                        FutureBuilder(
-                            future: getCartUser(),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (snapshot.hasData) {
-                                return ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const ScrollPhysics(),
-                                  itemCount: snapshot.data.length,
-                                  itemBuilder: (BuildContext context, index) {
-                                    List<Refrence> item = snapshot.data;
-                                    return AnimationConfiguration.staggeredGrid(
-                                        position: index,
-                                        columnCount: 2,
-                                        child: ScaleAnimation(
-                                          child: FadeInAnimation(
-                                            delay: const Duration(
-                                                milliseconds: 100),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                // Navigator.push(context,
-                                                //     MaterialPageRoute(
-                                                //         builder: (context) => productDetails(),
-                                                //         settings: RouteSettings(
-                                                //             arguments: item[index]
-                                                //         )));
-                                              },
-                                              // child: myCart(
-                                              //   'item[index].product![0].detail![0].prImg',
-                                              //   item[index].product![0].prName,
-                                              //   item[index].price.toString(),
-                                              // ),
-                                            ),
-                                          ),
-                                        ));
-                                  },
-                                );
-                              } else if (snapshot.hasError) {
-                                return Text('${snapshot.error}');
-                              }
-                              // By default, show a loading spinner.
-                              return const CircularProgressIndicator();
-                            }),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 300.0,
-                      height: 50,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: const Color.fromRGBO(110, 114, 253, 0.9),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(10),
-                            ),
+        ],
+      ),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage('assets/background.png'), fit: BoxFit.fill),
+        ),
+        child: widget.products.isNotEmpty
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  myCart(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 300.0,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color.fromRGBO(110, 114, 253, 0.9),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
                           ),
                         ),
-                        onPressed: () {
-                          Get.to(const CheckOutPage());
-                        },
-                        child: const Text(
-                          'Checkout',
-                          style: TextStyle(color: Colors.white),
-                        ),
+                      ),
+                      onPressed: () {
+                        // Get.to(const CheckOutPage());
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CheckOutPage()),
+                        );
+                      },
+                      child: const Text(
+                        'Checkout',
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
-                  ]),
-            ),
-          ),
-        ),
+                  ),
+                ],
+              )
+            : Container(
+                width: double.infinity,
+                height: double.infinity,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage('assets/background.png'),
+                      fit: BoxFit.fill),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      Icons.shopping_bag,
+                      size: 120,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Text(
+                      'Your cart is empty!',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: const Color.fromRGBO(110, 114, 253, 0.9),
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Store(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Start shopping',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
       ),
     );
   }
-}
 
-Widget myCart(String? image, String? name, String? price) => Card(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(5.0),
-    ),
-    child: Stack(
-      children: [
-        Container(
-          margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(5))),
-          child: Row(
-            children: <Widget>[
-              Container(
-                  margin: const EdgeInsets.only(
-                      right: 8, left: 8, top: 8, bottom: 8),
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(5)),
-                      color: Colors.blue.shade200,
-                      image: DecorationImage(
-                          image:
-                              NetworkImage('http://10.0.2.2:8000' + image!))),
-                  child: InkWell(
-                    onTap: () {
-                      Get.to(const ProductDetailPage());
-                    },
-                  )),
-              Expanded(
+  Widget myCart() => ListView.builder(
+        physics: const ClampingScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: widget.products.length,
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, index) {
+          return AnimationConfiguration.staggeredGrid(
+            position: index,
+            columnCount: 1,
+            child: ScaleAnimation(
+              child: FadeInAnimation(
+                delay: const Duration(milliseconds: 100),
                 child: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  height: 120,
+                  width: 110,
+                  padding: const EdgeInsets.only(
+                      left: 5, right: 5, top: 5, bottom: 5),
+                  margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                  ),
+                  child: Stack(
                     children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.only(right: 8, top: 4),
-                        child: Text(
-                          name!,
-                          maxLines: 2,
-                          softWrap: true,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(children: const [
-                        Text(
-                          "Green",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                        SizedBox(width: 30),
-                        Text(
-                          "M",
-                          style: TextStyle(fontSize: 14),
-                        ),
-                      ]),
-                      const SizedBox(height: 5),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            price!,
-                            style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
+                          Container(
+                            margin: const EdgeInsets.only(
+                                right: 5, left: 5, top: 5, bottom: 5),
+                            width: 95,
+                            height: 95,
+                            decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        'widget.products[index].productImage'))),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            // child: Row(
-                            //   mainAxisAlignment:
-                            //   MainAxisAlignment.center,
-                            //   crossAxisAlignment:
-                            //   CrossAxisAlignment.end,
-                            //   children: <Widget>[
-                            //     InkWell(
-                            //       onTap: () {
-                            //         setState(() {
-                            //           if (_counter >= 2) {
-                            //             _counter--;
-                            //           } else {
-                            //             return;
-                            //           }
-                            //         });
-                            //       },
-                            //       child: const Icon(
-                            //         Icons.remove,
-                            //         color: Colors.black,
-                            //         size: 16,
-                            //       ),
-                            //     ),
-                            //     Container(
-                            //       margin:
-                            //       const EdgeInsets.symmetric(
-                            //           horizontal: 5),
-                            //       padding:
-                            //       const EdgeInsets.symmetric(
-                            //         horizontal: 10,
-                            //       ),
-                            //       decoration: const BoxDecoration(
-                            //           color: Colors.white),
-                            //       child: Text(
-                            //         '$_counter',
-                            //         style: const TextStyle(
-                            //           // color: Colors.red,
-                            //             fontSize: 16),
-                            //       ),
-                            //     ),
-                            //     InkWell(
-                            //       onTap: () {
-                            //         setState(() {
-                            //           _counter++;
-                            //         });
-                            //       },
-                            //       child: const Icon(
-                            //         Icons.add,
-                            //         color: Colors.black,
-                            //         size: 16,
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                          ),
+                          Expanded(
+                            flex: 100,
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.only(right: 8, top: 5),
+                                    child: FittedBox(
+                                      fit: BoxFit.fitWidth,
+                                      child: Text(
+                                        widget.products[index].name!,
+                                        maxLines: 2,
+                                        softWrap: true,
+                                        style: const TextStyle(fontSize: 16),
+                                      ),
+                                    ),
+                                  ),
+                                  FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: Text(
+                                      widget.products[index].brand!,
+                                      style: const TextStyle(
+                                          color: Colors.black45, fontSize: 14),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 7,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(0.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.end,
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        int maxCount =
+                                                            int.parse(widget
+                                                                .products[index]
+                                                                .stockBalance
+                                                                .toString());
+                                                        if (_counter > 1) {
+                                                          setState(() {
+                                                            _counter--;
+                                                          });
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 5,
+                                                                right: 5,
+                                                                top: 5,
+                                                                bottom: 5),
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topLeft:
+                                                                Radius.circular(
+                                                                    5),
+                                                            bottomLeft:
+                                                                Radius.circular(
+                                                                    5),
+                                                          ),
+                                                          color: Color.fromRGBO(
+                                                              110,
+                                                              114,
+                                                              253,
+                                                              0.9),
+                                                        ),
+                                                        child: const Icon(
+                                                          Icons.remove,
+                                                          color: Colors.white,
+                                                          size: 16,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 10,
+                                                          vertical: 5),
+                                                      decoration:
+                                                          const BoxDecoration(
+                                                              color:
+                                                                  Colors.white),
+                                                      child: Text(
+                                                        '$_counter',
+                                                        style: const TextStyle(
+                                                            color: Colors.black,
+                                                            fontSize: 16),
+                                                      ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        int maxCount =
+                                                            int.parse(widget
+                                                                .products[index]
+                                                                .stockBalance
+                                                                .toString());
+                                                        if (_counter <
+                                                            maxCount) {
+                                                          setState(() {
+                                                            _counter++;
+                                                          });
+                                                        }
+                                                      },
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 5,
+                                                                right: 5,
+                                                                top: 5,
+                                                                bottom: 5),
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius.only(
+                                                            topRight:
+                                                                Radius.circular(
+                                                                    5),
+                                                            bottomRight:
+                                                                Radius.circular(
+                                                                    5),
+                                                          ),
+                                                          color: Color.fromRGBO(
+                                                              110,
+                                                              114,
+                                                              253,
+                                                              0.9),
+                                                        ),
+                                                        child: const Icon(
+                                                          Icons.add,
+                                                          color: Colors.white,
+                                                          size: 16,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            '${widget.products[index].buyPrice!} SR',
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
                         ],
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.only(right: 10),
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.close,
+                              color: Colors.grey,
+                              size: 16,
+                            ),
+                            onPressed: () {
+                              // if (widget.products[index].id ==
+                              //         widget.products[index].id &&
+                              //     widget.products[index].storesBalance! >= 1) {
+                              //   setState(() {
+                              //     widget.products[index].storesBalance! - 1;
+                              //   });
+                              // } else {
+                              setState(() {
+                                widget.products.removeWhere((product) =>
+                                    product.id == widget.products[index].id);
+                                savePrefs(widget.products);
+                              });
+                              // }
+                            },
+                          ),
+                        ),
                       ),
                     ],
                   ),
+                  //  Stack(children: [
+                  //   Row(
+                  //     children: [
+                  //       Container(
+                  //         margin: const EdgeInsets.only(
+                  //             right: 8, left: 8, top: 8, bottom: 8),
+                  //         width: 100,
+                  //         height: 100,
+                  //         decoration: BoxDecoration(
+                  //           borderRadius:
+                  //               const BorderRadius.all(Radius.circular(5)),
+                  //           color: Colors.blue.shade200,
+                  //           image: const DecorationImage(
+                  //             image: NetworkImage('http://10.0.2.2:8000'),
+                  //           ),
+                  //         ),
+                  //         child: InkWell(
+                  //           onTap: () {
+                  //             // Get.to(const ProductDetailPage());
+                  //             Navigator.push(
+                  //                 context,
+                  //                 MaterialPageRoute(
+                  //                     builder: (context) =>
+                  //                         const ProductDetail(),
+                  //                     settings: RouteSettings(
+                  //                         arguments: widget.products[index])));
+                  //           },
+                  //         ),
+                  //       ),
+                  //       Container(
+                  //         padding: const EdgeInsets.all(0.0),
+                  //         child: Column(
+                  //           mainAxisSize: MainAxisSize.max,
+                  //           crossAxisAlignment: CrossAxisAlignment.start,
+                  //           children: [
+                  //             Expanded(
+                  //               child: Row(
+                  //                 children: [
+                  //                   Text(
+                  //                     widget.products[index].name!,
+                  //                     maxLines: 2,
+                  //                     softWrap: true,
+                  //                     style: const TextStyle(fontSize: 14),
+                  //                   ),
+                  //                   Align(
+                  //                     alignment: Alignment.topRight,
+                  //                     widthFactor: 2.4,
+                  //                     heightFactor: 1.3,
+                  //                     child: IconButton(
+                  //                       icon: const Icon(
+                  //                         Icons.close,
+                  //                         color: Colors.grey,
+                  //                         size: 20,
+                  //                       ),
+                  //                       onPressed: () {
+                  //                         setState(() {
+                  //                           widget.products.removeWhere(
+                  //                               (product) =>
+                  //                                   product.id ==
+                  //                                   widget.products[index].id);
+                  //                           savePrefs(widget.products);
+                  //                         });
+                  //                       },
+                  //                     ),
+                  //                   ),
+                  //                 ],
+                  //               ),
+                  //             ),
+                  //             Row(
+                  //               children: [
+                  //                 Text(
+                  //                   widget.products[index].brand!,
+                  //                   maxLines: 2,
+                  //                   softWrap: true,
+                  //                   style: const TextStyle(fontSize: 14),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //             Row(
+                  //               children: [
+                  //                 Padding(
+                  //                   padding: const EdgeInsets.only(
+                  //                     bottom: 5.0,
+                  //                     top: 5.0,
+                  //                   ),
+                  //                   child: Container(
+                  //                     padding: const EdgeInsets.only(
+                  //                       left: 4,
+                  //                       right: 4,
+                  //                     ),
+                  //                     decoration: BoxDecoration(
+                  //                       borderRadius: BorderRadius.circular(5),
+                  //                       color: const Color.fromRGBO(
+                  //                           110, 114, 253, 0.9),
+                  //                     ),
+                  //                     child: Row(
+                  //                       children: [
+                  //                         InkWell(
+                  //                           onTap: () {
+                  //                             if (_counter > 1) {
+                  //                               setState(() {
+                  //                                 _counter--;
+                  //                               });
+                  //                             }
+                  //                           },
+                  //                           child: const Icon(
+                  //                             Icons.remove,
+                  //                             color: Colors.white,
+                  //                             size: 16,
+                  //                           ),
+                  //                         ),
+                  //                         Container(
+                  //                           margin: const EdgeInsets.symmetric(
+                  //                               horizontal: 5),
+                  //                           padding: const EdgeInsets.symmetric(
+                  //                               horizontal: 10, vertical: 5),
+                  //                           decoration: const BoxDecoration(
+                  //                               color: Colors.white),
+                  //                           child: Text(
+                  //                             '$_counter',
+                  //                             style: const TextStyle(
+                  //                                 color: Colors.black,
+                  //                                 fontSize: 16),
+                  //                           ),
+                  //                         ),
+                  //                         InkWell(
+                  //                           onTap: () {
+                  //                             int maxCount = int.parse(widget
+                  //                                 .products[index].stockBalance
+                  //                                 .toString());
+                  //                             if (_counter < maxCount) {
+                  //                               setState(() {
+                  //                                 _counter++;
+                  //                               });
+                  //                             }
+                  //                           },
+                  //                           child: const Icon(
+                  //                             Icons.add,
+                  //                             color: Colors.white,
+                  //                             size: 16,
+                  //                           ),
+                  //                         ),
+                  //                       ],
+                  //                     ),
+                  //                   ),
+                  //                 ),
+                  //                 const SizedBox(
+                  //                   width: 120,
+                  //                 ),
+                  //                 Text(
+                  //                   widget.products[index].buyPrice!,
+                  //                   style: const TextStyle(
+                  //                       fontSize: 14,
+                  //                       fontWeight: FontWeight.bold),
+                  //                 ),
+                  //               ],
+                  //             ),
+                  //           ],
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ]),
                 ),
-                flex: 100,
               ),
-            ],
-          ),
-        ),
-        Align(
-          alignment: Alignment.topRight,
-          child: Container(
-            width: 24,
-            height: 24,
-            alignment: Alignment.center,
-            margin: const EdgeInsets.only(right: 25, top: 15),
-            child: IconButton(
-              icon: const Icon(
-                Icons.close,
-                color: Colors.grey,
-                size: 20,
-              ),
-              onPressed: () {},
             ),
-          ),
-        ),
-      ],
-    ));
+          );
+        },
+      );
+}

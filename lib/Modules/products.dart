@@ -91,6 +91,7 @@ class Product {
   int? durationMinutes;
   int? availabeOnline;
   int? rawStoreId;
+  int? storesBalance;
   List<ProductImage>? productImage;
   List<ProductCategory>? productCategory;
 
@@ -127,6 +128,7 @@ class Product {
       this.durationMinutes,
       this.availabeOnline,
       this.rawStoreId,
+      this.storesBalance,
       this.productImage,
       this.productCategory});
 
@@ -163,6 +165,7 @@ class Product {
     durationMinutes = json['duration_minutes'];
     availabeOnline = json['availabe_online'];
     rawStoreId = json['raw_store_id'];
+    storesBalance = json['stores_balance'];
     if (json['ProductImage'] != null) {
       productImage = <ProductImage>[];
       json['ProductImage'].forEach((v) {
@@ -211,6 +214,7 @@ class Product {
     data['duration_minutes'] = durationMinutes;
     data['availabe_online'] = availabeOnline;
     data['raw_store_id'] = rawStoreId;
+    data['stores_balance'] = storesBalance;
     if (productImage != null) {
       data['ProductImage'] = productImage!.map((v) => v.toJson()).toList();
     }

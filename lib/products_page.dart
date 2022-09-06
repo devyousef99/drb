@@ -1,10 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'dart:convert';
-import 'package:drb/cart_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:get/get.dart';
 import 'Modules/products.dart';
 import 'productDetails_page.dart';
 import 'package:http/http.dart' as http;
@@ -47,154 +45,151 @@ class _ProductState extends State<Product> {
   Widget build(BuildContext context) {
     //List<Category> _itemsData = itemsData()._items;
     //final String? passed_data = ModalRoute.of(context)!.settings.arguments as String;
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          leading: GestureDetector(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_outlined,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        leading: GestureDetector(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_outlined,
+                color: Colors.white,
               ),
-            ),
-          ),
-          centerTitle: true,
-          title: const Text(
-            'passed_data!',
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-          actions: [
-            IconButton(
               onPressed: () {
-                Get.to(const Cart());
+                // Get.back();
+                Navigator.pop(context);
               },
-              color: Colors.white,
-              icon: const Icon(Icons.shopping_bag),
             ),
-          ],
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(60),
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: EdgeInsets.zero,
-                  filled: true,
-                  fillColor: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+        title: const Text(
+          'passed_data!',
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       Get.to(const Cart());
+        //     },
+        //     color: Colors.white,
+        //     icon: const Icon(Icons.shopping_bag),
+        //   ),
+        // ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide.none,
                 ),
+                contentPadding: EdgeInsets.zero,
+                filled: true,
+                fillColor: Colors.white,
               ),
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/background.png'), fit: BoxFit.fill),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/background.png'), fit: BoxFit.fill),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.only(
+              top: 60,
+              left: 8,
+              right: 8,
             ),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 60,
-                left: 8,
-                right: 8,
-              ),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 80,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Text(
-                        'Popular',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        width: 180,
-                      ),
-                      MaterialButton(
-                        onPressed: () {},
-                        child: const Icon(
-                          Icons.filter_list_rounded,
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 80,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Text(
+                      'Popular',
+                      style: TextStyle(
                           color: Colors.white,
-                        ),
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      width: 180,
+                    ),
+                    MaterialButton(
+                      onPressed: () {},
+                      child: const Icon(
+                        Icons.filter_list_rounded,
+                        color: Colors.white,
                       ),
-                    ],
-                  ),
-                  MediaQuery.removePadding(
-                    removeTop: true,
-                    context: context,
-                    child: FutureBuilder(
-                        future: _products(),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot) {
-                          if (snapshot.hasData) {
-                            return GridView.builder(
-                              shrinkWrap: true,
-                              physics: const ScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 0.85,
-                              ),
-                              itemCount: snapshot.data.length,
-                              itemBuilder: (BuildContext context, index) {
-                                List<Products> item = snapshot.data;
-                                return AnimationConfiguration.staggeredGrid(
-                                  position: index,
-                                  columnCount: 2,
-                                  child: ScaleAnimation(
-                                    child: FadeInAnimation(
-                                      delay: const Duration(milliseconds: 100),
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ProductDetail(),
-                                                  settings: RouteSettings(
-                                                      arguments: item[index])));
-                                        },
-                                        child: productImages(
-                                            item[index].data.toString(),
-                                            item[index].data.toString(),
-                                            item[index].data.toString()),
-                                      ),
+                    ),
+                  ],
+                ),
+                MediaQuery.removePadding(
+                  removeTop: true,
+                  context: context,
+                  child: FutureBuilder(
+                      future: _products(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return GridView.builder(
+                            shrinkWrap: true,
+                            physics: const ScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.85,
+                            ),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, index) {
+                              List<Products> item = snapshot.data;
+                              return AnimationConfiguration.staggeredGrid(
+                                position: index,
+                                columnCount: 2,
+                                child: ScaleAnimation(
+                                  child: FadeInAnimation(
+                                    delay: const Duration(milliseconds: 100),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const ProductDetail(),
+                                                settings: RouteSettings(
+                                                    arguments: item[index])));
+                                      },
+                                      child: productImages(
+                                          item[index].data.toString(),
+                                          item[index].data.toString(),
+                                          item[index].data.toString()),
                                     ),
                                   ),
-                                );
-                              },
-                            );
-                          } else if (snapshot.hasError) {
-                            return Text('${snapshot.error}');
-                          }
-                          // By default, show a loading spinner.
-                          return const CircularProgressIndicator();
-                        }),
-                  ),
-                ],
-              ),
+                                ),
+                              );
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('${snapshot.error}');
+                        }
+                        // By default, show a loading spinner.
+                        return const CircularProgressIndicator();
+                      }),
+                ),
+              ],
             ),
           ),
         ),

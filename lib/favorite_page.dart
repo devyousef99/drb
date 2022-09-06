@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class FavoritePage extends StatelessWidget {
@@ -49,58 +48,56 @@ class _FavoriteState extends State<Favorite> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        extendBodyBehindAppBar: true,
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          leading: GestureDetector(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_outlined,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  Get.back();
-                },
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        leading: GestureDetector(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_outlined,
+                color: Colors.black,
               ),
+              onPressed: () {
+                // Get.back();
+                Navigator.pop(context);
+              },
             ),
           ),
-          centerTitle: true,
-          title: const Text(
-            'Favorite',
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
-          ),
         ),
-        // body: FutureBuilder(
-        //   future: users,
-        //   builder: (context, snapshout) {
-        //     var myList = snapshout.data as List<Album>;
-        //     return GridView.builder(
-        //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        //         crossAxisCount: 2,
-        //         childAspectRatio: 0.85,
-        //       ),
-        //       itemBuilder: (context, index) {
-        //         return Container(
-        //           width: double.infinity,
-        //           child: const Card(
-        //             elevation: 5,
-        //             // child: Text(
-        //             //     "ID: ${snapshout.data[index].id} \n title : ${snapshout.data[index].title}"),
-        //           ),
-        //         );
-        //       },
-        //     );
-        //   },
-        // ),
+        centerTitle: true,
+        title: const Text(
+          'Favorite',
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+        ),
       ),
+      // body: FutureBuilder(
+      //   future: users,
+      //   builder: (context, snapshout) {
+      //     var myList = snapshout.data as List<Album>;
+      //     return GridView.builder(
+      //       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      //         crossAxisCount: 2,
+      //         childAspectRatio: 0.85,
+      //       ),
+      //       itemBuilder: (context, index) {
+      //         return Container(
+      //           width: double.infinity,
+      //           child: const Card(
+      //             elevation: 5,
+      //             // child: Text(
+      //             //     "ID: ${snapshout.data[index].id} \n title : ${snapshout.data[index].title}"),
+      //           ),
+      //         );
+      //       },
+      //     );
+      //   },
+      // ),
     );
   }
 }

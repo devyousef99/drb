@@ -1,6 +1,5 @@
 import 'package:drb/article_page.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({Key? key}) : super(key: key);
@@ -203,7 +202,14 @@ class _NewsPageState extends State<NewsPage> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              Get.to(const ArticlePage());
+                                              // Get.to(const ArticlePage());
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const ArticlePage(),
+                                                ),
+                                              );
                                             },
                                             child: const Text(
                                               'View',

@@ -58,41 +58,38 @@ class _PaymentState extends State<Payment> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          leading: GestureDetector(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_rounded,
-                  color: Colors.black12,
-                ),
-                onPressed: () {},
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        leading: GestureDetector(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_rounded,
+                color: Colors.black12,
               ),
+              onPressed: () {},
             ),
           ),
         ),
-        body: SafeArea(
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            child: Stack(
-              children: [
-                CreditCardInputForm(
-                  showResetButton: true,
-                  prevButtonDecoration: buttonDecoration,
-                  nextButtonDecoration: buttonDecoration,
-                  prevButtonTextStyle: buttonTextStyle,
-                  nextButtonTextStyle: buttonTextStyle,
-                  resetButtonTextStyle: buttonTextStyle,
-                ),
-              ],
-            ),
+      ),
+      body: SafeArea(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          child: Stack(
+            children: [
+              CreditCardInputForm(
+                showResetButton: true,
+                prevButtonDecoration: buttonDecoration,
+                nextButtonDecoration: buttonDecoration,
+                prevButtonTextStyle: buttonTextStyle,
+                nextButtonTextStyle: buttonTextStyle,
+                resetButtonTextStyle: buttonTextStyle,
+              ),
+            ],
           ),
         ),
       ),

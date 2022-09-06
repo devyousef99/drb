@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:drb/eventDetails_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class EventPage extends StatefulWidget {
   const EventPage({Key? key}) : super(key: key);
@@ -250,7 +249,14 @@ class _EventPageState extends State<EventPage> {
                                               ),
                                             ),
                                             onPressed: () {
-                                              Get.to(const EventDetailPage());
+                                              // Get.to(const EventDetailPage());
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const EventDetailPage(),
+                                                ),
+                                              );
                                             },
                                             child: const Text(
                                               'View',

@@ -1,27 +1,14 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, use_build_context_synchronously
 
 import 'dart:convert';
-import 'package:drb/products_page.dart';
+import 'package:drb/cart_page.dart';
 import 'package:easy_actions/easy_actions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'Modules/products.dart';
 import 'Modules/category.dart';
-import 'cart_page.dart';
 import 'productDetails_page.dart';
-
-class StorePage extends StatelessWidget {
-  const StorePage({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Store(),
-    );
-  }
-}
 
 class Store extends StatefulWidget {
   const Store({Key? key}) : super(key: key);
@@ -32,6 +19,7 @@ class Store extends StatefulWidget {
 
 class StoreState extends State<Store> {
   String token = '88b8aaf9b86a29d4ec41f3f4734bd349b09588d4';
+
   Future<Products> _products() async {
     final response = await http.get(
         Uri.parse('https://drbdesignksa.daftra.com/api2/products'),
@@ -42,7 +30,7 @@ class StoreState extends State<Store> {
         });
     if (response.statusCode == 200) {
       var jsonresponse = jsonDecode(response.body);
-      print(jsonresponse);
+
       return Products.fromJson(jsonresponse);
     } else {
       throw Exception(response.body);
@@ -59,7 +47,6 @@ class StoreState extends State<Store> {
         });
     if (response.statusCode == 200) {
       var jsonresponse = jsonDecode(response.body);
-      print(jsonresponse);
       return Category.fromJson(jsonresponse);
     } else {
       throw Exception(response.body);
@@ -87,8 +74,17 @@ class StoreState extends State<Store> {
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              Get.to(const Cart());
+            onPressed: () async {
+              List<Product> products = await getProudcts();
+              // Get.to(const Cart());
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Cart(
+                    products: products,
+                  ),
+                ),
+              );
             },
             color: Colors.white,
             icon: const Icon(Icons.shopping_bag),
@@ -116,19 +112,21 @@ class StoreState extends State<Store> {
         ),
       ),
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: const BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/background.png'), fit: BoxFit.fill),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(top: 80),
+          padding: const EdgeInsets.only(top: 115),
           child: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               SizedBox(
                 height: 200.0,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 40.0),
+                  padding: const EdgeInsets.only(top: 30.0),
                   child: FutureBuilder<Products>(
                       future: _products(),
                       builder: (context, snapshot) {
@@ -154,9 +152,18 @@ class StoreState extends State<Store> {
                               );
                             },
                           );
+                        } else if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else {
+                          return const Center(
+                            child: Icon(
+                              Icons.error,
+                            ),
+                          );
                         }
-                        // By default, show a loading spinner.
-                        return const Center(child: CircularProgressIndicator());
                       }),
                 ),
               ),
@@ -192,7 +199,7 @@ class StoreState extends State<Store> {
                   children: [
                     Expanded(
                       child: SizedBox(
-                        height: 70,
+                        height: 50,
                         child: FutureBuilder<Category>(
                           future: _category(),
                           builder: (context, snapshot) {
@@ -211,12 +218,22 @@ class StoreState extends State<Store> {
                                           items[index].categoriesCategory!.name,
                                         ));
                                   });
+                            } else if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              return const Center(
+                                child: Icon(
+                                  Icons.error,
+                                ),
+                              );
                             }
-                            // By default, show a loading spinner.
-                            return const Center(
-                                child: CircularProgressIndicator());
                           },
                         ),
+
+                        // Yousef
                         // child: FutureBuilder<Category>(
                         //     future: _category(),
                         //     builder:
@@ -257,7 +274,7 @@ class StoreState extends State<Store> {
                         fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(
-                    width: 150,
+                    width: 165,
                   ),
                   MaterialButton(
                     onPressed: () {},
@@ -319,9 +336,18 @@ class StoreState extends State<Store> {
                                     ));
                               }),
                         );
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else {
+                        return const Center(
+                          child: Icon(
+                            Icons.error,
+                          ),
+                        );
                       }
-                      // By default, show a loading spinner.
-                      return const Center(child: CircularProgressIndicator());
                     },
                   ),
                 ),
@@ -378,14 +404,17 @@ class StoreState extends State<Store> {
                                     delay: const Duration(milliseconds: 100),
                                     child: GestureDetector(
                                       onTap: (() {
+                                        // View product details
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    ProductDetail(),
+                                                    const ProductDetail(),
                                                 settings: RouteSettings(
-                                                    arguments: item[index])));
+                                                    arguments:
+                                                        item[index].product)));
                                       }),
+                                      // View product info (name, category, image, quantity, color and size)
                                       child: productImages(
                                           item[index].product!.productImage,
                                           item[index]
@@ -411,9 +440,18 @@ class StoreState extends State<Store> {
                               );
                             }),
                       );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return const Center(
+                        child: Icon(
+                          Icons.error,
+                        ),
+                      );
                     }
-                    // By default, show a loading spinner.
-                    return const Center(child: CircularProgressIndicator());
                   },
                 ),
                 //Yousef
@@ -473,6 +511,7 @@ class StoreState extends State<Store> {
   }
 }
 
+// Search bar
 class CustomSearchDelegate extends SearchDelegate {
   List<String> searchTerms = ['A', 'd', 'd'];
   @override
@@ -599,7 +638,7 @@ Widget productImages(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
             width: 183,
@@ -615,13 +654,19 @@ Widget productImages(
           ),
           Row(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: Text(
-                  name!,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 10,
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: Text(
+                      name!,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 10,
+                      ),
+                    ),
                   ),
                 ),
               ),

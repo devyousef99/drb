@@ -1,16 +1,18 @@
-import 'package:drb/home_page.dart';
-import 'package:drb/landing_page.dart';
-import 'package:drb/profile_page.dart';
+import 'package:drb/productDetails_page.dart';
+import 'package:drb/signin_page.dart';
 import 'package:drb/signup.page.dart';
 import 'package:drb/store_page.dart';
 import 'package:flutter/material.dart';
-import 'package:drb/signin_page.dart';
-import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  //To initilaized the localization for the hole app.
   // WidgetsFlutterBinding.ensureInitialized();
+  // SharedPreferences clearAll = await SharedPreferences.getInstance();
+  // clearAll.clear();
+
+  //To initilaized the localization for the hole app.
   // await EasyLocalization.ensureInitialized();
+
   runApp(
     //This widget is used to declare the language that will be used in app.!
     // EasyLocalization(
@@ -24,7 +26,7 @@ void main() {
     //To load the translation language file.!
     // assetLoader: CodegenLoader(),
     //   child:
-    const GetMaterialApp(home: MyApp()),
+    const MaterialApp(home: MyApp()),
   );
 }
 
@@ -50,12 +52,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
+    return const MaterialApp(
       // supportedLocaleshryatvvaontext.supportedLocales,
       // localizationsDelegates: context.localizationDelegates,
       // locale: context.locale,
-      home: StorePage(),
+      home: Store(),
     );
   }
 }

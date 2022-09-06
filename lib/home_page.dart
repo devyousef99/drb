@@ -4,7 +4,6 @@ import 'package:drb/profile_page.dart';
 import 'package:drb/signup.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:get/get.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 
 class Category {
@@ -227,7 +226,13 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       TextButton(
                                         onPressed: () {
-                                          Get.to(const DrbCarPage());
+                                          // Get.to(const DrbCarPage());
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const DrbCarPage()),
+                                          );
                                         },
                                         child: const Text(
                                           'DRB CAR',
@@ -282,7 +287,11 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             onTap: () {
-              Get.to(ProfilePage());
+              // Get.to(ProfilePage());
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfilePage()),
+              );
             },
             leading: const Icon(
               Icons.person_outlined,
@@ -297,7 +306,11 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             onTap: () {
-              Get.to(ProfilePage());
+              // Get.to(ProfilePage());
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ProfilePage()),
+              );
             },
             leading: const Icon(
               Icons.notifications,
@@ -312,7 +325,11 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             onTap: () {
-              Get.to(Favorite());
+              // Get.to(Favorite());
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Favorite()),
+              );
             },
             leading: const Icon(
               Icons.favorite,
@@ -366,7 +383,11 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             onTap: () {
-              Get.to(SignUpPage());
+              // Get.to(SignUpPage());
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SignUp()),
+              );
             },
             leading: const Icon(
               Icons.logout,

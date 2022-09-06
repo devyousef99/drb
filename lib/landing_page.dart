@@ -17,7 +17,7 @@ class _LandingPageState extends State<LandingPage> {
   int currentTab = 0;
   final List<Widget> screens = [
     const HomePage(),
-    const Store(),
+    // const Store(),
     const EventPage(),
     const NewsPage()
   ];
@@ -147,7 +147,7 @@ class _LandingPageState extends State<LandingPage> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        currentScreen = const StorePage();
+                        // currentScreen = const Store();
                         currentTab = 4;
                       });
                     },
