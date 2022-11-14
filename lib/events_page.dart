@@ -29,10 +29,7 @@ class _EventPageState extends State<EventPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/background.png'), fit: BoxFit.fill),
-          ),
+          color: const Color(0xfff6c0ba9),
           child: Column(children: [
             const Padding(
               padding: EdgeInsets.only(top: 100, left: 20),
@@ -110,7 +107,7 @@ class _EventPageState extends State<EventPage> {
                                   label: const Text(
                                     'View all events on map',
                                     style: TextStyle(
-                                      color: Color.fromRGBO(110, 114, 253, 0.9),
+                                      color: Color(0xfff6c0ba9),
                                     ),
                                   ))
                             ],
@@ -212,8 +209,7 @@ class _EventPageState extends State<EventPage> {
                                     children: const <Widget>[
                                       Icon(
                                         Icons.location_on_rounded,
-                                        color:
-                                            Color.fromRGBO(110, 114, 253, 0.9),
+                                        color: Color(0xfff6c0ba9),
                                       ),
                                       SizedBox(
                                         width: 5,
@@ -239,8 +235,8 @@ class _EventPageState extends State<EventPage> {
                                           height: 35,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                              primary: const Color.fromRGBO(
-                                                  110, 114, 253, 0.9),
+                                              backgroundColor:
+                                                  const Color(0xfff6c0ba9),
                                               shape:
                                                   const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(

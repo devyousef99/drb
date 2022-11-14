@@ -1,7 +1,8 @@
 // ignore_for_file: unrelated_type_equality_checks, use_build_context_synchronously
 
 import 'dart:convert';
-import 'package:drb/store_page.dart';
+import 'package:drb/Modules/clients.dart';
+import 'package:drb/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
@@ -61,33 +62,68 @@ class SignInState extends State<SignIn> {
 
   bool visible = false;
 
-  Future<void> signin() async {
+  Future<void> signin(String email, String password) async {
     if (_email.text.isNotEmpty && _password.text.isNotEmpty) {
-      var response = await http.post(
-          Uri.parse('https://drbdesignksa.daftra.com/api2/clients'),
-          headers: {
-            'Content-Type': 'application/json',
-            'APIKEY': '88b8aaf9b86a29d4ec41f3f4734bd349b09588d4',
-            // 'Cookie':
-            //     'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
-          },
-          body: jsonEncode({'email': _email.text, 'password': _password.text}));
-      if (response.statusCode == 200 && response.statusCode == 202) {
-        var jsonresponse = response.body;
-        print(jsonresponse);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => const Store()));
+      final response = await http.post(
+        Uri.parse('https://drbdesignksa.daftra.com/api2/clients'),
+        headers: {
+          'Content-Type': 'application/json',
+          'APIKEY': '88b8aaf9b86a29d4ec41f3f4734bd349b09588d4',
+          'Cookie':
+              'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
+        },
+        body: jsonEncode({'email': _email.text, 'password': _password.text}),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 200) {
+        // If the server did return a 201 CREATED response,
+        // then parse the JSON.
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LandingPage()));
+        // return Clients.fromJson(jsonDecode(response.body));
       } else {
-        var jsonresponse = response.body;
-        print(jsonresponse);
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Login failed')));
+        // If the server did not return a 201 CREATED response,
+        // then throw an exception.
+        // ScaffoldMessenger.of(context)
+        //     .showSnackBar(const SnackBar(content: Text('Invalid Credentials')));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const LandingPage()));
       }
     } else {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Error')));
     }
   }
+
+  // Future<void> signin() async {
+  //   if (_email.text.isNotEmpty && _password.text.isNotEmpty) {
+  //     var response = await http.post(
+  //         Uri.parse('https://drbdesignksa.daftra.com/api2/clients'),
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'APIKEY': '88b8aaf9b86a29d4ec41f3f4734bd349b09588d4',
+  //           // 'Cookie':
+  //           //     'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
+  //         },
+  //         body: {
+  //           'email': _email.text,
+  //           'password': _password.text
+  //         });
+  //     if (response.statusCode == 200 || response.statusCode == 202) {
+  //       var jsonresponse = response.body;
+  //       print(jsonresponse);
+  //       Navigator.push(context,
+  //           MaterialPageRoute(builder: (context) => const LandingPage()));
+  //     } else {
+  //       print(response.body);
+  //       ScaffoldMessenger.of(context)
+  //           .showSnackBar(const SnackBar(content: Text('Invalid Credentials')));
+  //     }
+  //   } else {
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(const SnackBar(content: Text('Error')));
+  //   }
+  // }
 
   // Future<Client?> _loginApi(String email, String password) async {
   //   final body = jsonEncode({'email': email, 'password': password});
@@ -295,7 +331,7 @@ class SignInState extends State<SignIn> {
                   height: 50,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: const Color.fromRGBO(110, 114, 253, 0.9),
+                      backgroundColor: const Color.fromRGBO(110, 114, 253, 0.9),
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(10),
@@ -303,7 +339,9 @@ class SignInState extends State<SignIn> {
                       ),
                     ),
                     onPressed: () {
-                      signin();
+                      setState(() {
+                        signin(_email.text, _password.text);
+                      });
                     },
                     // onPressed: () async {
                     //   if (_formkey.currentState!.validate()) {

@@ -1,9 +1,12 @@
 // ignore_for_file: avoid_unnecessary_containers, library_private_types_in_public_api
 
+import 'package:drb/home_page.dart';
+import 'package:drb/landing_page.dart';
 import 'package:drb/productDetails_page.dart';
 import 'package:drb/store_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Modules/products.dart';
 import 'checkout_page.dart';
@@ -41,8 +44,8 @@ class _CartState extends State<Cart> {
   //     throw Exception('Failed to load album');
   //   }
   // }
-
   // delete product
+
   clear() async {
     SharedPreferences deleteProduct = await SharedPreferences.getInstance();
     deleteProduct.clear();
@@ -62,7 +65,10 @@ class _CartState extends State<Cart> {
         title: const Text(
           'Cart',
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.black,
+          ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -72,7 +78,7 @@ class _CartState extends State<Cart> {
             child: IconButton(
                 icon: const Icon(
                   Icons.arrow_back_ios_outlined,
-                  color: Colors.white,
+                  color: Colors.black,
                 ),
                 onPressed: () {
                   // Get.back();
@@ -86,11 +92,11 @@ class _CartState extends State<Cart> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Store(),
+                  builder: (context) => const LandingPage(),
                 ),
               );
             },
-            color: Colors.white,
+            color: Colors.black,
             icon: const Icon(Icons.store),
           ),
         ],
@@ -98,10 +104,7 @@ class _CartState extends State<Cart> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/background.png'), fit: BoxFit.fill),
-        ),
+        color: const Color.fromARGB(255, 255, 255, 255),
         child: widget.products.isNotEmpty
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -115,7 +118,7 @@ class _CartState extends State<Cart> {
                     height: 50,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: const Color.fromRGBO(110, 114, 253, 0.9),
+                        backgroundColor: Color(0xfff6c0ba9),
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
@@ -141,18 +144,14 @@ class _CartState extends State<Cart> {
             : Container(
                 width: double.infinity,
                 height: double.infinity,
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/background.png'),
-                      fit: BoxFit.fill),
-                ),
+                color: Color.fromARGB(255, 251, 251, 252),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(
                       Icons.shopping_bag,
                       size: 120,
-                      color: Colors.white,
+                      color: Color(0xfff6c0ba9),
                     ),
                     const SizedBox(
                       height: 10,
@@ -161,7 +160,7 @@ class _CartState extends State<Cart> {
                       'Your cart is empty!',
                       style: TextStyle(
                           fontSize: 20,
-                          color: Colors.white,
+                          color: Color(0xfff6c0ba9),
                           fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(
@@ -169,7 +168,7 @@ class _CartState extends State<Cart> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: const Color.fromRGBO(110, 114, 253, 0.9),
+                        backgroundColor: const Color(0xfff6c0ba9),
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
@@ -177,10 +176,11 @@ class _CartState extends State<Cart> {
                         ),
                       ),
                       onPressed: () {
+                        // Get.to(const Store());
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const Store(),
+                            builder: (context) => const LandingPage(),
                           ),
                         );
                       },
@@ -215,7 +215,7 @@ class _CartState extends State<Cart> {
                       left: 5, right: 5, top: 5, bottom: 5),
                   margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
                   decoration: const BoxDecoration(
-                    color: Colors.white,
+                    color: Color(0xfff6c0ba9),
                     borderRadius: BorderRadius.all(
                       Radius.circular(10),
                     ),
@@ -321,11 +321,8 @@ class _CartState extends State<Cart> {
                                                                 Radius.circular(
                                                                     5),
                                                           ),
-                                                          color: Color.fromRGBO(
-                                                              110,
-                                                              114,
-                                                              253,
-                                                              0.9),
+                                                          color: Color(
+                                                              0xFFF3A48A0),
                                                         ),
                                                         child: const Icon(
                                                           Icons.remove,
@@ -383,11 +380,8 @@ class _CartState extends State<Cart> {
                                                                 Radius.circular(
                                                                     5),
                                                           ),
-                                                          color: Color.fromRGBO(
-                                                              110,
-                                                              114,
-                                                              253,
-                                                              0.9),
+                                                          color: Color(
+                                                              0xFFF3A48A0),
                                                         ),
                                                         child: const Icon(
                                                           Icons.add,
@@ -437,13 +431,27 @@ class _CartState extends State<Cart> {
                               //   setState(() {
                               //     widget.products[index].storesBalance! - 1;
                               //   });
-                              // } else {
-                              setState(() {
-                                widget.products.removeWhere((product) =>
-                                    product.id == widget.products[index].id);
-                                savePrefs(widget.products);
-                              });
                               // }
+                              // setState(() {
+                              //   widget.products.removeWhere((product) {
+                              //     return product.id ==
+                              //         widget.products[index].id;
+                              //   });
+                              //   savePrefs(widget.products);
+                              // });
+                              if (widget.products[index].id ==
+                                  widget.products[index].id) {
+                                setState(() {
+                                  widget.products.removeWhere((product) {
+                                    return product.id ==
+                                        widget.products[index].id;
+                                  });
+                                  totalPrice -
+                                      double.parse(
+                                          widget.products[index].buyPrice!);
+                                  savePrefs(widget.products);
+                                });
+                              }
                             },
                           ),
                         ),

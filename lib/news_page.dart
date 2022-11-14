@@ -25,10 +25,7 @@ class _NewsPageState extends State<NewsPage> {
       // ),
       body: SingleChildScrollView(
         child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/background.png'), fit: BoxFit.fill),
-          ),
+          color: Color(0xfff6c0ba9),
           child: Column(children: [
             const SizedBox(
               height: 20,
@@ -92,7 +89,7 @@ class _NewsPageState extends State<NewsPage> {
                           children: <Widget>[
                             Container(
                               margin: const EdgeInsets.only(
-                                  right: 8, left: 8, top: 8, bottom: 8),
+                                  right: 8, left: 10, top: 8, bottom: 8),
                               width: 130,
                               height: 140,
                               decoration: BoxDecoration(
@@ -165,8 +162,7 @@ class _NewsPageState extends State<NewsPage> {
                                     children: const <Widget>[
                                       Icon(
                                         Icons.calendar_today_rounded,
-                                        color:
-                                            Color.fromRGBO(110, 114, 253, 0.9),
+                                        color: Color(0xfff6c0ba9),
                                       ),
                                       SizedBox(
                                         width: 10,
@@ -192,8 +188,8 @@ class _NewsPageState extends State<NewsPage> {
                                           height: 35,
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
-                                              primary: const Color.fromRGBO(
-                                                  110, 114, 253, 0.9),
+                                              backgroundColor:
+                                                  const Color(0xfff6c0ba9),
                                               shape:
                                                   const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(

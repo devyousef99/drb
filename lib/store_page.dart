@@ -67,11 +67,22 @@ class StoreState extends State<Store> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: const Text(
-          'Community Of Creators',
-          style: TextStyle(
-              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+        title: Padding(
+          padding:
+              const EdgeInsets.only(top: 15, bottom: 10, left: 106, right: 50),
+          child: Center(
+            child: Image.asset(
+              'assets/LOGO3.png',
+              fit: BoxFit.cover,
+              width: 90,
+            ),
+          ),
         ),
+        // title: const Text(
+        //   'Community Of Creators',
+        //   style: TextStyle(
+        //       color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+        // ),
         actions: [
           IconButton(
             onPressed: () async {
@@ -91,7 +102,7 @@ class StoreState extends State<Store> {
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
+          preferredSize: const Size.fromHeight(70),
           child: Padding(
             padding:
                 const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
@@ -114,12 +125,9 @@ class StoreState extends State<Store> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/background.png'), fit: BoxFit.fill),
-        ),
+        color: Color(0xfff6c0ba9),
         child: Padding(
-          padding: const EdgeInsets.only(top: 115),
+          padding: const EdgeInsets.only(top: 120),
           child: SingleChildScrollView(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -138,6 +146,11 @@ class StoreState extends State<Store> {
                             itemCount: snapshot.data!.data!.length,
                             itemBuilder: (context, index) {
                               final item = snapshot.data!.data!;
+                              // print('object');
+                              // print(item[index]
+                              //     .product!
+                              //     .productImage?[index]
+                              //     .fileFullPath);
                               return AnimationConfiguration.staggeredGrid(
                                 position: index,
                                 columnCount: 2,
@@ -232,7 +245,6 @@ class StoreState extends State<Store> {
                             }
                           },
                         ),
-
                         // Yousef
                         // child: FutureBuilder<Category>(
                         //     future: _category(),
@@ -329,11 +341,11 @@ class StoreState extends State<Store> {
                               itemBuilder: (context, index) {
                                 final item = snapshot.data!.data!;
                                 return AnimationConfiguration.staggeredGrid(
-                                    position: index,
-                                    columnCount: 1,
-                                    child: card2(
-                                      item[index].product!.productImage,
-                                    ));
+                                  position: index,
+                                  columnCount: 1,
+                                  child:
+                                      card2(item[index].product!.productImage),
+                                );
                               }),
                         );
                       } else if (snapshot.connectionState ==
@@ -690,11 +702,13 @@ Widget categories(String? name) => ButtonBar(
         EasyOutlinedButton(
           label: name!,
           labelStyle: const TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: 20,
           ),
           labelColor: Colors.white,
+          color: Colors.white,
           isRounded: true,
+          enabled: true,
           onPressed: () {},
         ),
       ],

@@ -1,10 +1,12 @@
+import 'package:drb/Modules/clients.dart';
 import 'package:drb/drbCar_page.dart';
 import 'package:drb/favorite_page.dart';
 import 'package:drb/profile_page.dart';
-import 'package:drb/signup.page.dart';
+import 'package:drb/signin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:shrink_sidemenu/shrink_sidemenu.dart';
+import 'package:http/http.dart' as http;
 
 class Category {
   String name, image;
@@ -12,12 +14,36 @@ class Category {
 }
 
 //Custom list to show the data.
+// ignore: camel_case_types
 class artistsData {
   final List<Category> _myList = <Category>[
     Category(name: 'artist1', image: 'assets/log_in.png'),
     Category(name: 'artist1', image: 'assets/log_in.png'),
   ];
   List<Category> get myList => _myList;
+}
+
+Future<Clients> user() async {
+  var jsonresponse;
+  final response = await http.get(
+    Uri.parse('https://drbdesignksa.daftra.com/api2/clients'),
+    headers: {
+      'Content-Type': 'application/json',
+      'APIKEY': '88b8aaf9b86a29d4ec41f3f4734bd349b09588d4',
+      'Cookie':
+          'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
+    },
+  );
+  if (response.statusCode == 200 || response.statusCode == 202) {
+    jsonresponse = response.body;
+    print('successful: $jsonresponse');
+  }
+  return Clients.fromJson(jsonresponse);
+}
+
+@override
+void initState() {
+  user();
 }
 
 class HomePage extends StatefulWidget {
@@ -33,18 +59,18 @@ class _HomePageState extends State<HomePage> {
 
   toggleMenu([bool end = true]) {
     if (end) {
-      final _state = _sideMenuKey.currentState!;
-      if (_state.isOpened) {
-        _state.closeSideMenu();
+      final state = _sideMenuKey.currentState!;
+      if (state.isOpened) {
+        state.closeSideMenu();
       } else {
-        _state.openSideMenu();
+        state.openSideMenu();
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Category> _artistsList = artistsData().myList;
+    List<Category> artistsList = artistsData().myList;
     return SideMenu(
       closeIcon: const Icon(
         Icons.close_rounded,
@@ -53,7 +79,7 @@ class _HomePageState extends State<HomePage> {
       ),
       key: _sideMenuKey,
       menu: buildMenu(),
-      background: Colors.transparent,
+      background: Colors.white,
       type: SideMenuType.slide,
       onChange: (_isOpened) {
         setState(() => isOpened = _isOpened);
@@ -63,6 +89,18 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
+            title: Padding(
+              padding: const EdgeInsets.only(
+                  top: 15, bottom: 10, left: 50, right: 50),
+              child: Center(
+                child: Image.asset(
+                  'assets/LOGO3.png',
+                  fit: BoxFit.cover,
+                  matchTextDirection: true,
+                  width: 90,
+                ),
+              ),
+            ),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
             leading: GestureDetector(
@@ -86,15 +124,12 @@ class _HomePageState extends State<HomePage> {
           ),
           body: Container(
             height: (MediaQuery.of(context).size.height),
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/background.png'), fit: BoxFit.fill),
-            ),
+            color: Color(0xfff6c0ba9),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(top: 80, right: 240),
+                    padding: EdgeInsets.only(top: 75, right: 210),
                     child: Text(
                       'HOME',
                       style: TextStyle(
@@ -138,12 +173,12 @@ class _HomePageState extends State<HomePage> {
                             crossAxisCount: 2,
                             childAspectRatio: 0.85,
                           ),
-                          itemCount: _artistsList.length,
+                          itemCount: artistsList.length,
                           itemBuilder: (BuildContext context, index) {
                             return AnimationConfiguration.staggeredGrid(
                               columnCount: 2,
                               position: index,
-                              child: mylistItem(_artistsList[index]),
+                              child: mylistItem(artistsList[index]),
                             );
                           },
                         ),
@@ -163,12 +198,12 @@ class _HomePageState extends State<HomePage> {
                             crossAxisCount: 2,
                             childAspectRatio: 0.85,
                           ),
-                          itemCount: _artistsList.length,
+                          itemCount: artistsList.length,
                           itemBuilder: (BuildContext context, index) {
                             return AnimationConfiguration.staggeredGrid(
                               columnCount: 2,
                               position: index,
-                              child: mylistItem(_artistsList[index]),
+                              child: mylistItem(artistsList[index]),
                             );
                           },
                         ),
@@ -204,7 +239,7 @@ class _HomePageState extends State<HomePage> {
                                   decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(10)),
-                                    color: Color.fromRGBO(88, 93, 249, 1.0),
+                                    color: Color(0xfff6c0ba9),
                                   ),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -272,13 +307,9 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                CircleAvatar(
-                  backgroundColor: Colors.black,
-                  radius: 30.0,
-                ),
                 SizedBox(height: 16.0),
                 Text(
-                  "Hello, John Doe",
+                  '',
                   style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
                 SizedBox(height: 20.0),
@@ -290,13 +321,13 @@ class _HomePageState extends State<HomePage> {
               // Get.to(ProfilePage());
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
+                MaterialPageRoute(builder: (context) => Profile()),
               );
             },
             leading: const Icon(
               Icons.person_outlined,
               size: 20.0,
-              color: Color.fromRGBO(88, 93, 249, 1.0),
+              color: Color(0xfff6c0ba9),
             ),
             title: const Text(
               "Profile",
@@ -309,13 +340,13 @@ class _HomePageState extends State<HomePage> {
               // Get.to(ProfilePage());
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
+                MaterialPageRoute(builder: (context) => Profile()),
               );
             },
             leading: const Icon(
               Icons.notifications,
               size: 20.0,
-              color: Color.fromRGBO(88, 93, 249, 1.0),
+              color: Color(0xfff6c0ba9),
             ),
             title: const Text(
               "Notfactions",
@@ -334,7 +365,7 @@ class _HomePageState extends State<HomePage> {
             leading: const Icon(
               Icons.favorite,
               size: 20.0,
-              color: Color.fromRGBO(88, 93, 249, 1.0),
+              color: Color(0xfff6c0ba9),
             ),
             title: const Text(
               "Favorites",
@@ -347,7 +378,7 @@ class _HomePageState extends State<HomePage> {
             leading: const Icon(
               Icons.track_changes_rounded,
               size: 20.0,
-              color: Color.fromRGBO(88, 93, 249, 1.0),
+              color: Color(0xfff6c0ba9),
             ),
             title: const Text(
               "Tracking",
@@ -360,7 +391,7 @@ class _HomePageState extends State<HomePage> {
             leading: const Icon(
               Icons.store_rounded,
               size: 20.0,
-              color: Color.fromRGBO(88, 93, 249, 1.0),
+              color: Color(0xfff6c0ba9),
             ),
             title: const Text(
               "My Store",
@@ -373,7 +404,7 @@ class _HomePageState extends State<HomePage> {
             leading: const Icon(
               Icons.help_rounded,
               size: 20.0,
-              color: Color.fromRGBO(88, 93, 249, 1.0),
+              color: Color(0xfff6c0ba9),
             ),
             title: const Text(
               "Help",
@@ -386,13 +417,13 @@ class _HomePageState extends State<HomePage> {
               // Get.to(SignUpPage());
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const SignUp()),
+                MaterialPageRoute(builder: (context) => const SignIn()),
               );
             },
             leading: const Icon(
               Icons.logout,
               size: 20.0,
-              color: Color.fromRGBO(88, 93, 249, 1.0),
+              color: Color(0xfff6c0ba9),
             ),
             title: const Text(
               "Logout",

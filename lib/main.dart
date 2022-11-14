@@ -1,3 +1,5 @@
+import 'package:drb/home_page.dart';
+import 'package:drb/landing_page.dart';
 import 'package:drb/productDetails_page.dart';
 import 'package:drb/signin_page.dart';
 import 'package:drb/signup.page.dart';
@@ -56,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // supportedLocaleshryatvvaontext.supportedLocales,
       // localizationsDelegates: context.localizationDelegates,
       // locale: context.locale,
-      home: Store(),
+      home: LandingPage(),
     );
   }
 }

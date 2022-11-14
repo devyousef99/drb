@@ -17,7 +17,7 @@ class _LandingPageState extends State<LandingPage> {
   int currentTab = 0;
   final List<Widget> screens = [
     const HomePage(),
-    // const Store(),
+    const Store(),
     const EventPage(),
     const NewsPage()
   ];
@@ -32,7 +32,7 @@ class _LandingPageState extends State<LandingPage> {
         child: currentScreen,
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color.fromRGBO(249, 194, 75, 0.9),
+        backgroundColor: const Color(0xfff03d000),
         child: const Icon(
           Icons.home,
         ),
@@ -69,14 +69,14 @@ class _LandingPageState extends State<LandingPage> {
                         Icon(
                           Icons.library_books_rounded,
                           color: currentTab == 1
-                              ? const Color.fromRGBO(110, 114, 253, 0.9)
+                              ? const Color(0xfff6c0ba9)
                               : Colors.grey,
                         ),
                         Text(
                           'News',
                           style: TextStyle(
                             color: currentTab == 1
-                                ? const Color.fromRGBO(110, 114, 253, 0.9)
+                                ? const Color(0xfff6c0ba9)
                                 : Colors.grey,
                           ),
                         ),
@@ -96,14 +96,14 @@ class _LandingPageState extends State<LandingPage> {
                         Icon(
                           Icons.menu_book_rounded,
                           color: currentTab == 2
-                              ? const Color.fromRGBO(110, 114, 253, 0.9)
+                              ? const Color(0xfff6c0ba9)
                               : Colors.grey,
                         ),
                         Text(
                           'Resources',
                           style: TextStyle(
                             color: currentTab == 2
-                                ? const Color.fromRGBO(110, 114, 253, 0.9)
+                                ? const Color(0xfff6c0ba9)
                                 : Colors.grey,
                           ),
                         ),
@@ -129,14 +129,14 @@ class _LandingPageState extends State<LandingPage> {
                         Icon(
                           Icons.event,
                           color: currentTab == 3
-                              ? const Color.fromRGBO(110, 114, 253, 0.9)
+                              ? const Color(0xfff6c0ba9)
                               : Colors.grey,
                         ),
                         Text(
                           'Events',
                           style: TextStyle(
                             color: currentTab == 3
-                                ? const Color.fromRGBO(110, 114, 253, 0.9)
+                                ? const Color(0xfff6c0ba9)
                                 : Colors.grey,
                           ),
                         ),
@@ -147,7 +147,7 @@ class _LandingPageState extends State<LandingPage> {
                     minWidth: 40,
                     onPressed: () {
                       setState(() {
-                        // currentScreen = const Store();
+                        currentScreen = const Store();
                         currentTab = 4;
                       });
                     },
@@ -157,14 +157,14 @@ class _LandingPageState extends State<LandingPage> {
                         Icon(
                           Icons.store,
                           color: currentTab == 4
-                              ? const Color.fromRGBO(110, 114, 253, 0.9)
+                              ? const Color(0xfff6c0ba9)
                               : Colors.grey,
                         ),
                         Text(
-                          'Shop',
+                          'Store',
                           style: TextStyle(
                             color: currentTab == 4
-                                ? const Color.fromRGBO(110, 114, 253, 0.9)
+                                ? const Color(0xfff6c0ba9)
                                 : Colors.grey,
                           ),
                         ),

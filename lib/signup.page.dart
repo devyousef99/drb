@@ -3,9 +3,9 @@
 import 'dart:convert';
 import 'package:drb/store_page.dart';
 import 'package:flutter/material.dart';
-import 'package:group_button/group_button.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'package:http/http.dart' as http;
+import 'package:drb/landing_page.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -15,12 +15,11 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final TextEditingController _firstName = TextEditingController();
-  final TextEditingController _lastName = TextEditingController();
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  final TextEditingController _confirmPassword = TextEditingController();
-  final _user = GroupButtonController();
+  final _firstName = TextEditingController();
+  final _lastName = TextEditingController();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  final _confirmPassword = TextEditingController();
   final _formkey = GlobalKey<FormState>();
   bool passwordVisibile = true;
   bool confirmPasswordVisibile = true;
@@ -29,10 +28,20 @@ class _SignUpState extends State<SignUp> {
 
   Future<void> signup() async {
     var body = json.encode({
-      'first_name': _firstName.text,
-      'last_name': _lastName.text,
-      'email': _email.text,
-      'password': _password.text
+      // 'first_name': _firstName.text,
+      // 'last_name': _lastName.text,
+      // 'email': _email.text,
+      // 'password': _password.text
+      {
+        "Client": {
+          "is_offline": true,
+          // "business_name": " post client",
+          "first_name": _firstName.text,
+          "last_name": _lastName.text,
+          "email": _email.text,
+          "password": _password.text
+        }
+      }
     });
     try {
       if (_firstName.text.isNotEmpty &&
@@ -44,6 +53,8 @@ class _SignUpState extends State<SignUp> {
             headers: {
               'Content-Type': 'application/json',
               'APIKEY': '88b8aaf9b86a29d4ec41f3f4734bd349b09588d4',
+              'Cookie':
+                  'AWSALB=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBCORS=/QPYc0UjT3Wy6GL8n4Y1WYpDLYrV9t/U8kM53Z53dXjuVhNO5G7YyZK1ITsmm7opP97ZkxtVyyJsBaTHrr+sW6TxunkvdSsB/o83SLTi7+Gn4WUnBSWx93HovWBl; AWSALBTG=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; AWSALBTGCORS=FJToTAru1C0hri+/RVp0PizExpqRz8gdOQC5m0njIdgH2gwNAHovBGcx2h1+e2IFjyPCDeqOQtfNCQhjCQJKA5cxy9gKPAt/y72eCQvNRlwReoDds8Ul+H9Y62bcLW1jtV/aYrA1gcZCtghv+VpZe52LUzuqldrOyaXVe5E1JeVj; OISystem=4hjblj0k2kkhdqjji6vqt7tpq2'
             },
             body: body);
         print(body);
@@ -416,30 +427,30 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 10.0,
-                        right: 30.0,
-                        left: 30.0,
-                      ),
-                      child: GroupButton(
-                        controller: _user,
-                        buttons: const ['Designer', 'Client'],
-                        onSelected: (i, index, isSelected) {
-                          debugPrint('Button $i $isSelected');
-                          print(_user.selectedIndex);
-                        },
-                        options: const GroupButtonOptions(
-                          buttonHeight: 50,
-                          buttonWidth: 100,
-                          spacing: 20,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                          selectedColor: Color.fromRGBO(110, 114, 253, 0.9),
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: const EdgeInsets.only(
+                    //     top: 10.0,
+                    //     right: 30.0,
+                    //     left: 30.0,
+                    //   ),
+                    //   child: GroupButton(
+                    //     controller: _user,
+                    //     buttons: const ['Designer', 'Client'],
+                    //     onSelected: (i, index, isSelected) {
+                    //       debugPrint('Button $i $isSelected');
+                    //       print(_user.selectedIndex);
+                    //     },
+                    //     options: const GroupButtonOptions(
+                    //       buttonHeight: 50,
+                    //       buttonWidth: 100,
+                    //       spacing: 20,
+                    //       borderRadius: BorderRadius.all(
+                    //         Radius.circular(10),
+                    //       ),
+                    //       selectedColor: Color.fromRGBO(110, 114, 253, 0.9),
+                    //     ),
+                    //   ),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(
                         top: 40.0,
@@ -479,12 +490,12 @@ class _SignUpState extends State<SignUp> {
                             if (isValid) {
                               _formkey.currentState!.save();
                               signup();
-                              // Navigator.pushAndRemoveUntil(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //       builder: (context) =>  Store(),
-                              //     ),
-                              //     (route) => false);
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => LandingPage(),
+                                  ),
+                                  (route) => false);
                             }
                           },
                           child: const Text(

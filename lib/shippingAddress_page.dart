@@ -7,6 +7,7 @@ class ShippingAddress extends StatefulWidget {
   const ShippingAddress({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ShippingAddressState createState() => _ShippingAddressState();
 }
 
@@ -48,7 +49,8 @@ class _ShippingAddressState extends State<ShippingAddress> {
           image: DecorationImage(
               image: AssetImage('assets/background.png'), fit: BoxFit.fill),
         ),
-        child: SingleChildScrollView(
+        child: Expanded(
+          flex: 5,
           child: Column(
             children: [
               Container(

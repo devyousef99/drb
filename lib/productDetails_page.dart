@@ -1,9 +1,9 @@
 // ignore_for_file: file_names, library_private_types_in_public_api, use_build_context_synchronously
 
 import 'dart:convert';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:group_button/group_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Modules/products.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -15,6 +15,7 @@ Future<void> savePrefs(List<Product> proudcts) async {
   saveprefs.setString('userCart', jsonEncode(proudcts));
 }
 
+double totalPrice = 0;
 // get product in sharedpreferences
 Future<List<Product>> getProudcts() async {
   List<Product> products = [];
@@ -23,6 +24,10 @@ Future<List<Product>> getProudcts() async {
   if (productStr != null) {
     List productJson = jsonDecode(productStr);
     products = productJson.map((e) => Product.fromJson(e)).toList();
+  }
+  for (var pr = 0; pr < products.length; pr++) {
+    print(totalPrice);
+    totalPrice + double.parse(products[pr].buyPrice!);
   }
   return products;
 }
@@ -35,10 +40,24 @@ class ProductDetail extends StatefulWidget {
 }
 
 class _ProductDetailState extends State<ProductDetail> {
+  final controller = GroupButtonController();
+  final controller1 = GroupButtonController();
+
   String? valueChoose;
   int _counter = 1;
   String? selectedValue;
   String? selectedValue1;
+  final List<String> items = [
+    'Blue',
+    'Yellow',
+    'Red',
+    'Black',
+  ];
+  final List<String> items1 = [
+    'S',
+    'M',
+    'L',
+  ];
 
   // Future<void> addtocart() async {
   //   String token = '88b8aaf9b86a29d4ec41f3f4734bd349b09588d4';
@@ -243,55 +262,100 @@ class _ProductDetailState extends State<ProductDetail> {
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
+                  GroupButton(
+                    isRadio: true,
+                    options: GroupButtonOptions(
+                      borderRadius: BorderRadius.circular(20),
+                      selectedColor: Color(0xfff6c0ba9),
                     ),
-                    // child: DropdownButtonHideUnderline(
-                    //   child: DropdownButton2(
-                    //     selectedItemHighlightColor:
-                    //         const Color.fromRGBO(110, 114, 253, 0.9),
-                    //     hint: const Text(
-                    //       'Select Color',
-                    //       style: TextStyle(
-                    //         fontSize: 14,
-                    //         color: Color.fromRGBO(110, 114, 253, 0.9),
-                    //       ),
-                    //     ),
-                    //     value: selectedValue,
-                    //     items:   selectedValue:
-                    //   .map((item) =>
-                    //   DropdownMenuItem<String>(
-                    //     value: item,
-                    //     child: Text(
-                    //       item,
-                    //       style: const TextStyle(
-                    //         fontSize: 14,
-                    //       ),
-                    //     ),
-                    //   ))
-                    //   .toList(),
-                    //     onChanged: (value) {
-                    //       setState(() {
-                    //         selectedValue = value as String;
-                    //       });
-                    //       // print(value);
-                    //     },
-                    //     buttonHeight: 40,
-                    //     buttonWidth: 100,
-                    //     itemHeight: 40,
-                    //   ),
-                    // ),
-                  ),
-                  const SizedBox(
-                    width: 100,
+                    controller: controller,
+                    buttons: ['Blue', 'Red', 'Yellow'],
+                    // onSelected: (i, selected) => debugPrint('Button #$i $selected'),
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
+              // Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              //   Padding(
+              //     padding: const EdgeInsets.only(
+              //       left: 20.0,
+              //     ),
+              //     child: DropdownButtonHideUnderline(
+              //       child: DropdownButton2(
+              //         isExpanded: true,
+              //         hint: Row(
+              //           children: const [
+              //             Icon(
+              //               Icons.list,
+              //               size: 16,
+              //             ),
+              //             SizedBox(
+              //               width: 4,
+              //             ),
+              //             Expanded(
+              //               child: Text(
+              //                 'Select color',
+              //                 style: TextStyle(
+              //                   fontSize: 14,
+              //                 ),
+              //                 overflow: TextOverflow.ellipsis,
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //         items: items
+              //             .map((item) => DropdownMenuItem<String>(
+              //                   value: item,
+              //                   child: Text(
+              //                     item,
+              //                     style: const TextStyle(
+              //                       fontSize: 14,
+              //                       fontWeight: FontWeight.bold,
+              //                       color: Colors.black,
+              //                     ),
+              //                     overflow: TextOverflow.ellipsis,
+              //                   ),
+              //                 ))
+              //             .toList(),
+              //         value: selectedValue,
+              //         onChanged: (value) {
+              //           setState(() {
+              //             selectedValue = value as String;
+              //           });
+              //         },
+              //         icon: const Icon(
+              //           Icons.arrow_forward_ios_outlined,
+              //         ),
+              //         iconSize: 14,
+              //         iconDisabledColor: Colors.black,
+              //         buttonHeight: 50,
+              //         buttonWidth: 160,
+              //         buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+              //         buttonElevation: 2,
+              //         itemHeight: 40,
+              //         itemPadding: const EdgeInsets.only(left: 14, right: 14),
+              //         dropdownMaxHeight: 200,
+              //         dropdownWidth: 200,
+              //         dropdownPadding: null,
+              //         dropdownDecoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(14),
+              //         ),
+              //         dropdownElevation: 8,
+              //         scrollbarRadius: const Radius.circular(40),
+              //         scrollbarThickness: 6,
+              //         scrollbarAlwaysShow: true,
+              //         offset: const Offset(-20, 0),
+              //       ),
+              //     ),
+              //   ),
+              // ]),
+              const SizedBox(
+                width: 100,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
@@ -308,54 +372,96 @@ class _ProductDetailState extends State<ProductDetail> {
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
+                  GroupButton(
+                    options: GroupButtonOptions(
+                      borderRadius: BorderRadius.circular(20),
+                      selectedColor: Color(0xfff6c0ba9),
                     ),
-                    // child: DropdownButtonHideUnderline(
-                    // child: DropdownButton2(
-                    //   selectedItemHighlightColor:
-                    //       const Color.fromRGBO(110, 114, 253, 0.9),
-                    //   hint: const Text(
-                    //     'Select Size',
-                    //     style: TextStyle(
-                    //       fontSize: 14,
-                    //       color: Color.fromRGBO(110, 114, 253, 0.9),
-                    //     ),
-                    //   ),
-                    //   value: selectedValue1,
-                    //   items: passedData.data!
-                    //       .map(
-                    //         (item) => DropdownMenuItem(
-                    //           value: item.prSize.toString(),
-                    //           child: Text(
-                    //             item.prSize.toString(),
-                    //             style: const TextStyle(
-                    //                 fontSize: 14, color: Colors.black),
-                    //           ),
-                    //         ),
-                    //       )
-                    //       .toList(),
-                    //   onChanged: (value) {
-                    //     setState(() {
-                    //       selectedValue1 = value as String;
-                    //     });
-                    //     // print(value);
-                    //   },
-                    //   buttonHeight: 40,
-                    //   buttonWidth: 100,
-                    //   itemHeight: 40,
-                    // ),
-                    // ),
-                  ),
-                  const SizedBox(
-                    width: 100,
+                    isRadio: true,
+                    controller: controller1,
+                    buttons: ['M', 'L', 'XL'],
+                    // onSelected: (i, selected) => debugPrint('Button #$i $selected'),
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
+              // Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+              //   Padding(
+              //     padding: const EdgeInsets.only(
+              //       left: 20.0,
+              //     ),
+              //     child: DropdownButtonHideUnderline(
+              //       child: DropdownButton2(
+              //         isExpanded: true,
+              //         hint: Row(
+              //           children: const [
+              //             Icon(
+              //               Icons.list,
+              //               size: 16,
+              //             ),
+              //             SizedBox(
+              //               width: 4,
+              //             ),
+              //             Expanded(
+              //               child: Text(
+              //                 'Select size',
+              //                 style: TextStyle(
+              //                   fontSize: 14,
+              //                 ),
+              //                 overflow: TextOverflow.ellipsis,
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //         items: items1
+              //             .map((items1) => DropdownMenuItem<String>(
+              //                   value: items1,
+              //                   child: Text(
+              //                     items1,
+              //                     style: const TextStyle(
+              //                       fontSize: 14,
+              //                       fontWeight: FontWeight.bold,
+              //                       color: Colors.black,
+              //                     ),
+              //                     overflow: TextOverflow.ellipsis,
+              //                   ),
+              //                 ))
+              //             .toList(),
+              //         value: selectedValue,
+              //         onChanged: (value) {
+              //           setState(() {
+              //             selectedValue = value as String;
+              //           });
+              //         },
+              //         icon: const Icon(
+              //           Icons.arrow_forward_ios_outlined,
+              //         ),
+              //         iconSize: 14,
+              //         iconDisabledColor: Colors.black,
+              //         buttonHeight: 50,
+              //         buttonWidth: 160,
+              //         buttonPadding: const EdgeInsets.only(left: 14, right: 14),
+              //         buttonElevation: 2,
+              //         itemHeight: 40,
+              //         itemPadding: const EdgeInsets.only(left: 14, right: 14),
+              //         dropdownMaxHeight: 200,
+              //         dropdownWidth: 200,
+              //         dropdownPadding: null,
+              //         dropdownDecoration: BoxDecoration(
+              //           borderRadius: BorderRadius.circular(14),
+              //         ),
+              //         dropdownElevation: 8,
+              //         scrollbarRadius: const Radius.circular(40),
+              //         scrollbarThickness: 6,
+              //         scrollbarAlwaysShow: true,
+              //         offset: const Offset(-20, 0),
+              //       ),
+              //     ),
+              //   ),
+              // ]),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: const [
@@ -386,7 +492,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: const Color.fromRGBO(110, 114, 253, 0.9),
+                        color: const Color(0xfff6c0ba9),
                       ),
                       child: Row(
                         children: [
@@ -449,13 +555,13 @@ class _ProductDetailState extends State<ProductDetail> {
                   )
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50.0),
               SizedBox(
                 width: 350.0,
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: const Color.fromRGBO(110, 114, 253, 0.9),
+                    backgroundColor: const Color(0xfff6c0ba9),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),
@@ -500,6 +606,129 @@ class _ProductDetailState extends State<ProductDetail> {
               ),
             ],
           ),
+          // const SizedBox(height: 15),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.start,
+          //   children: const [
+          //     Padding(
+          //       padding: EdgeInsets.only(
+          //         left: 20.0,
+          //       ),
+          //       child: Text(
+          //         'Size',
+          //         style: TextStyle(
+          //             fontSize: 16.0, fontWeight: FontWeight.bold),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.start,
+          //   children: [
+          //     Padding(
+          //       padding: const EdgeInsets.only(
+          //         left: 20.0,
+          //       ),
+          //     ),
+          //     const SizedBox(
+          //       width: 100,
+          //     ),
+          //   ],
+          // ),
+          // const SizedBox(height: 15),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.start,
+          //   children: const [
+          //     Padding(
+          //       padding: EdgeInsets.only(
+          //         left: 20.0,
+          //       ),
+          //       child: Text(
+          //         'Quantity',
+          //         style: TextStyle(
+          //             fontSize: 16.0, fontWeight: FontWeight.bold),
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // Row(
+          //   children: [
+          //     Padding(
+          //       padding: const EdgeInsets.only(
+          //         left: 20.0,
+          //         bottom: 5.0,
+          //         top: 10.0,
+          //       ),
+          //       child: Container(
+          //         padding: const EdgeInsets.only(
+          //           left: 5,
+          //           right: 5,
+          //         ),
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(5),
+          //           color: const Color.fromRGBO(110, 114, 253, 0.9),
+          //         ),
+          //         child: Row(
+          //           children: [
+          //             InkWell(
+          //                 onTap: () {
+          //                   // int maxCount = int.parse(
+          //                   //     passedData.stockBalance.toString());
+          //                   passedData.storesBalance;
+          //                   if (_counter > 1) {
+          //                     setState(() {
+          //                       _counter--;
+          //                     });
+          //                   }
+          //                 },
+          //                 child: const Icon(
+          //                   Icons.remove,
+          //                   color: Colors.white,
+          //                   size: 16,
+          //                 )),
+          //             Container(
+          //               margin: const EdgeInsets.symmetric(horizontal: 5),
+          //               padding: const EdgeInsets.symmetric(
+          //                   horizontal: 10, vertical: 5),
+          //               decoration:
+          //                   const BoxDecoration(color: Colors.white),
+          //               child: Text(
+          //                 '$_counter',
+          //                 style: const TextStyle(
+          //                     color: Colors.black, fontSize: 16),
+          //               ),
+          //             ),
+          //             InkWell(
+          //               onTap: () {
+          //                 // int maxCount =
+          //                 //     int.parse(passedData.stockBalance.toString());
+          //                 var maxCount = passedData.storesBalance;
+          //                 if (_counter < maxCount!) {
+          //                   setState(() {
+          //                     _counter++;
+          //                   });
+          //                 }
+          //               },
+          //               child: const Icon(
+          //                 Icons.add,
+          //                 color: Colors.white,
+          //                 size: 16,
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //     const SizedBox(
+          //       width: 200,
+          //     ),
+          //     Text(
+          //       passedData.buyPrice.toString(),
+          //       style: const TextStyle(
+          //           fontSize: 16.0, fontWeight: FontWeight.bold),
+          //     )
+          //   ],
+          // ),
         ),
       ),
     );

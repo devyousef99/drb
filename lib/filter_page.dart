@@ -58,7 +58,7 @@ class _FilterState extends State<Filter> {
           Padding(
             padding: const EdgeInsets.only(
                 left: 315.0, right: 0.0, top: 30.0, bottom: 0.0),
-            child: FlatButton(child: const Text('Clear'), onPressed: () {}),
+            // child: FlatButton(child: const Text('Clear'), onPressed: () {}),
           ),
           const Padding(
             padding:
