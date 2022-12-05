@@ -67,23 +67,14 @@ class StoreState extends State<Store> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        title: Padding(
-          padding:
-              const EdgeInsets.only(top: 15, bottom: 10, left: 106, right: 50),
-          child: Center(
-            child: Image.asset(
-              'assets/LOGO3.png',
-              fit: BoxFit.cover,
-              width: 90,
-            ),
-          ),
-        ),
-        // title: const Text(
-        //   'Community Of Creators',
-        //   style: TextStyle(
-        //       color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-        // ),
         actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.filter_alt_outlined),
+          ),
+          const SizedBox(
+            width: 295,
+          ),
           IconButton(
             onPressed: () async {
               List<Product> products = await getProudcts();
@@ -105,7 +96,7 @@ class StoreState extends State<Store> {
           preferredSize: const Size.fromHeight(70),
           child: Padding(
             padding:
-                const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 10.0),
+                const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 20.0),
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Search',
@@ -125,7 +116,7 @@ class StoreState extends State<Store> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Color(0xfff6c0ba9),
+        color: const Color(0xfff4f489e),
         child: Padding(
           padding: const EdgeInsets.only(top: 120),
           child: SingleChildScrollView(

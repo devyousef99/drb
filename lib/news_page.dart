@@ -25,7 +25,7 @@ class _NewsPageState extends State<NewsPage> {
       // ),
       body: SingleChildScrollView(
         child: Container(
-          color: Color(0xfff6c0ba9),
+          color: const Color(0xfff4f489e),
           child: Column(children: [
             const SizedBox(
               height: 20,
@@ -162,7 +162,7 @@ class _NewsPageState extends State<NewsPage> {
                                     children: const <Widget>[
                                       Icon(
                                         Icons.calendar_today_rounded,
-                                        color: Color(0xfff6c0ba9),
+                                        color: Color(0xfff4f489e),
                                       ),
                                       SizedBox(
                                         width: 10,
@@ -189,7 +189,7 @@ class _NewsPageState extends State<NewsPage> {
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor:
-                                                  const Color(0xfff6c0ba9),
+                                                  const Color(0xfff4f489e),
                                               shape:
                                                   const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(

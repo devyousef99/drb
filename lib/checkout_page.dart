@@ -49,10 +49,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/background.png'), fit: BoxFit.fill),
-        ),
+        color: const Color(0xfff4f489e),
         child: Padding(
           padding: const EdgeInsets.only(
             top: 100.0,
@@ -108,11 +105,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             child: Row(
                               children: <Widget>[
                                 const Expanded(
-                                  child: Icon(
-                                    Icons.home,
-                                    size: 50,
-                                    color: Color(0xFFF3A48A0),
-                                  ),
+                                  child: Icon(Icons.home,
+                                      size: 50, color: Color(0xfff4f489e)),
                                 ),
                                 Expanded(
                                   child: Padding(
@@ -192,11 +186,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                             child: Row(
                               children: <Widget>[
                                 const Expanded(
-                                  child: Icon(
-                                    Icons.credit_card_rounded,
-                                    size: 50,
-                                    color: Color(0xFFF3A48A0),
-                                  ),
+                                  child: Icon(Icons.credit_card_rounded,
+                                      size: 50, color: Color(0xfff4f489e)),
                                 ),
                                 Expanded(
                                   child: Padding(
@@ -284,7 +275,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         child: MaterialButton(
-                          splashColor: const Color(0xFFF3A48A0),
+                          splashColor: const Color(0xfff4f489e),
                           child: const Text(
                             'Apply',
                             style: TextStyle(color: Colors.black),
@@ -441,7 +432,7 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                 height: 50,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xfff3a48a0),
+                                    backgroundColor: const Color(0xfff4f489e),
                                     shape: const RoundedRectangleBorder(
                                       borderRadius: BorderRadius.all(
                                         Radius.circular(10),
@@ -471,7 +462,8 @@ class _CheckOutPageState extends State<CheckOutPage> {
                                           child: const Text(
                                             'OK',
                                             style: TextStyle(
-                                                color: Color(0xFFF3A48A0)),
+                                              color: Color(0xfff4f489e),
+                                            ),
                                           ),
                                         ),
                                       ],

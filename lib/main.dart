@@ -1,11 +1,5 @@
-import 'package:drb/home_page.dart';
-import 'package:drb/landing_page.dart';
-import 'package:drb/productDetails_page.dart';
-import 'package:drb/signin_page.dart';
-import 'package:drb/signup.page.dart';
-import 'package:drb/store_page.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:drb/landing_page.dart';
 
 void main() {
   // WidgetsFlutterBinding.ensureInitialized();

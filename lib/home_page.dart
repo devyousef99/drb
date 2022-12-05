@@ -56,7 +56,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool isOpened = false;
   final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
-
   toggleMenu([bool end = true]) {
     if (end) {
       final state = _sideMenuKey.currentState!;
@@ -71,224 +70,170 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List<Category> artistsList = artistsData().myList;
-    return SideMenu(
-      closeIcon: const Icon(
-        Icons.close_rounded,
-        color: Colors.black,
-        size: 16,
-      ),
-      key: _sideMenuKey,
-      menu: buildMenu(),
-      background: Colors.white,
-      type: SideMenuType.slide,
-      onChange: (_isOpened) {
-        setState(() => isOpened = _isOpened);
-      },
-      child: IgnorePointer(
-        ignoring: isOpened,
-        child: Scaffold(
-          extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            title: Padding(
-              padding: const EdgeInsets.only(
-                  top: 15, bottom: 10, left: 50, right: 50),
-              child: Center(
-                child: Image.asset(
-                  'assets/LOGO3.png',
-                  fit: BoxFit.cover,
-                  matchTextDirection: true,
-                  width: 90,
+    return Scaffold(
+      body: Container(
+        height: (MediaQuery.of(context).size.height),
+        color: const Color(0xfff4f489e),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 20, right: 265),
+                child: Text(
+                  'HOME',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      color: Colors.white),
                 ),
               ),
-            ),
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            leading: GestureDetector(
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: IconButton(
-                    icon: const Icon(
-                      Icons.menu,
-                      color: Colors.white,
+              const SizedBox(
+                height: 10,
+              ),
+              PreferredSize(
+                preferredSize: const Size.fromHeight(60),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Search',
+                      prefixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: EdgeInsets.zero,
+                      filled: true,
+                      fillColor: Colors.white,
                     ),
-                    onPressed: () => toggleMenu()),
+                  ),
+                ),
               ),
-            ),
-            actions: [
-              IconButton(
-                onPressed: () {},
-                color: Colors.white,
-                icon: const Icon(Icons.hdr_auto_sharp),
+              MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: Column(
+                  children: [
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.85,
+                      ),
+                      itemCount: artistsList.length,
+                      itemBuilder: (BuildContext context, index) {
+                        return AnimationConfiguration.staggeredGrid(
+                          columnCount: 2,
+                          position: index,
+                          child: mylistItem(artistsList[index]),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
-            ],
-          ),
-          body: Container(
-            height: (MediaQuery.of(context).size.height),
-            color: Color(0xfff6c0ba9),
-            child: SingleChildScrollView(
-              child: Column(
+              MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: Column(
+                  children: [
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.85,
+                      ),
+                      itemCount: artistsList.length,
+                      itemBuilder: (BuildContext context, index) {
+                        return AnimationConfiguration.staggeredGrid(
+                          columnCount: 2,
+                          position: index,
+                          child: mylistItem(artistsList[index]),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Stack(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 75, right: 210),
-                    child: Text(
-                      'HOME',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                          color: Colors.white),
+                  Container(
+                    height: 200,
+                    // height: (MediaQuery.of(context).size.height),
+                    width: (MediaQuery.of(context).size.width),
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  PreferredSize(
-                    preferredSize: const Size.fromHeight(60),
                     child: Padding(
                       padding: const EdgeInsets.all(10),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          prefixIcon: const Icon(Icons.search),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.zero,
-                          filled: true,
-                          fillColor: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  MediaQuery.removePadding(
-                    removeTop: true,
-                    context: context,
-                    child: Column(
-                      children: [
-                        GridView.builder(
-                          shrinkWrap: true,
-                          physics: const ScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.85,
-                          ),
-                          itemCount: artistsList.length,
-                          itemBuilder: (BuildContext context, index) {
-                            return AnimationConfiguration.staggeredGrid(
-                              columnCount: 2,
-                              position: index,
-                              child: mylistItem(artistsList[index]),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  MediaQuery.removePadding(
-                    removeTop: true,
-                    context: context,
-                    child: Column(
-                      children: [
-                        GridView.builder(
-                          shrinkWrap: true,
-                          physics: const ScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.85,
-                          ),
-                          itemCount: artistsList.length,
-                          itemBuilder: (BuildContext context, index) {
-                            return AnimationConfiguration.staggeredGrid(
-                              columnCount: 2,
-                              position: index,
-                              child: mylistItem(artistsList[index]),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Stack(
-                    children: [
-                      Container(
-                        height: 200,
-                        // height: (MediaQuery.of(context).size.height),
-                        width: (MediaQuery.of(context).size.width),
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(20),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      right: 8, left: 8, top: 10, bottom: 10),
-                                  // width: 330,
-                                  // height: 130,
-                                  decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10)),
-                                    color: Color(0xfff6c0ba9),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width: 120,
-                                        height: 120,
-                                        decoration: const BoxDecoration(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(10)),
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/signin.jpeg'),
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 50,
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          // Get.to(const DrbCarPage());
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const DrbCarPage()),
-                                          );
-                                        },
-                                        child: const Text(
-                                          'DRB CAR',
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              margin: const EdgeInsets.only(
+                                  right: 8, left: 8, top: 10, bottom: 10),
+                              // width: 330,
+                              // height: 130,
+                              decoration: const BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                color: Color(0xfff4f489e),
                               ),
-                            ],
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: 120,
+                                    height: 120,
+                                    decoration: const BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      image: DecorationImage(
+                                        image: AssetImage('assets/signin.jpeg'),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 50,
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      // Get.to(const DrbCarPage());
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const DrbCarPage()),
+                                      );
+                                    },
+                                    child: const Text(
+                                      'DRB CAR',
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.white),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
         ),
       ),
@@ -395,6 +340,19 @@ class _HomePageState extends State<HomePage> {
             ),
             title: const Text(
               "My Store",
+              style: TextStyle(color: Colors.black),
+            ),
+            dense: true,
+          ),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(
+              Icons.abc_rounded,
+              size: 20.0,
+              color: Color(0xfff6c0ba9),
+            ),
+            title: const Text(
+              "Arabic",
               style: TextStyle(color: Colors.black),
             ),
             dense: true,

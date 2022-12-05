@@ -64,6 +64,15 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'Profile',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         leading: GestureDetector(
@@ -90,10 +99,7 @@ class _ProfileState extends State<Profile> {
         child: Container(
           height: (MediaQuery.of(context).size.height),
           width: (MediaQuery.of(context).size.width),
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/background.png'), fit: BoxFit.fill),
-          ),
+          color: const Color(0xfff4f489e),
           child: Padding(
             padding: const EdgeInsets.only(
               top: 200.0,

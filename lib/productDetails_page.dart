@@ -9,6 +9,11 @@ import 'Modules/products.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'cart_page.dart';
 
+clear() async {
+  SharedPreferences deleteProduct = await SharedPreferences.getInstance();
+  deleteProduct.clear();
+}
+
 // save product in sharedpreferences
 Future<void> savePrefs(List<Product> proudcts) async {
   SharedPreferences saveprefs = await SharedPreferences.getInstance();
@@ -271,7 +276,7 @@ class _ProductDetailState extends State<ProductDetail> {
                     isRadio: true,
                     options: GroupButtonOptions(
                       borderRadius: BorderRadius.circular(20),
-                      selectedColor: Color(0xfff6c0ba9),
+                      selectedColor: const Color(0xfff4f489e),
                     ),
                     controller: controller,
                     buttons: ['Blue', 'Red', 'Yellow'],
@@ -376,7 +381,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   GroupButton(
                     options: GroupButtonOptions(
                       borderRadius: BorderRadius.circular(20),
-                      selectedColor: Color(0xfff6c0ba9),
+                      selectedColor: const Color(0xfff4f489e),
                     ),
                     isRadio: true,
                     controller: controller1,
@@ -492,7 +497,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       ),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: const Color(0xfff6c0ba9),
+                        color: const Color(0xfff4f489e),
                       ),
                       child: Row(
                         children: [
@@ -561,7 +566,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 height: 50,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xfff6c0ba9),
+                    backgroundColor: const Color(0xfff4f489e),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(10),

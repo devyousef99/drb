@@ -20,25 +20,23 @@ class _EventPageState extends State<EventPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        centerTitle: true,
-        title: const Text(
-          'Events',
-          style: TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
-        ),
       ),
       body: SingleChildScrollView(
         child: Container(
-          color: const Color(0xfff6c0ba9),
+          color: const Color(0xfff4f489e),
           child: Column(children: [
             const Padding(
-              padding: EdgeInsets.only(top: 100, left: 20),
-              child: Text(
-                'Find Amazing Events Near You',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: Colors.white),
+              padding: EdgeInsets.only(
+                top: 50,
+              ),
+              child: Center(
+                child: Text(
+                  'Find Amazing Events Near You',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.white),
+                ),
               ),
             ),
             const SizedBox(
@@ -107,7 +105,7 @@ class _EventPageState extends State<EventPage> {
                                   label: const Text(
                                     'View all events on map',
                                     style: TextStyle(
-                                      color: Color(0xfff6c0ba9),
+                                      color: Color(0xfff4f489e),
                                     ),
                                   ))
                             ],
@@ -209,7 +207,7 @@ class _EventPageState extends State<EventPage> {
                                     children: const <Widget>[
                                       Icon(
                                         Icons.location_on_rounded,
-                                        color: Color(0xfff6c0ba9),
+                                        color: Color(0xfff4f489e),
                                       ),
                                       SizedBox(
                                         width: 5,
@@ -236,7 +234,7 @@ class _EventPageState extends State<EventPage> {
                                           child: ElevatedButton(
                                             style: ElevatedButton.styleFrom(
                                               backgroundColor:
-                                                  const Color(0xfff6c0ba9),
+                                                  const Color(0xfff4f489e),
                                               shape:
                                                   const RoundedRectangleBorder(
                                                 borderRadius: BorderRadius.all(

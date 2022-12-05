@@ -1,12 +1,9 @@
 // ignore_for_file: avoid_unnecessary_containers, library_private_types_in_public_api
 
-import 'package:drb/home_page.dart';
 import 'package:drb/landing_page.dart';
 import 'package:drb/productDetails_page.dart';
-import 'package:drb/store_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Modules/products.dart';
 import 'checkout_page.dart';
@@ -59,7 +56,7 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+      extendBodyBehindAppBar: false,
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
@@ -104,54 +101,56 @@ class _CartState extends State<Cart> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: const Color.fromARGB(255, 255, 255, 255),
+        color: Colors.white,
         child: widget.products.isNotEmpty
-            ? Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  myCart(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: 300.0,
-                    height: 50,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xfff6c0ba9),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
+            ? SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    myCart(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: 300.0,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xfff4f489e),
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
                           ),
                         ),
-                      ),
-                      onPressed: () {
-                        // Get.to(const CheckOutPage());
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CheckOutPage()),
-                        );
-                      },
-                      child: const Text(
-                        'Checkout',
-                        style: TextStyle(color: Colors.white),
+                        onPressed: () {
+                          // Get.to(const CheckOutPage());
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const CheckOutPage()),
+                          );
+                        },
+                        child: const Text(
+                          'Checkout',
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               )
             : Container(
                 width: double.infinity,
                 height: double.infinity,
-                color: Color.fromARGB(255, 251, 251, 252),
+                color: Colors.white,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(
                       Icons.shopping_bag,
                       size: 120,
-                      color: Color(0xfff6c0ba9),
+                      color: Color(0xfff4f489e),
                     ),
                     const SizedBox(
                       height: 10,
@@ -160,7 +159,7 @@ class _CartState extends State<Cart> {
                       'Your cart is empty!',
                       style: TextStyle(
                           fontSize: 20,
-                          color: Color(0xfff6c0ba9),
+                          color: Color(0xfff4f489e),
                           fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(
@@ -168,7 +167,7 @@ class _CartState extends State<Cart> {
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xfff6c0ba9),
+                        backgroundColor: const Color(0xfff4f489e),
                         shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(10),
@@ -209,14 +208,19 @@ class _CartState extends State<Cart> {
               child: FadeInAnimation(
                 delay: const Duration(milliseconds: 100),
                 child: Container(
-                  height: 120,
-                  width: 110,
+                  height: 130.0,
+                  width: 110.0,
                   padding: const EdgeInsets.only(
-                      left: 5, right: 5, top: 5, bottom: 5),
-                  margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                  decoration: const BoxDecoration(
-                    color: Color(0xfff6c0ba9),
-                    borderRadius: BorderRadius.all(
+                      left: 5.0, right: 5.0, top: 5.0, bottom: 5.0),
+                  margin:
+                      const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 2.0,
+                      color: const Color(0xfff4f489e),
+                    ),
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(10),
                     ),
                   ),
@@ -226,15 +230,18 @@ class _CartState extends State<Cart> {
                         children: <Widget>[
                           Container(
                             margin: const EdgeInsets.only(
-                                right: 5, left: 5, top: 5, bottom: 5),
-                            width: 95,
-                            height: 95,
+                                right: 5.0, left: 5.0, top: 5.0, bottom: 5.0),
+                            width: 95.0,
+                            height: 95.0,
                             decoration: const BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                image: DecorationImage(
-                                    image: AssetImage(
-                                        'widget.products[index].productImage'))),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    // 'widget.products[index].productImage'),
+                                    'assets/signin.jpeg'),
+                              ),
+                            ),
                           ),
                           Expanded(
                             flex: 100,
@@ -245,8 +252,8 @@ class _CartState extends State<Cart> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
-                                    padding:
-                                        const EdgeInsets.only(right: 8, top: 5),
+                                    padding: const EdgeInsets.only(
+                                        right: 8.0, top: 10.0),
                                     child: FittedBox(
                                       fit: BoxFit.fitWidth,
                                       child: Text(
@@ -312,18 +319,18 @@ class _CartState extends State<Cart> {
                                                                 bottom: 5),
                                                         decoration:
                                                             const BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                            topLeft:
-                                                                Radius.circular(
-                                                                    5),
-                                                            bottomLeft:
-                                                                Radius.circular(
-                                                                    5),
-                                                          ),
-                                                          color: Color(
-                                                              0xFFF3A48A0),
-                                                        ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .only(
+                                                                  topLeft: Radius
+                                                                      .circular(
+                                                                          5),
+                                                                  bottomLeft: Radius
+                                                                      .circular(
+                                                                          5),
+                                                                ),
+                                                                color: Color(
+                                                                    0xfff4f489e)),
                                                         child: const Icon(
                                                           Icons.remove,
                                                           color: Colors.white,
@@ -335,7 +342,7 @@ class _CartState extends State<Cart> {
                                                       padding: const EdgeInsets
                                                               .symmetric(
                                                           horizontal: 10,
-                                                          vertical: 5),
+                                                          vertical: 3),
                                                       decoration:
                                                           const BoxDecoration(
                                                               color:
@@ -371,18 +378,18 @@ class _CartState extends State<Cart> {
                                                                 bottom: 5),
                                                         decoration:
                                                             const BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius.only(
-                                                            topRight:
-                                                                Radius.circular(
-                                                                    5),
-                                                            bottomRight:
-                                                                Radius.circular(
-                                                                    5),
-                                                          ),
-                                                          color: Color(
-                                                              0xFFF3A48A0),
-                                                        ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .only(
+                                                                  topRight: Radius
+                                                                      .circular(
+                                                                          5),
+                                                                  bottomRight: Radius
+                                                                      .circular(
+                                                                          5),
+                                                                ),
+                                                                color: Color(
+                                                                    0xfff4f489e)),
                                                         child: const Icon(
                                                           Icons.add,
                                                           color: Colors.white,
@@ -414,46 +421,57 @@ class _CartState extends State<Cart> {
                       Align(
                         alignment: Alignment.topRight,
                         child: Container(
-                          width: 20,
-                          height: 20,
+                          width: 5,
+                          height: 5,
                           alignment: Alignment.center,
-                          margin: const EdgeInsets.only(right: 10),
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.close,
-                              color: Colors.grey,
-                              size: 16,
-                            ),
-                            onPressed: () {
-                              // if (widget.products[index].id ==
-                              //         widget.products[index].id &&
-                              //     widget.products[index].storesBalance! >= 1) {
-                              //   setState(() {
-                              //     widget.products[index].storesBalance! - 1;
-                              //   });
-                              // }
-                              // setState(() {
-                              //   widget.products.removeWhere((product) {
-                              //     return product.id ==
-                              //         widget.products[index].id;
-                              //   });
-                              //   savePrefs(widget.products);
-                              // });
-                              if (widget.products[index].id ==
-                                  widget.products[index].id) {
-                                setState(() {
-                                  widget.products.removeWhere((product) {
-                                    return product.id ==
-                                        widget.products[index].id;
-                                  });
-                                  totalPrice -
-                                      double.parse(
-                                          widget.products[index].buyPrice!);
-                                  savePrefs(widget.products);
-                                });
-                              }
-                            },
+                          margin: const EdgeInsets.only(
+                            right: 25.0,
                           ),
+                          child: IconButton(
+                              icon: const Icon(
+                                Icons.close,
+                                color: Colors.grey,
+                                size: 16,
+                              ),
+                              onPressed: () {
+                                // if (widget.products[index].id ==
+                                //         widget.products[index].id &&
+                                //     widget.products[index].storesBalance! >= 1) {
+                                //   setState(() {
+                                //     widget.products[index].storesBalance! - 1;
+                                //   });
+                                // }
+                                // setState(() {
+                                //   widget.products.removeWhere((product) {
+                                //     return product.id ==
+                                //         widget.products[index].id;
+                                //   });
+                                //   savePrefs(widget.products);
+                                // });
+
+                                // if (widget.products[index].id ==
+                                //     widget.products[index].id) {
+                                //   setState(() {
+                                //     widget.products.removeWhere((product) {
+                                //       return product.id ==
+                                //           widget.products[index].id;
+                                //     });
+                                //     savePrefs(widget.products);
+                                //   });
+                                // }
+
+                                // totalPrice -
+                                //     double.parse(
+                                //         widget.products[index].buyPrice!);
+                                setState(() {
+                                  // widget.products.removeWhere((product) {
+                                  //   return product.id ==
+                                  //       widget.products[index].id;
+                                  // });
+                                  clear();
+                                });
+                                savePrefs(widget.products);
+                              }),
                         ),
                       ),
                     ],
